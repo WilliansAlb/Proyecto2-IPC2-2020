@@ -1,0 +1,154 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 15/09/2020, 12:09:30 AM
+    Author     : yelbetto
+*/
+body{
+    background-image: url('../imagenes/hospital.jpg');
+    background-size:100%;
+}
+#carga{
+    z-index: 1;
+    margin: 10% 0 0 20%;
+    width: 60%;
+    height: 50%;
+    background-color: #FAF3DD;
+    opacity: 0.8;
+    border-radius: 10px 10px 10px 10px;
+-moz-border-radius: 10px 10px 10px 10px;
+-webkit-border-radius: 10px 10px 10px 10px;
+border: 0px solid #000000;
+}
+#archivo{
+    margin-bottom: 10px;
+}
+img{
+    margin-top: 10px;
+}
+#ver{
+    margin-bottom: 10px;
+}
+#visualizar{
+    z-index: 1;
+    margin: 10px 0 0 10%;
+    width: 80%;
+    height: 50%;
+    background-color: #FAF3DD;
+    opacity: 0.8;
+    border-radius: 10px 10px 10px 10px;
+-moz-border-radius: 10px 10px 10px 10px;
+-webkit-border-radius: 10px 10px 10px 10px;
+border: 0px solid #000000;
+    font-size: 12px;
+}
+#btn-con-iz{
+    float: left;
+}
+
+#btn-con-de{
+    float: right;
+}
+#h-controlador{
+    display: inline;
+    margin: 0;
+}
+
+
+#ingresar-todo{
+    margin: 10px;
+}
+
+#tablas{
+    overflow: scroll;
+    height: 280px;
+}
+
+table {
+    font-family:lucida sans unicode,lucida grande,Sans-Serif;
+ font-size:10px;
+ width:400px;
+ text-align:left;
+ border-collapse:collapse;
+ border:1px solid #6cf;
+ margin:2px
+}
+
+table th {
+font-weight:400;
+ font-size:10px;
+ color:#039;
+ text-transform:uppercase;
+ border-right:1px solid #0865c2;
+ border-top:1px solid #0865c2;
+ border-left:1px solid #0865c2;
+ border-bottom: 1px dashed #66ccff52;
+ padding:5px;
+}
+table td {
+    color:#669;
+ border-right:1px dashed #6cf;
+ padding:5px 10px;
+ border-bottom: 1px dashed #66ccff52;
+}
+table thead{
+    font-size: 24;
+}
+table tbody tr:hover td {
+    color:#339;
+    background:#d0dafd
+}
+#descripcion{
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    background-color: #0c003638;
+}
+#mensaje{
+    padding: 0;
+    background-color: #023f88;
+    overflow: hidden;
+    width: 30%;
+    height: 100%;
+}
+#des{
+    border: none;
+    resize: none;
+    background-color: #b496fc3a;
+}
+
+
+
+.progress {
+	--progress-value: 0;
+	--color: hsl(calc(240 * (1 - var(--progress-value))), 100%, calc(20% + 40% * var(--progress-value)));
+}
+
+.circle-progress-value {
+	stroke-width: 6px;
+	stroke: var(--color);
+	stroke-dasharray: 5.98 2;
+	transition: stroke .4s;
+}
+
+.circle-progress-circle {
+	stroke-width: 2px;
+	stroke: hsla(0, 100%, 1%, 0.164);
+}
+
+.circle-progress-text {
+	font-weight: bold;
+	fill: var(--color);
+	transform: translateX(.2em);
+	transition: fill .4s;
+}
+
+.circle-progress {width: 5%; height: auto;}
+
+#cargando{
+    display: none;
+}

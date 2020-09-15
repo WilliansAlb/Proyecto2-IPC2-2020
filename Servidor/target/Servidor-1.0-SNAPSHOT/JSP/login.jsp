@@ -11,6 +11,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         <link rel="shortcut icon" type="image/x-icon" href="RESOURCES/imagenes/hospital.ico"/>
+        
+        <link rel="stylesheet" href='RESOURCES/css/general.css' type="text/css">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="RESOURCES/js/login.js"></script>
     </head>
     <body>
         <div id='login'>

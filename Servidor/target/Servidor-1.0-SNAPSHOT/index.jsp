@@ -11,16 +11,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Hospital</title>
-        <link rel="stylesheet" href='RESOURCES/css/general.css' type="text/css">
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-        <script type="text/javascript" src="RESOURCES/js/login.js"></script>
     </head>
     <body>
         <%HttpSession s = request.getSession();%>
-        <%if (s.getAttribute("usuario") == null){%>
+        <%if (s.getAttribute("usuario") != null){%>
         <%@include file='JSP/login.jsp' %>
         <%}else{%>
-        <h1>Existe usuario</h1>
+        <%@include file='JSP/Carga.jsp' %>
         <%}%>
     </body>
 </html>
