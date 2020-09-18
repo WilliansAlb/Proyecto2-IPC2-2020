@@ -58,7 +58,7 @@ public class Login extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String usuario = request.getParameter("usuario");
-        String contraseña = request.getParameter("contraseña");
+        String contraseña = request.getParameter("password");
         Conector cn = new Conector();
         if (cn.conectar()) {
             if (cn.existe(usuario, contraseña)) {

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <hospital>
   <admin>
     <CODIGO>ADMIN1</CODIGO>
@@ -27,7 +27,7 @@
       <INICIO>6:00</INICIO>
       <FIN>14:00</FIN>
     </HORARIO>
-    <INICIOTRABAJO>2010-9-2</INICIOTRABAJO>
+    <TRABAJO>2010-9-2</TRABAJO>
     <PASSWORD>~fc,X,9;</PASSWORD>
   </doctor>
   <doctor>
@@ -44,7 +44,7 @@
       <INICIO>6:00</INICIO>
       <FIN>14:00</FIN>
     </HORARIO>
-    <INICIOTRABAJO>2015-1-1</INICIOTRABAJO>
+    <TRABAJO>2015-1-1</TRABAJO>
     <PASSWORD>,Guq2]^y</PASSWORD>
   </doctor>
   <doctor>
@@ -61,7 +61,7 @@
       <INICIO>6:00</INICIO>
       <FIN>14:00</FIN>
     </HORARIO>
-    <INICIOTRABAJO>2018-12-18</INICIOTRABAJO>
+    <TRABAJO>2018-12-18</TRABAJO>
     <PASSWORD>2{x,}zEb</PASSWORD>
   </doctor>
   <doctor>
@@ -78,7 +78,7 @@
       <INICIO>12:00</INICIO>
       <FIN>20:00</FIN>
     </HORARIO>
-    <INICIOTRABAJO>2001-11-25</INICIOTRABAJO>
+    <TRABAJO>2001-11-25</TRABAJO>
     <PASSWORD>$]LF5b@_</PASSWORD>
   </doctor>
   <doctor>
@@ -95,7 +95,7 @@
       <INICIO>12:00</INICIO>
       <FIN>20:00</FIN>
     </HORARIO>
-    <INICIOTRABAJO>2020-1-1</INICIOTRABAJO>
+    <TRABAJO>2020-1-1</TRABAJO>
     <PASSWORD>_>36TfA2</PASSWORD>
   </doctor>
   <laboratorista>
@@ -112,7 +112,7 @@
       <DIA>Jueves</DIA>
       <DIA>Sabado</DIA>
     </TRABAJO>
-    <INICIOTRABAJO>2010-9-2</INICIOTRABAJO>
+    <TRABAJO>2010-9-2</TRABAJO>
     <PASSWORD>7"UAYz~z</PASSWORD>
   </laboratorista>
   <laboratorista>
@@ -128,7 +128,7 @@
       <DIA>Jueves</DIA>
       <DIA>Sabado</DIA>
     </TRABAJO>
-    <INICIOTRABAJO>2015-1-1</INICIOTRABAJO>
+    <TRABAJO>2015-1-1</TRABAJO>
     <PASSWORD>Sh*8sA\X</PASSWORD>
   </laboratorista>
   <laboratorista>
@@ -145,7 +145,7 @@
       <DIA>Jueves</DIA>
       <DIA>Sabado</DIA>
     </TRABAJO>
-    <INICIOTRABAJO>2018-12-18</INICIOTRABAJO>
+    <TRABAJO>2018-12-18</TRABAJO>
     <PASSWORD>C9^r:F/j</PASSWORD>
   </laboratorista>
   <laboratorista>
@@ -161,7 +161,7 @@
       <DIA>Jueves</DIA>
       <DIA>Sabado</DIA>
     </TRABAJO>
-    <INICIOTRABAJO>2001-11-25</INICIOTRABAJO>
+    <TRABAJO>2001-11-25</TRABAJO>
     <PASSWORD>QwC_;%5$</PASSWORD>
   </laboratorista>
   <laboratorista>
@@ -178,7 +178,7 @@
       <DIA>Jueves</DIA>
       <DIA>Sabado</DIA>
     </TRABAJO>
-    <INICIOTRABAJO>2011-01-26</INICIOTRABAJO>
+    <TRABAJO>2011-01-26</TRABAJO>
     <PASSWORD>T7gh>!Ag</PASSWORD>
   </laboratorista>
   <laboratorista>
@@ -194,7 +194,7 @@
       <DIA>Jueves</DIA>
       <DIA>Sabado</DIA>
     </TRABAJO>
-    <INICIOTRABAJO>2019-01-07</INICIOTRABAJO>
+    <TRABAJO>2019-01-07</TRABAJO>
     <PASSWORD>3rJeSD.></PASSWORD>
   </laboratorista>
   <paciente>
@@ -409,52 +409,84 @@
     <FECHA>2020-9-7</FECHA>
     <HORA>18:00</HORA>
   </resultado>
-  <consulta>
-    <CODIGO>866691</CODIGO>
+  <cita>
+    <CODIGO>604518</CODIGO>
+    <PACIENTE>922677</PACIENTE>
     <MEDICO>MED-159</MEDICO>
-    <FECHA>2020-09-02</FECHA>
+    <FECHA>2020-09-10</FECHA>
     <HORA>7:00</HORA>
-  </consulta>
-  <consulta>
-    <CODIGO>202460</CODIGO>
+  </cita>
+  <cita>
+    <CODIGO>222144</CODIGO>
+    <PACIENTE>142017</PACIENTE>
     <MEDICO>MED-123</MEDICO>
-    <FECHA>2020-09-05</FECHA>
+    <FECHA>2020-09-12</FECHA>
     <HORA>11:00</HORA>
-  </consulta>
-  <consulta>
-    <CODIGO>877597</CODIGO>
-    <MEDICO>MED-123</MEDICO>
-    <FECHA>2020-09-04</FECHA>
+  </cita>
+  <cita>
+    <CODIGO>216326</CODIGO>
+    <PACIENTE>194699</PACIENTE>
+    <MEDICO>MED-684</MEDICO>
+    <FECHA>2020-09-12</FECHA>
     <HORA>9:00</HORA>
-  </consulta>
-  <consulta>
-    <CODIGO>579429</CODIGO>
+  </cita>
+  <cita>
+    <CODIGO>897802</CODIGO>
+    <PACIENTE>567119</PACIENTE>
     <MEDICO>MED-123</MEDICO>
-    <FECHA>2020-09-03</FECHA>
+    <FECHA>2020-09-12</FECHA>
     <HORA>10:00</HORA>
-  </consulta>
-  <consulta>
-    <CODIGO>344169</CODIGO>
-    <MEDICO>MED-852</MEDICO>
-    <FECHA>2020-09-02</FECHA>
-    <HORA>13:00</HORA>
-  </consulta>
-  <consulta>
-    <CODIGO>345486</CODIGO>
-    <MEDICO>MED-852</MEDICO>
-    <FECHA>2020-09-05</FECHA>
-    <HORA>16:00</HORA>
-  </consulta>
-  <consulta>
-    <CODIGO>272856</CODIGO>
-    <MEDICO>MED-852</MEDICO>
-    <FECHA>2020-09-06</FECHA>
-    <HORA>13:00</HORA>
-  </consulta>
-  <consulta>
-    <CODIGO>445520</CODIGO>
+  </cita>
+  <cita>
+    <CODIGO>450347</CODIGO>
+    <PACIENTE>922677</PACIENTE>
     <MEDICO>MED-127</MEDICO>
-    <FECHA>2020-09-05</FECHA>
+    <FECHA>2020-09-10</FECHA>
+    <HORA>13:00</HORA>
+  </cita>
+  <cita>
+    <CODIGO>136000</CODIGO>
+    <PACIENTE>142017</PACIENTE>
+    <MEDICO>MED-127</MEDICO>
+    <FECHA>2020-09-14</FECHA>
+    <HORA>16:00</HORA>
+  </cita>
+  <cita>
+    <CODIGO>910394</CODIGO>
+    <PACIENTE>142017</PACIENTE>
+    <MEDICO>MED-127</MEDICO>
+    <FECHA>2020-09-13</FECHA>
+    <HORA>13:00</HORA>
+  </cita>
+  <cita>
+    <CODIGO>879206</CODIGO>
+    <PACIENTE>922677</PACIENTE>
+    <MEDICO>MED-852</MEDICO>
+    <FECHA>2020-09-13</FECHA>
     <HORA>19:00</HORA>
+  </cita>
+   <consulta>
+    <TIPO>Pediatria</TIPO>
+    <COSTO>150</COSTO>
+  </consulta>
+  <consulta>
+    <TIPO>Gastroenterologo</TIPO>
+    <COSTO>250</COSTO>
+  </consulta>
+  <consulta>
+    <TIPO>General</TIPO>
+    <COSTO>125</COSTO>
+  </consulta>
+  <consulta>
+    <TIPO>Otorrinolaringologo</TIPO>
+    <COSTO>200</COSTO>
+  </consulta>
+  <consulta>
+    <TIPO>Obstetra</TIPO>
+    <COSTO>175</COSTO>
+  </consulta>
+  <consulta>
+    <TIPO>Ginecologia</TIPO>
+    <COSTO>150</COSTO>
   </consulta>
 </hospital>

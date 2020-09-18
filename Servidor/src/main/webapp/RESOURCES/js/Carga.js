@@ -7,9 +7,13 @@ let opciones = ['ADMINISTRADORES A INGRESAR', 'DOCTORES A INGRESAR', 'LABORATORI
 
 function verificar() {
     const file = document.getElementById("archivo").files[0];
+    const file1 = document.getElementById("archivo");
     if (!file) {
         alert("NECESITAS SELECCIONAR UN ARCHIVO XML PRIMERO");
     } else {
+        document.getElementById('ruta').innerText = ".."+file1.value.slice(12);
+        
+        $('#btn1').show();
         $('#ver').prop('disabled', false);
     }
 }
@@ -92,7 +96,7 @@ function readDoc(file) {
 function parseDoc(rawXML) {
     const parser = new DOMParser()
     const xml = parser.parseFromString(rawXML, 'text/xml')
-    return xml
+    return xml;
 }
 
 function showDocInTable(xml) {
@@ -114,7 +118,7 @@ function showDocInTable(xml) {
     const examenes = datasource.querySelectorAll('examen')
     const reportes = datasource.querySelectorAll('reporte')
     const resultados = datasource.querySelectorAll('resultado')
-    const consultas = datasource.querySelectorAll('consulta')
+    const consultas = datasource.querySelectorAll('cita')
 
     Array.from(books).map((book, i) => {
         const tr = document.createElement('tr')
@@ -134,7 +138,7 @@ function showDocInTable(xml) {
         const DPI = tagToData(doctor.querySelector('DPI'))
         const TELEFONO = tagToData(doctor.querySelector('TELEFONO'))
         const CORREO = tagToData(doctor.querySelector('CORREO'))
-        const INICIO = tagToData(doctor.querySelector('INICIOTRABAJO'))
+        const INICIO = tagToData(doctor.querySelector('TRABAJO'))
         const especialidades = doctor.querySelectorAll('TITULO')
         var especialidades1 = '';
         Array.from(especialidades).map((titulos, o) => {
@@ -159,14 +163,14 @@ function showDocInTable(xml) {
         const TELEFONO = tagToData(laboratorista.querySelector('TELEFONO'));
         const EXAMEN = tagToData(laboratorista.querySelector('EXAMEN'));
         const CORREO = tagToData(laboratorista.querySelector('CORREO'));
-        const dias = laboratorista.querySelectorAll('DIA');
+        const dias = laboratorista.querySelector('TRABAJO');
         var dias1 = '';
         Array.from(dias).map((dia, o) => {
             dias1 += dia.textContent + ',';
         })
         const TRABAJO = document.createElement('td');
-        TRABAJO.textContent = dias1.slice(0, -1);
-        const INICIO = tagToData(laboratorista.querySelector('INICIOTRABAJO'));
+        TRABAJO.textContent = dias.textContent;
+        const INICIO = tagToData(laboratorista.querySelectorAll('TRABAJO')[1]);
         const PASSWORD = tagToData(laboratorista.querySelector('PASSWORD'));
         tr.append(CODIGO, NOMBRE, REGISTRO, DPI, TELEFONO, EXAMEN, CORREO, TRABAJO, INICIO, PASSWORD);
         table2.appendChild(tr)
@@ -193,7 +197,7 @@ function showDocInTable(xml) {
         const ORDEN = tagToData(examen.querySelector('ORDEN'));
         const DESCRIPCION = tagToData(examen.querySelector('DESCRIPCION'));
         const DES = document.createElement('td');
-        DES.innerHTML = '<button id="exa' + i + '" value="' + examen.querySelector('DESCRIPCION').textContent + '" onclick="mostrar(this)">ver</button>';
+        DES.innerHTML = '<button id="exa' + i + '" value="' + examen.querySelector('DESCRIPCION').textContent + '" onclick="mostrar(this)">VER</button>';
         const COSTO = tagToData(examen.querySelector('COSTO'));
         const INFORME = tagToData(examen.querySelector('INFORME'));
         tr.append(CODIGO, NOMBRE, ORDEN, DES, COSTO, INFORME);
@@ -206,7 +210,7 @@ function showDocInTable(xml) {
         const PACIENTE = tagToData(reporte.querySelector('PACIENTE'));
         const MEDICO = tagToData(reporte.querySelector('MEDICO'));
         const INFORME = document.createElement('td');
-        INFORME.innerHTML = '<button id="rep' + i + '" value="' + reporte.querySelector('INFORME').textContent + '" onclick="mostrar(this)">ver</button>';
+        INFORME.innerHTML = '<button id="rep' + i + '" value="' + reporte.querySelector('INFORME').textContent + '" onclick="mostrar(this)">VER</button>';
         const FECHA = tagToData(reporte.querySelector('FECHA'));
         const HORA = tagToData(reporte.querySelector('HORA'));
         tr.append(CODIGO, PACIENTE, MEDICO, INFORME, FECHA, HORA);
@@ -284,7 +288,7 @@ function tagToData(tag) {
     } else {
         td.textContent = 'null'
     }
-    return td
+    return td;
 }
 
 function onError(reason) {
@@ -310,7 +314,7 @@ function subir(range){
 
 function ingresarTodo(boton){
     boton.style.display = 'none';
-    $('#cargando').show();
+    $('#cargando').fadeIn(500);
     miTabla = document.getElementById('examenes');
     miTBody = miTabla.getElementsByTagName("tbody")[0];
     miFila = miTBody.getElementsByTagName("tr");
@@ -325,6 +329,7 @@ function ingresarTodo(boton){
             } else 
                 unArray.push(celda.textContent);
         });
+        document.getElementById('actualSubiendo').innerText = "Ingresando "+unArray[0]+"..."
         $('.progress').circleProgress({
             value: (i/longitud)*25,
         });
