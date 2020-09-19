@@ -14,7 +14,7 @@
     </head>
     <body>
         <%HttpSession s = request.getSession();%>
-        <%if (s.getAttribute("usuario") == null){%>
+        <%if (s.getAttribute("usuario") != null){%>
         <%@include file='JSP/login.jsp' %>
         <%}else{%>
         <%@include file='JSP/Carga.jsp' %>

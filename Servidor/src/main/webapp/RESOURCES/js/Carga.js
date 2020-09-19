@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-let opciones = ['ADMINISTRADORES A INGRESAR', 'DOCTORES A INGRESAR', 'LABORATORISTAS A INGRESAR', 'PACIENTES A INGRESAR', 'EXAMENES A INGRESAR', 'REPORTES A INGRESAR', 'RESULTADOS A INGRESAR', 'CONSULTAS A INGRESAR'];
+let opciones = ['ADMINISTRADORES A INGRESAR', 'DOCTORES A INGRESAR', 'LABORATORISTAS A INGRESAR', 'PACIENTES A INGRESAR', 'EXAMENES A INGRESAR',
+    'REPORTES A INGRESAR', 'RESULTADOS A INGRESAR', 'CONSULTAS A INGRESAR','CITAS A INGRESAR'];
 
 function verificar() {
     const file = document.getElementById("archivo").files[0];
@@ -48,6 +49,7 @@ function mostrarTabla(posicion) {
     $('#reportes').hide();
     $('#resultados').hide();
     $('#consultas').hide();
+    $('#citas').hide();
     if (posicion == 0) {
         $('#admins').show(1000);
     } else if (posicion == 1) {
@@ -64,6 +66,8 @@ function mostrarTabla(posicion) {
         $('#resultados').show(1000);
     } else if (posicion == 7) {
         $('#consultas').show(1000);
+    } else if (posicion == 8) {
+        $('#citas').show(1000);
     }
 
 }
@@ -100,59 +104,60 @@ function parseDoc(rawXML) {
 }
 
 function showDocInTable(xml) {
-    const table = document.querySelector('#admins > tbody')
-    const table1 = document.querySelector('#doctores > tbody')
-    const table2 = document.querySelector('#laboratoristas > tbody')
-    const table3 = document.querySelector('#pacientes > tbody')
-    const table4 = document.querySelector('#examenes > tbody')
-    const table5 = document.querySelector('#reportes > tbody')
-    const table6 = document.querySelector('#resultados > tbody')
-    const table7 = document.querySelector('#consultas > tbody')
+    const table = document.querySelector('#admins > tbody');
+    const table1 = document.querySelector('#doctores > tbody');
+    const table2 = document.querySelector('#laboratoristas > tbody');
+    const table3 = document.querySelector('#pacientes > tbody');
+    const table4 = document.querySelector('#examenes > tbody');
+    const table5 = document.querySelector('#reportes > tbody');
+    const table6 = document.querySelector('#resultados > tbody');
+    const table7 = document.querySelector('#citas > tbody');
+    const table8 = document.querySelector('#consultas > tbody');
 
-    const datasource = xml.querySelector('hospital')
+    const datasource = xml.querySelector('hospital');
 
-    const books = datasource.querySelectorAll('admin')
-    const doctores = datasource.querySelectorAll('doctor')
-    const laboratoristas = datasource.querySelectorAll('laboratorista')
-    const pacientes = datasource.querySelectorAll('paciente')
-    const examenes = datasource.querySelectorAll('examen')
-    const reportes = datasource.querySelectorAll('reporte')
-    const resultados = datasource.querySelectorAll('resultado')
-    const consultas = datasource.querySelectorAll('cita')
+    const books = datasource.querySelectorAll('admin');
+    const doctores = datasource.querySelectorAll('doctor');
+    const laboratoristas = datasource.querySelectorAll('laboratorista');
+    const pacientes = datasource.querySelectorAll('paciente');
+    const examenes = datasource.querySelectorAll('examen');
+    const reportes = datasource.querySelectorAll('reporte');
+    const resultados = datasource.querySelectorAll('resultado');
+    const citas = datasource.querySelectorAll('cita');
+    const consultas = datasource.querySelectorAll('consulta');
 
     Array.from(books).map((book, i) => {
-        const tr = document.createElement('tr')
-        const CODIGO = tagToData(book.querySelector('CODIGO'))
-        const DPI = tagToData(book.querySelector('DPI'))
-        const NOMBRE = tagToData(book.querySelector('NOMBRE'))
-        const PASSWORD = tagToData(book.querySelector('PASSWORD'))
-        tr.append(CODIGO, DPI, NOMBRE, PASSWORD)
-        table.appendChild(tr)
-    })
+        const tr = document.createElement('tr');
+        const CODIGO = tagToData(book.querySelector('CODIGO'));
+        const DPI = tagToData(book.querySelector('DPI'));
+        const NOMBRE = tagToData(book.querySelector('NOMBRE'));
+        const PASSWORD = tagToData(book.querySelector('PASSWORD'));
+        tr.append(CODIGO, DPI, NOMBRE, PASSWORD);
+        table.appendChild(tr);
+    });
 
     Array.from(doctores).map((doctor, i) => {
-        const tr = document.createElement('tr')
-        const CODIGO = tagToData(doctor.querySelector('CODIGO'))
-        const NOMBRE = tagToData(doctor.querySelector('NOMBRE'))
-        const COLEGIADO = tagToData(doctor.querySelector('COLEGIADO'))
-        const DPI = tagToData(doctor.querySelector('DPI'))
-        const TELEFONO = tagToData(doctor.querySelector('TELEFONO'))
-        const CORREO = tagToData(doctor.querySelector('CORREO'))
-        const INICIO = tagToData(doctor.querySelector('TRABAJO'))
-        const especialidades = doctor.querySelectorAll('TITULO')
+        const tr = document.createElement('tr');
+        const CODIGO = tagToData(doctor.querySelector('CODIGO'));
+        const NOMBRE = tagToData(doctor.querySelector('NOMBRE'));
+        const COLEGIADO = tagToData(doctor.querySelector('COLEGIADO'));
+        const DPI = tagToData(doctor.querySelector('DPI'));
+        const TELEFONO = tagToData(doctor.querySelector('TELEFONO'));
+        const CORREO = tagToData(doctor.querySelector('CORREO'));
+        const INICIO = tagToData(doctor.querySelector('TRABAJO'));
+        const especialidades = doctor.querySelectorAll('TITULO');
         var especialidades1 = '';
         Array.from(especialidades).map((titulos, o) => {
             especialidades1 += titulos.textContent + ',';
-        })
-        const ESPECIALIDAD = document.createElement('td')
-        ESPECIALIDAD.textContent = especialidades1.slice(0, -1)
-
-        const HORARIO = document.createElement('td')
-        HORARIO.textContent = doctor.querySelector('INICIO').textContent + "-" + doctor.querySelector('FIN').textContent
-        const PASSWORD = tagToData(doctor.querySelector('PASSWORD'))
-        tr.append(CODIGO, NOMBRE, COLEGIADO, DPI, TELEFONO, ESPECIALIDAD, CORREO, HORARIO, INICIO, PASSWORD)
-        table1.appendChild(tr)
-    })
+        });
+        const ESPECIALIDAD = document.createElement('td');
+        ESPECIALIDAD.textContent = especialidades1.slice(0, -1);
+        const HORARIO = document.createElement('td');
+        HORARIO.textContent = doctor.querySelector('INICIO').textContent + "-" + doctor.querySelector('FIN').textContent;
+        const PASSWORD = tagToData(doctor.querySelector('PASSWORD'));
+        tr.append(CODIGO, NOMBRE, COLEGIADO, DPI, TELEFONO, ESPECIALIDAD, CORREO, HORARIO, INICIO, PASSWORD);
+        table1.appendChild(tr);
+    });
 
     Array.from(laboratoristas).map((laboratorista, i) => {
         const tr = document.createElement('tr');
@@ -228,18 +233,25 @@ function showDocInTable(xml) {
         const FECHA = tagToData(resultado.querySelector('FECHA'));
         const HORA = tagToData(resultado.querySelector('HORA'));
         tr.append(CODIGO, PACIENTE, EXAMEN, LABORATORISTA, ORDEN, INFORME, FECHA, HORA);
-        table6.appendChild(tr)
-    })
+        table6.appendChild(tr);
+    });
+    Array.from(citas).map((cita, i) => {
+        const tr = document.createElement('tr');
+        const CODIGO = tagToData(cita.querySelector('CODIGO'));
+        const PACIENTE = tagToData(cita.querySelector('PACIENTE'));
+        const MEDICO = tagToData(cita.querySelector('MEDICO'));
+        const FECHA = tagToData(cita.querySelector('FECHA'));
+        const HORA = tagToData(cita.querySelector('HORA'));
+        tr.append(CODIGO, PACIENTE, MEDICO, FECHA, HORA);
+        table7.appendChild(tr);
+    });
     Array.from(consultas).map((consulta, i) => {
         const tr = document.createElement('tr');
-        const CODIGO = tagToData(consulta.querySelector('CODIGO'));
-        const PACIENTE = tagToData(consulta.querySelector('PACIENTE'));
-        const MEDICO = tagToData(consulta.querySelector('MEDICO'));
-        const FECHA = tagToData(consulta.querySelector('FECHA'));
-        const HORA = tagToData(consulta.querySelector('HORA'));
-        tr.append(CODIGO, PACIENTE, MEDICO, FECHA, HORA);
-        table7.appendChild(tr)
-    })
+        const TIPO = tagToData(consulta.querySelector('TIPO'));
+        const COSTO = tagToData(consulta.querySelector('COSTO'));
+        tr.append(TIPO, COSTO);
+        table8.appendChild(tr);
+    });
 }
 function mostrar(boton) {
     $('#des').val(boton.value);

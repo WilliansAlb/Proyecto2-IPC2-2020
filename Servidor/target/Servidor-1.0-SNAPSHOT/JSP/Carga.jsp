@@ -22,7 +22,7 @@
     <div id="carga">
         <center>
             <img src="RESOURCES/imagenes/salud.png" width="7%" height="auto" id="logo">
-            <label for="logo">Hospital Fulanos</label>
+            <label for="logo">Centro Medico del Sur</label>
             <hr width="50%">
             <label for="archivo" tabindex="0" class="input-file-trigger">Seleccionar archivo XML con datos a cargar...</label>
             <p id="ruta" class="file-return"></p>
@@ -145,13 +145,22 @@
                     <tbody>
                     </tbody>
                 </table>
-                <table id="consultas" cellpadding="10px" style="text-align: center;display: none;">
+                <table id="citas" cellpadding="10px" style="text-align: center;display: none;">
                     <thead>
                         <th>CODIGO</th>
                         <th>PACIENTE</th>
+                        <th>TIPO CONSULTA</th>
                         <th>MEDICO</th>
                         <th>FECHA</th>
                         <th>HORA</th>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <table id="consultas" cellpadding="10px" style="text-align: center;display: none;">
+                    <thead>
+                        <th>TIPO</th>
+                        <th>COSTO</th>
                     </thead>
                     <tbody>
                     </tbody>
