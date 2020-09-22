@@ -24,7 +24,7 @@ public class Conector {
     //Datos conexion con la Base de Datos
     private final String servidor = "localhost";
     private final String puerto = "3306";
-    private final String BD = "Prueba";
+    private final String BD = "Hospital";
     private final String usuario = "root";
     private final String clave = "Cristeptesico_65";
     private final String URL = "jdbc:mysql://" + servidor + ":" + puerto + "/" + BD;
@@ -32,6 +32,12 @@ public class Conector {
     public Conector() {
         this.conexion = null;
         this.sentencia = null;
+    }
+    
+    public Conector(String encender){
+        this.conexion = null;
+        this.sentencia = null;
+        conectar();
     }
 
     public boolean conectar() {

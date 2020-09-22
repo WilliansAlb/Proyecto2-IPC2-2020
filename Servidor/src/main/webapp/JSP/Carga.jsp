@@ -10,6 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hospital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:ital,wght@0,300;0,700;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="RESOURCES/css/Carga.css" type="text/css">
     <link rel="stylesheet" href="RESOURCES/css/Boton.css" type="text/css">
     <link rel="shortcut icon" type="image/x-icon" href="RESOURCES/imagenes/saludico.ico"/>
@@ -69,7 +70,7 @@
                         <th>ESPECIALIDADES</th>
                         <th>CORREO</th>
                         <th>HORARIO</th>
-                        <th>FECHA INICIO TRABAJO</th>
+                        <th>INICIO TRABAJO</th>
                         <th>PASSWORD</th>
                     </thead>
                     <tbody>
@@ -85,7 +86,7 @@
                         <th>EXAMEN</th>
                         <th>CORREO</th>
                         <th>DIAS TRABAJO</th>
-                        <th>FECHA INICIO TRABAJO</th>
+                        <th>INICIO TRABAJO</th>
                         <th>PASSWORD</th>
                     </thead>
                     <tbody>
@@ -190,7 +191,7 @@
             <center>
                 <h1 style="margin-bottom: 5px;">DESCRIPCION</h1>
                 <h4 style="margin:0;" id="nombrecodigo">EJEMPLO EXAMEN</h4>
-                <textarea name="des" id="des" cols="40" rows="30" readonly="readonly"></textarea>
+                <textarea name="des" id="des" cols="40" rows="20" readonly="readonly"></textarea>
                 <hr width="50%">
                 <button id="ocultar" onclick="ocultar(document.getElementById('descripcion'))" style="display:none;">OCULTAR</button>
                 <div class="buttons" id="btn3">

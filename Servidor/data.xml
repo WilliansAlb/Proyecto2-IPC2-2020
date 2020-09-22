@@ -269,6 +269,14 @@
     <COSTO>300</COSTO>
     <INFORME>PDF</INFORME>
   </examen>
+ <examen>
+    <CODIGO>567</CODIGO>
+    <NOMBRE>Glucosa</NOMBRE>
+    <ORDEN>FALSE</ORDEN>
+    <DESCRIPCION>El Conteo Sanguíneo Completo (o en inglés FBC) es una prueba tomada para los exámenes de salud más generales — tales como anemia, hemorragia interna, una dieta deficiente, leucocitos bajos</DESCRIPCION>
+    <COSTO>400.50</COSTO>
+    <INFORME>PDF</INFORME>
+  </examen>
    <reporte>
     <CODIGO>594740</CODIGO>
     <PACIENTE>977693</PACIENTE>

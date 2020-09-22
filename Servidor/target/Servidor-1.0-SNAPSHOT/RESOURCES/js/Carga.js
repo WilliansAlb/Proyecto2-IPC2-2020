@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 let opciones = ['ADMINISTRADORES A INGRESAR', 'DOCTORES A INGRESAR', 'LABORATORISTAS A INGRESAR', 'PACIENTES A INGRESAR', 'EXAMENES A INGRESAR',
-    'REPORTES A INGRESAR', 'RESULTADOS A INGRESAR', 'CONSULTAS A INGRESAR','CITAS A INGRESAR'];
+    'REPORTES A INGRESAR', 'RESULTADOS A INGRESAR', 'CONSULTAS A INGRESAR', 'CITAS A INGRESAR'];
 
 function verificar() {
     const file = document.getElementById("archivo").files[0];
@@ -12,8 +12,7 @@ function verificar() {
     if (!file) {
         alert("NECESITAS SELECCIONAR UN ARCHIVO XML PRIMERO");
     } else {
-        document.getElementById('ruta').innerText = ".."+file1.value.slice(12);
-        
+        document.getElementById('ruta').innerText = ".." + file1.value.slice(12);
         $('#btn1').show();
         $('#ver').prop('disabled', false);
     }
@@ -73,8 +72,18 @@ function mostrarTabla(posicion) {
 }
 
 function loadDoc() {
-    $(carga).css('margin-top', '0');
-    $(visualizar).show();
+    $('#carga').css('margin-top', '0');
+    $('#carga').css('width', '40%');
+    $('#carga').css('height', '30%');
+    $('#carga').css('margin-left', '30%');
+    $('#btn1').hide();
+    $('.input-file-trigger').css('font-size', '1em');
+    var visible = document.getElementById("visualizar").style.display === 'none';
+    if (visible) {
+        $('#visualizar').show();
+    } else {
+        $("table tbody tr").remove();
+    }
     $('#btn-con-iz').prop('disabled', true);
 
     const file = document.getElementById("archivo").files[0];
@@ -82,6 +91,7 @@ function loadDoc() {
     if (!file) {
         alert("NECESITAS SELECCIONAR UN ARCHIVO XML PRIMERO");
     } else {
+
         readDoc(file).then(parseDoc).then(showDocInTable).catch(onError)
     }
 }
@@ -168,13 +178,13 @@ function showDocInTable(xml) {
         const TELEFONO = tagToData(laboratorista.querySelector('TELEFONO'));
         const EXAMEN = tagToData(laboratorista.querySelector('EXAMEN'));
         const CORREO = tagToData(laboratorista.querySelector('CORREO'));
-        const dias = laboratorista.querySelector('TRABAJO');
+        const dias = laboratorista.querySelectorAll('DIA');
         var dias1 = '';
         Array.from(dias).map((dia, o) => {
             dias1 += dia.textContent + ',';
         })
         const TRABAJO = document.createElement('td');
-        TRABAJO.textContent = dias.textContent;
+        TRABAJO.textContent = dias1;
         const INICIO = tagToData(laboratorista.querySelectorAll('TRABAJO')[1]);
         const PASSWORD = tagToData(laboratorista.querySelector('PASSWORD'));
         tr.append(CODIGO, NOMBRE, REGISTRO, DPI, TELEFONO, EXAMEN, CORREO, TRABAJO, INICIO, PASSWORD);
@@ -262,10 +272,10 @@ function mostrar(boton) {
     var co = codigo.textContent;
     var nom = nombre.textContent;
     var cono = "";
-    if (nom > 0){
-        cono = "REPORTE "+co;
+    if (nom > 0) {
+        cono = "REPORTE " + co;
     } else {
-        cono = "EXAMEN "+co + " - " + nom;
+        cono = "EXAMEN " + co + " - " + nom;
     }
     document.getElementById('nombrecodigo').innerText = cono;
     var mensajew = $('#mensaje').width();
@@ -278,9 +288,9 @@ function mostrar(boton) {
     var posy = (height / 2) - (mensajeh / 2);
 
     if (posy > 0) {
-        $('#mensaje').offset({ top: 0 });
+        $('#mensaje').offset({top: 0});
     } else {
-        $('#mensaje').offset({ top: 0 });
+        $('#mensaje').offset({top: 0});
     }
 
     $('#descripcion').width(width);
@@ -316,34 +326,117 @@ jQuery(function ($) {
     });
 });
 
-function subir(range){
+function subir(range) {
     const val = range.value;
     var cp = document.getElementById('pro');
     cp.value = val;
-    $('.progress').circleProgress({value:val,});
+    $('.progress').circleProgress({value: val, });
     cp.style.setProperty('--progress-value', val / 100);
 }
 
-function ingresarTodo(boton){
+function ingresarTodo(boton) {
     boton.style.display = 'none';
     $('#cargando').fadeIn(500);
-    miTabla = document.getElementById('examenes');
-    miTBody = miTabla.getElementsByTagName("tbody")[0];
-    miFila = miTBody.getElementsByTagName("tr");
-    let longitud = miFila.length-1;
-    Array.from(miFila).map((fila,i)=>{
+    const file = document.getElementById("archivo").files[0];
+    var examenes = [];
+    var admin = [];
+    tablaExamen = document.getElementById('examenes');
+    datosExamen = tablaExamen.getElementsByTagName("tbody")[0];
+    filasExamen = datosExamen.getElementsByTagName("tr");
+    Array.from(filasExamen).map((fila, i) => {
         var unArray = [];
         miCelda = fila.getElementsByTagName("td");
-        Array.from(miCelda).map((celda,o)=>{
-            if (o==3){
+        Array.from(miCelda).map((celda, o) => {
+            if (o === 3) {
                 miButton = celda.getElementsByTagName('button')[0];
                 unArray.push(miButton.value);
-            } else 
+            } else
                 unArray.push(celda.textContent);
         });
-        document.getElementById('actualSubiendo').innerText = "Ingresando "+unArray[0]+"..."
-        $('.progress').circleProgress({
-            value: (i/longitud)*25,
-        });
+        var moment = {codigo: unArray[0], nombre: unArray[1], orden: unArray[2], descripcion: unArray[3], costo: unArray[4], informe: unArray[5]};
+        examenes.push(moment);
     });
+
+
+    tablaAdmin = document.getElementById('admins');
+    datosAdmin = tablaAdmin.getElementsByTagName("tbody")[0];
+    filasAdmin = datosAdmin.getElementsByTagName("tr");
+    Array.from(filasAdmin).map((fila, i) => {
+        var unArray = [];
+        miCelda = fila.getElementsByTagName("td");
+        Array.from(miCelda).map((celda, o) => {
+            unArray.push(celda.textContent);
+        });
+        var moment = {codigo: unArray[0], nombre: unArray[2], dpi: unArray[1], password: unArray[3]};
+        admin.push(moment);
+    });
+
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = function () {
+        const base64String = reader.result
+                .replace('data:', '')
+                .replace(/^.+,/, '');
+        $("#actualSubiendo").text("Subiendo examenes...");
+        $.ajax({
+            type: 'POST', // it's easier to read GET request parameters
+            url: 'Carga',
+            data: {
+                tipo: 1,
+                test: JSON.stringify(examenes),
+                decode: base64String // look here!
+            },
+            success: function (data) {
+                if (data === 'mandato') {
+                    $("#actualSubiendo").text("Subiendo administradores...");
+                    $('.progress').circleProgress({
+                        value: (100/9)
+                    });
+                    $.ajax({
+                        type: 'POST', // it's easier to read GET request parameters
+                        url: 'Carga',
+                        data: {
+                            tipo: 2,
+                            test: JSON.stringify(admin)
+                        },
+                        success: function (data) {
+                            if (data === 'mandato') {
+                                $('.progress').circleProgress({
+                                    value: 200/9
+                                });
+
+                            } else {
+                                alert("no hola");
+                            }
+                        },
+                        error: function (data) {
+                            alert('fail');
+                        }
+                    });
+                } else {
+                    alert("no hola");
+                }
+            },
+            error: function (data) {
+                alert('fail');
+            }
+        });
+    };
+    reader.onerror = function (error) {
+        console.log('Error: ', error);
+    };
+}
+
+function getBase64(file) {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+        const base64String = reader.result
+                .replace('data:', '')
+                .replace(/^.+,/, '');
+
+    };
+    reader.onerror = function (error) {
+        console.log('Error: ', error);
+    };
 }

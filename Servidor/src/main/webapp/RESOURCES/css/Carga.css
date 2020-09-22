@@ -7,6 +7,10 @@ and open the template in the editor.
     Created on : 15/09/2020, 12:09:30 AM
     Author     : yelbetto
 */
+*{
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+
 body{
     background-image: url('../imagenes/hospital.jpg');
     background-size:100%;
@@ -101,12 +105,12 @@ background: linear-gradient(to left, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 
 
 #tablas{
     overflow: scroll;
-    height: 280px;
+    height: 320px;
 }
 
 table {
     font-family:lucida sans unicode,lucida grande,Sans-Serif;
- font-size:10px;
+ font-size:1.2em;
  width:400px;
  text-align:left;
  border-collapse:collapse;
@@ -116,8 +120,7 @@ table {
 }
 
 table th {
-font-weight:400;
- font-size:10px;
+font-weight:bold;
  color:#039;
  text-transform:uppercase;
  border-right:1px solid #0865c2;
@@ -125,15 +128,14 @@ font-weight:400;
  border-left:1px solid #0865c2;
  border-bottom: 1px dashed #66ccff52;
  padding:5px;
+ line-height: 0.8em;
 }
 table td {
-    color:#669;
+    color:#000;
  border-right:1px dashed #6cf;
  padding:5px 10px;
  border-bottom: 1px dashed #66ccff52;
-}
-table thead{
-    font-size: 24;
+ line-height: 1.2em;
 }
 table tbody tr:hover td {
     color:#339;
@@ -191,13 +193,14 @@ table tbody tr:hover td {
 
 .input-file-trigger {
     display: block;
-    padding: 14px 45px;
+    padding: 10px 10px;
     background: #39D2B4;
-    color: #fff;
-    font-size: 1em;
+    color: #07569ba8;
+    font-weight: bold;
+    font-size: 1.5em;
     transition: all .4s;
     cursor: pointer;
-    width: 50%;
+    width: 75%;
   }
   #archivo {
     display: none;
