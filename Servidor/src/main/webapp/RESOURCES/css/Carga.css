@@ -231,7 +231,7 @@ table tbody tr:hover td {
     font-weight: bold;
   }
   .file-return:not(:empty):before {
-    content: "Archivo seleccionado: ";
+    content: "Archivo xml seleccionado: ";
     font-style: normal;
     font-weight: normal;
   }

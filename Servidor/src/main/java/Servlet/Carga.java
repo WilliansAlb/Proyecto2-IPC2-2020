@@ -7,6 +7,7 @@ package Servlet;
 
 import Base.AdministradorDAO;
 import Base.Conector;
+import Base.DoctorDAO;
 import Base.ExamenDAO;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -175,6 +176,25 @@ public class Carga extends HttpServlet {
                     } else {
                         System.out.println(ingreso);
                     }
+                }
+            } else if (tipo.equalsIgnoreCase("3")) {
+                DoctorDAO ex = new DoctorDAO(cn);
+                for (JsonElement obj : elements) {
+                    // Object of array
+                    JsonObject gsonObj = obj.getAsJsonObject();
+                    // Primitives elements of object
+                    String codigo = gsonObj.get("codigo").getAsString();
+                    String nombre = gsonObj.get("nombre").getAsString();
+                    String dpi = gsonObj.get("dpi").getAsString();
+                    String password = gsonObj.get("password").getAsString();
+                    String colegiado = gsonObj.get("colegiado").getAsString();
+                    String telefono = gsonObj.get("telefono").getAsString();
+                    String especialidades = gsonObj.get("especialidades").getAsString();
+                    String correo = gsonObj.get("correo").getAsString();
+                    String horario = gsonObj.get("horario").getAsString();
+                    String trabajo = gsonObj.get("trabajo").getAsString();
+                    String ingreso = ex.ingresarDoctor(codigo, nombre, dpi, colegiado, horario, correo, trabajo, telefono);
+                    System.out.println(ingreso);
                 }
             }
             response.getWriter().write("mandato");

@@ -340,6 +340,7 @@ function ingresarTodo(boton) {
     const file = document.getElementById("archivo").files[0];
     var examenes = [];
     var admin = [];
+    var doctores = [];
     tablaExamen = document.getElementById('examenes');
     datosExamen = tablaExamen.getElementsByTagName("tbody")[0];
     filasExamen = datosExamen.getElementsByTagName("tr");
@@ -371,6 +372,19 @@ function ingresarTodo(boton) {
         admin.push(moment);
     });
 
+    tablaDoctor = document.getElementById('doctores');
+    datosDoctor = tablaDoctor.getElementsByTagName("tbody")[0];
+    filasDoctor = datosDoctor.getElementsByTagName("tr");
+    Array.from(filasDoctor).map((fila, i) => {
+        var unArray = [];
+        miCelda = fila.getElementsByTagName("td");
+        Array.from(miCelda).map((celda, o) => {
+            unArray.push(celda.textContent);
+        });
+        var moment = {codigo: unArray[0], nombre: unArray[1], colegiado: unArray[2], dpi: unArray[3], telefono: unArray[4], especialidades: unArray[5], correo: unArray[6], horario: unArray[7], trabajo: unArray[8], password: unArray[9]};
+        doctores.push(moment);
+    });
+
     var reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = function () {
@@ -378,19 +392,21 @@ function ingresarTodo(boton) {
                 .replace('data:', '')
                 .replace(/^.+,/, '');
         $("#actualSubiendo").text("Subiendo examenes...");
+        var verificarVacio = examenes.length > 0;
         $.ajax({
             type: 'POST', // it's easier to read GET request parameters
             url: 'Carga',
             data: {
                 tipo: 1,
                 test: JSON.stringify(examenes),
-                decode: base64String // look here!
+                decode: base64String,
+                vacios: verificarVacio// look here!
             },
             success: function (data) {
                 if (data === 'mandato') {
                     $("#actualSubiendo").text("Subiendo administradores...");
                     $('.progress').circleProgress({
-                        value: (100/9)
+                        value: (100 / 9)
                     });
                     $.ajax({
                         type: 'POST', // it's easier to read GET request parameters
@@ -401,10 +417,30 @@ function ingresarTodo(boton) {
                         },
                         success: function (data) {
                             if (data === 'mandato') {
+                                $("#actualSubiendo").text("Subiendo doctores...");
                                 $('.progress').circleProgress({
-                                    value: 200/9
+                                    value: (200 / 9)
                                 });
-
+                                $.ajax({
+                                    type: 'POST', // it's easier to read GET request parameters
+                                    url: 'Carga',
+                                    data: {
+                                        tipo: 3,
+                                        test: JSON.stringify(doctores)
+                                    },
+                                    success: function (data) {
+                                        if (data === 'mandato') {
+                                            $('.progress').circleProgress({
+                                                value: 300 / 9
+                                            });
+                                        } else {
+                                            alert("no hola");
+                                        }
+                                    },
+                                    error: function (data) {
+                                        alert('fail');
+                                    }
+                                });
                             } else {
                                 alert("no hola");
                             }
