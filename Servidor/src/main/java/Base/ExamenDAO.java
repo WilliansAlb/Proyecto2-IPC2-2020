@@ -7,6 +7,7 @@ package Base;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -39,8 +40,24 @@ public class ExamenDAO {
             ingresado = true;
         } catch (SQLException sqle) {
             System.err.print("ERROR: " + sqle);
+            System.out.println("ERROR: "+sqle);
         }
         return ingresado;
+    }
+    
+    public String obtenerCodigo(String nombre){
+        String sql = "SELECT codigo FROM Examen WHERE nombre = ?";
+        String codigo = "";
+        try (PreparedStatement ps1 = cn.prepareStatement(sql)){
+            ps1.setString(1, nombre);
+            ResultSet rs = ps1.executeQuery();
+            while(rs.next()){
+                codigo = rs.getString("codigo");
+            }
+        } catch (SQLException sqle){
+            codigo = "ERROR: "+sqle;
+        }
+        return codigo;
     }
 
 }

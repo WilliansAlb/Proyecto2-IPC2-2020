@@ -5,14 +5,29 @@
  */
 let opciones = ['ADMINISTRADORES A INGRESAR', 'DOCTORES A INGRESAR', 'LABORATORISTAS A INGRESAR', 'PACIENTES A INGRESAR', 'EXAMENES A INGRESAR',
     'REPORTES A INGRESAR', 'RESULTADOS A INGRESAR', 'CONSULTAS A INGRESAR', 'CITAS A INGRESAR'];
+let archivos = [];
+let extensiones = [];
+let posXml = 0;
+let bases = [];
+let fuentes = [];
 
 function verificar() {
-    const file = document.getElementById("archivo").files[0];
-    const file1 = document.getElementById("archivo");
+    const file1 = document.getElementById("archivo").files;
+    for (let i = 0; i < file1.length; i++) {
+        var actual = file1[i].webkitRelativePath;
+        let pos = actual.indexOf('/');
+        let pos2 = actual.indexOf('.');
+        archivos.push(actual.substring(pos, actual.length));
+        extensiones.push(actual.substring((pos2 + 1), actual.length));
+        if (actual.substring((pos2 + 1), actual.length) === 'xml') {
+            posXml = i;
+        }
+    }
+    const file = document.getElementById("archivo").files[posXml];
     if (!file) {
         alert("NECESITAS SELECCIONAR UN ARCHIVO XML PRIMERO");
     } else {
-        document.getElementById('ruta').innerText = ".." + file1.value.slice(12);
+        document.getElementById('ruta').innerText = ".." + archivos[posXml];
         $('#btn1').show();
         $('#ver').prop('disabled', false);
     }
@@ -86,7 +101,7 @@ function loadDoc() {
     }
     $('#btn-con-iz').prop('disabled', true);
 
-    const file = document.getElementById("archivo").files[0];
+    const file = document.getElementById("archivo").files[posXml];
 
     if (!file) {
         alert("NECESITAS SELECCIONAR UN ARCHIVO XML PRIMERO");
@@ -239,7 +254,40 @@ function showDocInTable(xml) {
         const EXAMEN = tagToData(resultado.querySelector('EXAMEN'));
         const LABORATORISTA = tagToData(resultado.querySelector('LABORATORISTA'));
         const ORDEN = tagToData(resultado.querySelector('ORDEN'));
+        if (archivos.indexOf(resultado.querySelector('ORDEN').textContent) !== -1) {
+            var actualArchivo = document.getElementById("archivo").files[archivos.indexOf(resultado.querySelector('ORDEN').textContent)];
+            var reader = new FileReader();
+            reader.readAsDataURL(actualArchivo);
+            reader.onload = function () {
+                fuentes.push(reader.result);
+                const base64String = reader.result
+                        .replace('data:', '')
+                        .replace(/^.+,/, '');
+                bases.push(base64String);
+                ORDEN.innerHTML = "<button id='" + resultado.querySelector('ORDEN').textContent + "' value='" + (bases.length - 1) + "' onclick='mostrarOrden(this)'>VER " + resultado.querySelector('ORDEN').textContent + "</button>";
+            };
+            reader.onerror = function (error) {
+                console.log('Error: ', error);
+            };
+        }
+        const rutaInforme = resultado.querySelector('INFORME').textContent;
         const INFORME = tagToData(resultado.querySelector('INFORME'));
+        if (archivos.indexOf(rutaInforme) !== -1) {
+            var actualArchivo2 = document.getElementById("archivo").files[archivos.indexOf(rutaInforme)];
+            var reader2 = new FileReader();
+            reader2.readAsDataURL(actualArchivo2);
+            reader2.onload = function () {
+                fuentes.push(reader2.result);
+                const base64String2 = reader2.result
+                        .replace('data:', '')
+                        .replace(/^.+,/, '');
+                bases.push(base64String2);
+                INFORME.innerHTML = "<button id='" + rutaInforme + "' value='" + (bases.length - 1) + "' onclick='mostrarOrden(this)'>VER " + rutaInforme + "</button>";
+            };
+            reader2.onerror = function (error) {
+                console.log('Error: ', error);
+            };
+        }
         const FECHA = tagToData(resultado.querySelector('FECHA'));
         const HORA = tagToData(resultado.querySelector('HORA'));
         tr.append(CODIGO, PACIENTE, EXAMEN, LABORATORISTA, ORDEN, INFORME, FECHA, HORA);
@@ -263,6 +311,28 @@ function showDocInTable(xml) {
         table8.appendChild(tr);
     });
 }
+function mostrarOrden(boton) {
+    let pos = archivos.indexOf(boton.id);
+    document.getElementById('visualizacionArchivo').src = fuentes[boton.value];
+    var mensajew = $('#archivos').width();
+    var mensajeh = $('#archivos').height();
+
+    var height = $(window).height();
+    var width = $(window).width();
+
+    var posx = (width / 2) - (mensajew / 2);
+    var posy = (height / 2) - (mensajeh / 2);
+
+    if (posy > 0) {
+        $('#archivos').offset({top: 0});
+    } else {
+        $('#archivos').offset({top: 0});
+    }
+    $('#contenedorArchivos').width(width);
+    $('#contenedorArchivos').height(height);
+    $('#contenedorArchivos').fadeIn(2000);
+}
+
 function mostrar(boton) {
     $('#des').val(boton.value);
     var td = boton.parentNode;
@@ -299,8 +369,7 @@ function mostrar(boton) {
     $('#descripcion').fadeIn(1000);
 }
 function ocultar(div) {
-    $('#descripcion').fadeOut(500);
-    //div.style.display = 'none';
+    div.style.display = 'none';
 }
 
 function tagToData(tag) {
@@ -341,6 +410,10 @@ function ingresarTodo(boton) {
     var examenes = [];
     var admin = [];
     var doctores = [];
+    var laboratoristas = [];
+    var pacientes = [];
+    var consultas = [];
+
     tablaExamen = document.getElementById('examenes');
     datosExamen = tablaExamen.getElementsByTagName("tbody")[0];
     filasExamen = datosExamen.getElementsByTagName("tr");
@@ -357,7 +430,6 @@ function ingresarTodo(boton) {
         var moment = {codigo: unArray[0], nombre: unArray[1], orden: unArray[2], descripcion: unArray[3], costo: unArray[4], informe: unArray[5]};
         examenes.push(moment);
     });
-
 
     tablaAdmin = document.getElementById('admins');
     datosAdmin = tablaAdmin.getElementsByTagName("tbody")[0];
@@ -385,82 +457,186 @@ function ingresarTodo(boton) {
         doctores.push(moment);
     });
 
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = function () {
-        const base64String = reader.result
-                .replace('data:', '')
-                .replace(/^.+,/, '');
-        $("#actualSubiendo").text("Subiendo examenes...");
-        var verificarVacio = examenes.length > 0;
-        $.ajax({
-            type: 'POST', // it's easier to read GET request parameters
-            url: 'Carga',
-            data: {
-                tipo: 1,
-                test: JSON.stringify(examenes),
-                decode: base64String,
-                vacios: verificarVacio// look here!
-            },
-            success: function (data) {
-                if (data === 'mandato') {
-                    $("#actualSubiendo").text("Subiendo administradores...");
-                    $('.progress').circleProgress({
-                        value: (100 / 9)
-                    });
-                    $.ajax({
-                        type: 'POST', // it's easier to read GET request parameters
-                        url: 'Carga',
-                        data: {
-                            tipo: 2,
-                            test: JSON.stringify(admin)
-                        },
-                        success: function (data) {
-                            if (data === 'mandato') {
-                                $("#actualSubiendo").text("Subiendo doctores...");
-                                $('.progress').circleProgress({
-                                    value: (200 / 9)
-                                });
-                                $.ajax({
-                                    type: 'POST', // it's easier to read GET request parameters
-                                    url: 'Carga',
-                                    data: {
-                                        tipo: 3,
-                                        test: JSON.stringify(doctores)
-                                    },
-                                    success: function (data) {
-                                        if (data === 'mandato') {
-                                            $('.progress').circleProgress({
-                                                value: 300 / 9
-                                            });
-                                        } else {
-                                            alert("no hola");
-                                        }
-                                    },
-                                    error: function (data) {
-                                        alert('fail');
-                                    }
-                                });
-                            } else {
-                                alert("no hola");
-                            }
-                        },
-                        error: function (data) {
-                            alert('fail');
-                        }
-                    });
-                } else {
-                    alert("no hola");
-                }
-            },
-            error: function (data) {
-                alert('fail');
-            }
+    tablaLaboratoristas = document.getElementById('laboratoristas');
+    datosLaboratoristas = tablaLaboratoristas.getElementsByTagName("tbody")[0];
+    filasLaboratoristas = datosLaboratoristas.getElementsByTagName("tr");
+    Array.from(filasLaboratoristas).map((fila, i) => {
+        var unArray = [];
+        miCelda = fila.getElementsByTagName("td");
+        Array.from(miCelda).map((celda, o) => {
+            unArray.push(celda.textContent);
         });
-    };
-    reader.onerror = function (error) {
-        console.log('Error: ', error);
-    };
+        var moment = {codigo: unArray[0], nombre: unArray[1], registro: unArray[2],
+            dpi: unArray[3], telefono: unArray[4], examen: unArray[5],
+            correo: unArray[6], dias: unArray[7], inicio: unArray[8],
+            password: unArray[9]};
+        laboratoristas.push(moment);
+    });
+
+    tablaPacientes = document.getElementById('pacientes');
+    datosPacientes = tablaPacientes.getElementsByTagName("tbody")[0];
+    filasPacientes = datosPacientes.getElementsByTagName("tr");
+    Array.from(filasPacientes).map((fila, i) => {
+        var unArray = [];
+        miCelda = fila.getElementsByTagName("td");
+        Array.from(miCelda).map((celda, o) => {
+            unArray.push(celda.textContent);
+        });
+        var moment = {codigo: unArray[0], nombre: unArray[1], sexo: unArray[2],
+            nacimiento: unArray[3], dpi: unArray[4], telefono: unArray[5],
+            peso: unArray[6], sangre: unArray[7], correo: unArray[8],
+            password: unArray[9]};
+        pacientes.push(moment);
+    });
+
+    tablaConsultas = document.getElementById('consultas');
+    datosConsultas = tablaConsultas.getElementsByTagName("tbody")[0];
+    filasConsultas = datosConsultas.getElementsByTagName("tr");
+    Array.from(filasConsultas).map((fila, i) => {
+        var unArray = [];
+        miCelda = fila.getElementsByTagName("td");
+        Array.from(miCelda).map((celda, o) => {
+            unArray.push(celda.textContent);
+        });
+        var moment = {nombre: unArray[0], costo: unArray[1]};
+        consultas.push(moment);
+    });
+
+
+    $("#actualSubiendo").text("Subiendo examenes...");
+    $.ajax({
+        type: 'POST', // it's easier to read GET request parameters
+        url: 'Carga',
+        data: {
+            tipo: 1,
+            test: JSON.stringify(examenes)
+        },
+        success: function (data) {
+
+            if (data === 'mandato')
+            {
+                $("#actualSubiendo").text("Subiendo administradores...");
+                $('.progress').circleProgress({
+                    value: (100 / 9)
+                });
+                $.ajax({
+                    type: 'POST', // it's easier to read GET request parameters
+                    url: 'Carga',
+                    data: {
+                        tipo: 2,
+                        test: JSON.stringify(admin)
+                    },
+                    success: function (data) {
+                        if (data === 'mandato') {
+                            $("#actualSubiendo").text("Subiendo consultas...");
+                            $('.progress').circleProgress({
+                                value: (200 / 9)
+                            });
+                            $.ajax({
+                                type: 'POST', // it's easier to read GET request parameters
+                                url: 'Carga',
+                                data: {
+                                    tipo: 6,
+                                    test: JSON.stringify(consultas)
+                                },
+                                success: function (data) {
+                                    if (data === 'mandato') {
+                                        $("#actualSubiendo").text("Subiendo laboratoristas...");
+                                        $('.progress').circleProgress({
+                                            value: 300 / 9
+                                        });
+                                        $.ajax({
+                                            type: 'POST', // it's easier to read GET request parameters
+                                            url: 'Carga',
+                                            data: {
+                                                tipo: 4,
+                                                test: JSON.stringify(laboratoristas)
+                                            },
+                                            success: function (data) {
+                                                if (data === 'mandato')
+                                                {
+                                                    $("#actualSubiendo").text("Subiendo pacientes...");
+                                                    $('.progress').circleProgress({
+                                                        value: 400 / 9
+                                                    });
+                                                    $.ajax({
+                                                        type: 'POST', // it's easier to read GET request parameters
+                                                        url: 'Carga',
+                                                        data: {
+                                                            tipo: 5,
+                                                            test: JSON.stringify(pacientes)
+                                                        },
+                                                        success: function (data) {
+                                                            if (data === 'mandato') {
+                                                                $("#actualSubiendo").text("Subiendo doctores...");
+                                                                $('.progress').circleProgress({
+                                                                    value: 500 / 9
+                                                                });
+
+
+                                                                $.ajax({
+                                                                    type: 'POST', // it's easier to read GET request parameters
+                                                                    url: 'Carga',
+                                                                    data: {
+                                                                        tipo: 3,
+                                                                        test: JSON.stringify(doctores)
+                                                                    },
+                                                                    success: function (data) {
+                                                                        if (data === 'mandato') {
+                                                                            $("#actualSubiendo").text("Subiendo reportes...");
+                                                                            $('.progress').circleProgress({
+                                                                                value: 600 / 9
+                                                                            });
+                                                                        } else {
+                                                                            alert("no hola");
+                                                                        }
+                                                                    },
+                                                                    error: function (data) {
+                                                                        alert('fail');
+                                                                    }
+                                                                });
+
+
+                                                            } else {
+                                                                alert("no hola");
+                                                            }
+                                                        },
+                                                        error: function (data) {
+                                                            alert('fail');
+                                                        }
+                                                    });
+                                                } else {
+                                                    alert("no hola");
+                                                }
+                                            },
+                                            error: function (data) {
+                                                alert('fail');
+                                            }
+                                        });
+                                    } else {
+                                        alert("no hola");
+                                    }
+                                },
+                                error: function (data) {
+                                    alert('fail');
+                                }
+                            });
+                        } else {
+                            alert("no hola");
+                        }
+                    },
+                    error: function (data) {
+                        alert('fail');
+                    }
+                });
+            } else {
+                alert("no hola");
+            }
+        },
+        error: function (data) {
+            alert('fail en examenes');
+        }
+    });
 }
 
 function getBase64(file) {

@@ -16,6 +16,9 @@
         <servlet-name>Carga</servlet-name>
         <url-pattern>/Carga</url-pattern>
     </servlet-mapping>
+    <listener>
+        <listener-class>com.mycompany.servidor.MyServletContextListener</listener-class>
+    </listener>
     <session-config>
         <session-timeout>
             30

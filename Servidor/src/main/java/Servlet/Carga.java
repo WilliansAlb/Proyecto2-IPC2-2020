@@ -7,8 +7,11 @@ package Servlet;
 
 import Base.AdministradorDAO;
 import Base.Conector;
+import Base.ConsultaDAO;
 import Base.DoctorDAO;
 import Base.ExamenDAO;
+import Base.LaboratoristaDAO;
+import Base.PacienteDAO;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -34,7 +37,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Carga extends HttpServlet {
 
-    Conector cn;
+    Conector cn = new Conector("conectar");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -62,14 +65,6 @@ public class Carga extends HttpServlet {
         }
     }
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-
-        super.init(config);
-        cn = new Conector("encender");
-
-    }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -82,35 +77,7 @@ public class Carga extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("llega");
-        response.setContentType("text/plain; charset=ISO-8859-2");
-        if (request.getParameter("tipo") != null) {
-            String s = request.getParameter("test");
-            System.out.println(s);
-            Gson gson = new Gson();
-            JsonArray elements = gson.fromJson(s, JsonArray.class);
-                for (JsonElement obj : elements) {
-                    // Object of array
-                    JsonObject gsonObj = obj.getAsJsonObject();
-                    // Primitives elements of object
-                    String codigo = gsonObj.get("codigo").getAsString();
-                    String nombre = gsonObj.get("nombre").getAsString();
-                    String orden = gsonObj.get("orden").getAsString();
-                    boolean orden1 = orden.equalsIgnoreCase("false");
-                    String descripcion = gsonObj.get("descripcion").getAsString();
-                    Double costo = gsonObj.get("costo").getAsDouble();
-                    String informe = gsonObj.get("informe").getAsString();
-                    ExamenDAO ex = new ExamenDAO(cn);
-                    if (ex.ingresarExamen(codigo, nombre, descripcion, costo, orden1, informe)) {
-                        System.out.println("ingresado " + codigo);
-                    } else {
-                        System.out.println("algo falló");
-                    }
-                }
-            response.getWriter().write("mandato");
-        } else {
-            response.getWriter().write("nel");
-        }
+
     }
 
     /**
@@ -125,7 +92,6 @@ public class Carga extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/plain; charset=ISO-8859-2");
-        
 
         if (request.getParameter("tipo") != null) {
             String tipo = request.getParameter("tipo");
@@ -194,6 +160,58 @@ public class Carga extends HttpServlet {
                     String horario = gsonObj.get("horario").getAsString();
                     String trabajo = gsonObj.get("trabajo").getAsString();
                     String ingreso = ex.ingresarDoctor(codigo, nombre, dpi, colegiado, horario, correo, trabajo, telefono);
+                    System.out.println(ingreso);
+                }
+            } else if (tipo.equalsIgnoreCase("4")) {
+                LaboratoristaDAO ex = new LaboratoristaDAO(cn);
+                ExamenDAO exa = new ExamenDAO(cn);
+                for (JsonElement obj : elements) {
+                    // Object of array
+                    JsonObject gsonObj = obj.getAsJsonObject();
+                    // Primitives elements of object
+                    String codigo = gsonObj.get("codigo").getAsString();
+                    String nombre = gsonObj.get("nombre").getAsString();
+                    String dpi = gsonObj.get("dpi").getAsString();
+                    String password = gsonObj.get("password").getAsString();
+                    String registro = gsonObj.get("registro").getAsString();
+                    String telefono = gsonObj.get("telefono").getAsString();
+                    String examenNombre = gsonObj.get("examen").getAsString();
+                    String examenCodigo = exa.obtenerCodigo(examenNombre);
+                    System.out.println(examenCodigo);
+                    String correo = gsonObj.get("correo").getAsString();
+                    String dias = gsonObj.get("dias").getAsString();
+                    String inicio = gsonObj.get("inicio").getAsString();
+                    String ingreso = ex.ingresarLaboratorista(codigo, examenCodigo,nombre, dpi, registro, correo, inicio, telefono);
+                    System.out.println(ingreso);
+                }
+            } else if (tipo.equalsIgnoreCase("5")) {
+                PacienteDAO ex = new PacienteDAO(cn);
+                for (JsonElement obj : elements) {
+                    // Object of array
+                    JsonObject gsonObj = obj.getAsJsonObject();
+                    // Primitives elements of object
+                    String codigo = gsonObj.get("codigo").getAsString();
+                    String nombre = gsonObj.get("nombre").getAsString();
+                    String dpi = gsonObj.get("dpi").getAsString();
+                    String password = gsonObj.get("password").getAsString();
+                    String sexo = gsonObj.get("sexo").getAsString();
+                    String telefono = gsonObj.get("telefono").getAsString();
+                    String nacimiento = gsonObj.get("nacimiento").getAsString();
+                    String correo = gsonObj.get("correo").getAsString();
+                    String peso = gsonObj.get("peso").getAsString();
+                    String sangre = gsonObj.get("sangre").getAsString();
+                    String ingreso = ex.ingresarPaciente(codigo, nombre, sexo, nacimiento, dpi, telefono, peso, sangre, correo);
+                    System.out.println(ingreso);
+                }
+            } else if (tipo.equalsIgnoreCase("6")) {
+                ConsultaDAO ex = new ConsultaDAO(cn);
+                for (JsonElement obj : elements) {
+                    // Object of array
+                    JsonObject gsonObj = obj.getAsJsonObject();
+                    // Primitives elements of object}
+                    String nombre = gsonObj.get("nombre").getAsString();
+                    Double costo = gsonObj.get("costo").getAsDouble();
+                    String ingreso = ex.ingresarConsulta(nombre,costo);
                     System.out.println(ingreso);
                 }
             }

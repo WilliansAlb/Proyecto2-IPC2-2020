@@ -148,11 +148,25 @@ table tbody tr:hover td {
     top: 0;
     background-color: #00000070;
 }
+#contenedorArchivos{
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    background-color: #00000070;
+}
 #mensaje{
     padding: 0;
     background-color: #2E4450;
     overflow: hidden;
     width: 30%;
+    height: 100%;
+}
+#archivos{
+    padding: 0;
+    background-color: #2E4450;
+    overflow: hidden;
+    width: 40%;
     height: 100%;
 }
 #des{
@@ -231,7 +245,7 @@ table tbody tr:hover td {
     font-weight: bold;
   }
   .file-return:not(:empty):before {
-    content: "Archivo xml seleccionado: ";
+    content: "Archivo xml encontrado: ";
     font-style: normal;
     font-weight: normal;
   }
