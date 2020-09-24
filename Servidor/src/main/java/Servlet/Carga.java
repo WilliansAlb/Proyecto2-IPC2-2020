@@ -12,14 +12,18 @@ import Base.DoctorDAO;
 import Base.ExamenDAO;
 import Base.LaboratoristaDAO;
 import Base.PacienteDAO;
+import Base.ReporteDAO;
+import Base.ResultadoDAO;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.util.Base64;
@@ -177,11 +181,10 @@ public class Carga extends HttpServlet {
                     String telefono = gsonObj.get("telefono").getAsString();
                     String examenNombre = gsonObj.get("examen").getAsString();
                     String examenCodigo = exa.obtenerCodigo(examenNombre);
-                    System.out.println(examenCodigo);
                     String correo = gsonObj.get("correo").getAsString();
                     String dias = gsonObj.get("dias").getAsString();
                     String inicio = gsonObj.get("inicio").getAsString();
-                    String ingreso = ex.ingresarLaboratorista(codigo, examenCodigo,nombre, dpi, registro, correo, inicio, telefono);
+                    String ingreso = ex.ingresarLaboratorista(codigo, examenCodigo, nombre, dpi, registro, correo, inicio, telefono);
                     System.out.println(ingreso);
                 }
             } else if (tipo.equalsIgnoreCase("5")) {
@@ -211,7 +214,55 @@ public class Carga extends HttpServlet {
                     // Primitives elements of object}
                     String nombre = gsonObj.get("nombre").getAsString();
                     Double costo = gsonObj.get("costo").getAsDouble();
-                    String ingreso = ex.ingresarConsulta(nombre,costo);
+                    String ingreso = ex.ingresarConsulta(nombre, costo);
+                    System.out.println(ingreso);
+                }
+            } else if (tipo.equalsIgnoreCase("7")) {
+                ReporteDAO ex = new ReporteDAO(cn);
+                for (JsonElement obj : elements) {
+                    // Object of array
+                    JsonObject gsonObj = obj.getAsJsonObject();
+                    // Primitives elements of object}
+                    String codigo = gsonObj.get("codigo").getAsString();
+                    String paciente = gsonObj.get("paciente").getAsString();
+                    String medico = gsonObj.get("medico").getAsString();
+                    String informe = gsonObj.get("informe").getAsString();
+                    String fecha = gsonObj.get("fecha").getAsString();
+                    String hora = gsonObj.get("hora").getAsString();
+                    String ingreso = ex.ingresarReporte(codigo, paciente, medico, informe, fecha, hora);
+                    System.out.println(ingreso);
+                }
+            } else if (tipo.equalsIgnoreCase("8")) {
+                ResultadoDAO re = new ResultadoDAO(cn);
+                for (JsonElement obj : elements) {
+                    // Object of array
+                    JsonObject gsonObj = obj.getAsJsonObject();
+                    // Primitives elements of object}
+                    String codigo = gsonObj.get("codigo").getAsString();
+                    String paciente = gsonObj.get("paciente").getAsString();
+                    String laboratorista = gsonObj.get("laboratorista").getAsString();
+                    String examen = gsonObj.get("examen").getAsString();
+                    String orden = gsonObj.get("orden").getAsString();
+                    String informe = gsonObj.get("informe").getAsString();
+                    String fecha = gsonObj.get("fecha").getAsString();
+                    String hora = gsonObj.get("hora").getAsString();
+                    InputStream archivoOrden = null;
+                    InputStream archivoInforme = null;
+                    if (!orden.equalsIgnoreCase("sin")) {
+                        byte[] decoder
+                                    = Base64.getDecoder().decode(orden);
+                        archivoOrden = new ByteArrayInputStream(decoder);
+                    } else {
+
+                    }
+                    if (!informe.equalsIgnoreCase("sin")) {
+                        byte[] decoder
+                                    = Base64.getDecoder().decode(informe);
+                        archivoInforme = new ByteArrayInputStream(decoder);
+                    } else {
+
+                    }
+                    String ingreso = re.ingresarResultado(codigo,paciente,laboratorista,examen,archivoOrden,archivoInforme,fecha,hora);
                     System.out.println(ingreso);
                 }
             }

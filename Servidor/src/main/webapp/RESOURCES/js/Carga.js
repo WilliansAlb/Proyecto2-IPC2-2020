@@ -413,6 +413,8 @@ function ingresarTodo(boton) {
     var laboratoristas = [];
     var pacientes = [];
     var consultas = [];
+    var reportes = [];
+    var resultados = [];
 
     tablaExamen = document.getElementById('examenes');
     datosExamen = tablaExamen.getElementsByTagName("tbody")[0];
@@ -502,6 +504,52 @@ function ingresarTodo(boton) {
         consultas.push(moment);
     });
 
+    tablaReportes = document.getElementById('reportes');
+    datosReportes = tablaReportes.getElementsByTagName("tbody")[0];
+    filasReportes = datosReportes.getElementsByTagName("tr");
+    Array.from(filasReportes).map((fila, i) => {
+        var unArray = [];
+        miCelda = fila.getElementsByTagName("td");
+        Array.from(miCelda).map((celda, o) => {
+            if (o === 3) {
+                miButton = celda.getElementsByTagName('button')[0];
+                unArray.push(miButton.value);
+            } else
+                unArray.push(celda.textContent);
+        });
+        var moment = {codigo: unArray[0], paciente: unArray[1], medico: unArray[2],
+            informe: unArray[3], fecha: unArray[4], hora: unArray[5]};
+        reportes.push(moment);
+    });
+
+    tablaResultados = document.getElementById('resultados');
+    datosResultados = tablaResultados.getElementsByTagName("tbody")[0];
+    filasResultados = datosResultados.getElementsByTagName("tr");
+    Array.from(filasResultados).map((fila, i) => {
+        var unArray = [];
+        miCelda = fila.getElementsByTagName("td");
+        Array.from(miCelda).map((celda, o) => {
+            if (o === 4 || o === 5) {
+                if (celda.textContent !== '') {
+                    miButton = celda.getElementsByTagName('button')[0];
+                    if (miButton.value !== null) {
+                        var fuenteArchivo = bases[miButton.value];
+                        unArray.push(fuenteArchivo);
+                    } else {
+                        unArray.push("sin");
+                    }
+                } else {
+                    unArray.push("sin");
+                }
+            } else
+                unArray.push(celda.textContent);
+        });
+        var moment = {codigo: unArray[0], paciente: unArray[1], examen: unArray[2],
+            laboratorista: unArray[3], orden: unArray[4], informe: unArray[5],
+            fecha: unArray[6], hora: unArray[7]};
+        resultados.push(moment);
+    });
+
 
     $("#actualSubiendo").text("Subiendo examenes...");
     $.ajax({
@@ -587,6 +635,50 @@ function ingresarTodo(boton) {
                                                                             $('.progress').circleProgress({
                                                                                 value: 600 / 9
                                                                             });
+
+                                                                            $.ajax({
+                                                                                type: 'POST', // it's easier to read GET request parameters
+                                                                                url: 'Carga',
+                                                                                data: {
+                                                                                    tipo: 7,
+                                                                                    test: JSON.stringify(reportes)
+                                                                                },
+                                                                                success: function (data) {
+                                                                                    if (data === 'mandato') {
+                                                                                        $("#actualSubiendo").text("Subiendo resultados...");
+                                                                                        $('.progress').circleProgress({
+                                                                                            value: 700 / 9
+                                                                                        });
+                                                                                        $.ajax({
+                                                                                            type: 'POST', // it's easier to read GET request parameters
+                                                                                            url: 'Carga',
+                                                                                            data: {
+                                                                                                tipo: 8,
+                                                                                                test: JSON.stringify(resultados)
+                                                                                            },
+                                                                                            success: function (data) {
+                                                                                                if (data === 'mandato') {
+                                                                                                    $("#actualSubiendo").text("Subiendo citas...");
+                                                                                                    $('.progress').circleProgress({
+                                                                                                        value: 800 / 9
+                                                                                                    });
+                                                                                                } else {
+                                                                                                    alert("no hola");
+                                                                                                }
+                                                                                            },
+                                                                                            error: function (data) {
+                                                                                                alert('fail');
+                                                                                            }
+                                                                                        });
+                                                                                    } else {
+                                                                                        alert("no hola");
+                                                                                    }
+                                                                                },
+                                                                                error: function (data) {
+                                                                                    alert('fail');
+                                                                                }
+                                                                            });
+
                                                                         } else {
                                                                             alert("no hola");
                                                                         }
