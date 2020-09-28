@@ -77,23 +77,24 @@ public class Conector {
         return conexion;
     }
 
-    public boolean existe() {
+    public boolean existeUsuario(){
         boolean existe = false;
-        String sql = "SELECT COUNT(*) AS total FROM Cliente";
-        try (PreparedStatement ps = conexion.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery();) {
-            while (rs.next()) {
-                existe = rs.getInt("total") > 0;
+        String sql = "SELECT COUNT(*) AS total FROM Usuario";
+        
+        try(PreparedStatement ps = conexion.prepareStatement(sql)){
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                existe = rs.getInt("total")>0;
             }
-        } catch (SQLException ex) {
-            System.err.print(ex);
+        } catch (SQLException sqle){
+            
         }
         return existe;
     }
 
     public boolean existe(String user, String password) {
         boolean existe = false;
-        String sql = "SELECT COUNT(*) AS total FROM Usuario WHERE user = ? AND password = md5(?)";
+        String sql = "SELECT COUNT(*) AS total FROM Usuario WHERE id = ? AND password = md5(?)";
         try (PreparedStatement ps = conexion.prepareStatement(sql);) {
             ps.setString(1, user);
             ps.setString(2, password);
@@ -103,6 +104,7 @@ public class Conector {
             }
         } catch (SQLException ex) {
             System.err.print(ex);
+            System.out.println(ex);
         }
         return existe;
     }

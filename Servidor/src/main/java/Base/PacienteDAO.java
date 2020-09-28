@@ -20,13 +20,13 @@ public class PacienteDAO {
         cn = con.getConexion();
     }
 
-    public String ingresarPaciente(String codigo, String nombre, String sexo, String nacimiento, String dpi, String telefono, 
+    public boolean ingresarPaciente(String codigo, String nombre, String sexo, String nacimiento, String dpi, String telefono, 
             String peso, String sangre, String correo) {
         String sql = "INSERT INTO Paciente(codigo,nombre,sexo,peso,dpi,sangre,"
                 + "fecha_nacimiento,email,telefono) SELECT ?,?,?,?,?,?,?,?,? "
                 + "FROM dual WHERE NOT EXISTS (SELECT * FROM Paciente WHERE "
                 + "codigo = ?)";
-        String ingresado = "";
+        boolean ingresado;
         try(PreparedStatement ps = cn.prepareStatement(sql)){
             ps.setString(1, codigo);
             ps.setString(2, nombre);
@@ -39,10 +39,10 @@ public class PacienteDAO {
             ps.setString(9, telefono);
             ps.setString(10, codigo);
             ps.executeUpdate();
-            ingresado = "ingresado "+codigo;
+            ingresado = true;
         }catch(SQLException sqle){
             System.err.print("ERROR: "+sqle);
-            ingresado = "ERROR: "+sqle;
+            ingresado = false;
         }
         return ingresado;
     }

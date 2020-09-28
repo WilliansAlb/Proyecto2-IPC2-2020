@@ -14,9 +14,14 @@
     </head>
     <body>
         <%HttpSession s = request.getSession();%>
-        <%if (s.getAttribute("usuario") != null){%>
-        <%@include file='JSP/login.jsp' %>
-        <%}else{%>
+        <%Conector cn = new Conector("encender");%>
+        <%  if (cn.existeUsuario()) {
+                if (s.getAttribute("usuario") == null) {%>
+        <%@include file='JSP/Login.jsp' %>
+        <%} else {%>
+        <%@include file='JSP/Carga.jsp' %>
+        <%}
+        } else {%>
         <%@include file='JSP/Carga.jsp' %>
         <%}%>
     </body>

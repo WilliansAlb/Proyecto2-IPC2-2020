@@ -24,6 +24,7 @@
                 <div>
                     <img name="hospital-img" src='RESOURCES/imagenes/salud.png' alt="imagen de un hospital" width="10%" height="10%" id="logo">
                     <label for="hospital-img" id="nombre-hospital">Centro Medico del Sur</label>
+                    <h4>Bienvenido</h4>
                 </div>
                 <div id="adentro">
                     

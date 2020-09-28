@@ -157,7 +157,8 @@ function showDocInTable(xml) {
         const DPI = tagToData(book.querySelector('DPI'));
         const NOMBRE = tagToData(book.querySelector('NOMBRE'));
         const PASSWORD = tagToData(book.querySelector('PASSWORD'));
-        tr.append(CODIGO, DPI, NOMBRE, PASSWORD);
+        const ESTADO = estado();
+        tr.append(CODIGO, DPI, NOMBRE, PASSWORD,ESTADO);
         table.appendChild(tr);
     });
 
@@ -180,7 +181,8 @@ function showDocInTable(xml) {
         const HORARIO = document.createElement('td');
         HORARIO.textContent = doctor.querySelector('INICIO').textContent + "-" + doctor.querySelector('FIN').textContent;
         const PASSWORD = tagToData(doctor.querySelector('PASSWORD'));
-        tr.append(CODIGO, NOMBRE, COLEGIADO, DPI, TELEFONO, ESPECIALIDAD, CORREO, HORARIO, INICIO, PASSWORD);
+        const ESTADO = estado();
+        tr.append(CODIGO, NOMBRE, COLEGIADO, DPI, TELEFONO, ESPECIALIDAD, CORREO, HORARIO, INICIO, PASSWORD, ESTADO);
         table1.appendChild(tr);
     });
 
@@ -199,12 +201,13 @@ function showDocInTable(xml) {
             dias1 += dia.textContent + ',';
         })
         const TRABAJO = document.createElement('td');
-        TRABAJO.textContent = dias1;
+        TRABAJO.textContent = dias1.slice(0, -1);
         const INICIO = tagToData(laboratorista.querySelectorAll('TRABAJO')[1]);
         const PASSWORD = tagToData(laboratorista.querySelector('PASSWORD'));
-        tr.append(CODIGO, NOMBRE, REGISTRO, DPI, TELEFONO, EXAMEN, CORREO, TRABAJO, INICIO, PASSWORD);
-        table2.appendChild(tr)
-    })
+        const ESTADO = estado();
+        tr.append(CODIGO, NOMBRE, REGISTRO, DPI, TELEFONO, EXAMEN, CORREO, TRABAJO, INICIO, PASSWORD, ESTADO);
+        table2.appendChild(tr);
+    });
     Array.from(pacientes).map((paciente, i) => {
         const tr = document.createElement('tr');
         const CODIGO = tagToData(paciente.querySelector('CODIGO'));
@@ -217,9 +220,10 @@ function showDocInTable(xml) {
         const CORREO = tagToData(paciente.querySelector('CORREO'))
         const DPI = tagToData(paciente.querySelector('DPI'));
         const PASSWORD = tagToData(paciente.querySelector('PASSWORD'));
-        tr.append(CODIGO, NOMBRE, SEXO, NACIMIENTO, DPI, TELEFONO, PESO, SANGRE, CORREO, PASSWORD);
-        table3.appendChild(tr)
-    })
+        const ESTADO = estado();
+        tr.append(CODIGO, NOMBRE, SEXO, NACIMIENTO, DPI, TELEFONO, PESO, SANGRE, CORREO, PASSWORD,ESTADO);
+        table3.appendChild(tr);
+    });
     Array.from(examenes).map((examen, i) => {
         const tr = document.createElement('tr');
         const CODIGO = tagToData(examen.querySelector('CODIGO'));
@@ -230,9 +234,10 @@ function showDocInTable(xml) {
         DES.innerHTML = '<button id="exa' + i + '" value="' + examen.querySelector('DESCRIPCION').textContent + '" onclick="mostrar(this)">VER</button>';
         const COSTO = tagToData(examen.querySelector('COSTO'));
         const INFORME = tagToData(examen.querySelector('INFORME'));
-        tr.append(CODIGO, NOMBRE, ORDEN, DES, COSTO, INFORME);
-        table4.appendChild(tr)
-    })
+        const ESTADO = estado();
+        tr.append(CODIGO, NOMBRE, ORDEN, DES, COSTO, INFORME, ESTADO);
+        table4.appendChild(tr);
+    });
 
     Array.from(reportes).map((reporte, i) => {
         const tr = document.createElement('tr');
@@ -243,9 +248,10 @@ function showDocInTable(xml) {
         INFORME.innerHTML = '<button id="rep' + i + '" value="' + reporte.querySelector('INFORME').textContent + '" onclick="mostrar(this)">VER</button>';
         const FECHA = tagToData(reporte.querySelector('FECHA'));
         const HORA = tagToData(reporte.querySelector('HORA'));
-        tr.append(CODIGO, PACIENTE, MEDICO, INFORME, FECHA, HORA);
-        table5.appendChild(tr)
-    })
+        const ESTADO = estado();
+        tr.append(CODIGO, PACIENTE, MEDICO, INFORME, FECHA, HORA, ESTADO);
+        table5.appendChild(tr);
+    });
 
     Array.from(resultados).map((resultado, i) => {
         const tr = document.createElement('tr');
@@ -264,7 +270,7 @@ function showDocInTable(xml) {
                         .replace('data:', '')
                         .replace(/^.+,/, '');
                 bases.push(base64String);
-                ORDEN.innerHTML = "<button id='" + resultado.querySelector('ORDEN').textContent + "' value='" + (bases.length - 1) + "' onclick='mostrarOrden(this)'>VER " + resultado.querySelector('ORDEN').textContent + "</button>";
+                ORDEN.innerHTML = "<button id='" + resultado.querySelector('ORDEN').textContent + "' value='" + (bases.length - 1) + "' onclick='mostrarOrden(this,1)'>VER " + resultado.querySelector('ORDEN').textContent + "</button>";
             };
             reader.onerror = function (error) {
                 console.log('Error: ', error);
@@ -282,7 +288,7 @@ function showDocInTable(xml) {
                         .replace('data:', '')
                         .replace(/^.+,/, '');
                 bases.push(base64String2);
-                INFORME.innerHTML = "<button id='" + rutaInforme + "' value='" + (bases.length - 1) + "' onclick='mostrarOrden(this)'>VER " + rutaInforme + "</button>";
+                INFORME.innerHTML = "<button id='" + rutaInforme + "' value='" + (bases.length - 1) + "' onclick='mostrarOrden(this,2)'>VER " + rutaInforme + "</button>";
             };
             reader2.onerror = function (error) {
                 console.log('Error: ', error);
@@ -290,7 +296,8 @@ function showDocInTable(xml) {
         }
         const FECHA = tagToData(resultado.querySelector('FECHA'));
         const HORA = tagToData(resultado.querySelector('HORA'));
-        tr.append(CODIGO, PACIENTE, EXAMEN, LABORATORISTA, ORDEN, INFORME, FECHA, HORA);
+        const ESTADO = estado();
+        tr.append(CODIGO, PACIENTE, EXAMEN, LABORATORISTA, ORDEN, INFORME, FECHA, HORA, ESTADO);
         table6.appendChild(tr);
     });
     Array.from(citas).map((cita, i) => {
@@ -298,25 +305,39 @@ function showDocInTable(xml) {
         const CODIGO = tagToData(cita.querySelector('CODIGO'));
         const PACIENTE = tagToData(cita.querySelector('PACIENTE'));
         const MEDICO = tagToData(cita.querySelector('MEDICO'));
+        const CONSULTA = tagToData(cita.querySelector('CONSULTA'));
         const FECHA = tagToData(cita.querySelector('FECHA'));
         const HORA = tagToData(cita.querySelector('HORA'));
-        tr.append(CODIGO, PACIENTE, MEDICO, FECHA, HORA);
+        const ESTADO = estado();
+        tr.append(CODIGO, PACIENTE, MEDICO, CONSULTA, FECHA, HORA, ESTADO);
         table7.appendChild(tr);
     });
     Array.from(consultas).map((consulta, i) => {
         const tr = document.createElement('tr');
         const TIPO = tagToData(consulta.querySelector('TIPO'));
         const COSTO = tagToData(consulta.querySelector('COSTO'));
-        tr.append(TIPO, COSTO);
+        const ESTADO = estado();
+        tr.append(TIPO, COSTO, ESTADO);
         table8.appendChild(tr);
     });
 }
-function mostrarOrden(boton) {
+function mostrarOrden(boton,op) {
     let pos = archivos.indexOf(boton.id);
     document.getElementById('visualizacionArchivo').src = fuentes[boton.value];
+    var celda = boton.parentNode;
+    var fila = celda.parentNode;
+    var filas = fila.querySelectorAll("td")[0];
+    
     var mensajew = $('#archivos').width();
     var mensajeh = $('#archivos').height();
-
+    var tipoArchivo  = "";
+    if (op===1){
+        tipoArchivo = "ORDEN ";
+    } else {
+        tipoArchivo = "INFORME ";
+    }
+    document.getElementById("nombreArchivo").innerText = tipoArchivo+boton.id;
+    document.getElementById("codigoResultado").innerText = "RESULTADO "+filas.textContent;
     var height = $(window).height();
     var width = $(window).width();
 
@@ -373,12 +394,19 @@ function ocultar(div) {
 }
 
 function tagToData(tag) {
-    const td = document.createElement('td')
+    const td = document.createElement('td');
     if (tag != null) {
-        td.textContent = tag.textContent
+        td.textContent = tag.textContent;
     } else {
-        td.textContent = 'null'
+        td.textContent = 'null';
     }
+    return td;
+}
+
+function estado() {
+    const td = document.createElement('td');
+    td.textContent = "SIN INGRESAR";
+    td.style.color = "#ff0000";
     return td;
 }
 
@@ -415,6 +443,7 @@ function ingresarTodo(boton) {
     var consultas = [];
     var reportes = [];
     var resultados = [];
+    var citas = [];
 
     tablaExamen = document.getElementById('examenes');
     datosExamen = tablaExamen.getElementsByTagName("tbody")[0];
@@ -549,6 +578,20 @@ function ingresarTodo(boton) {
             fecha: unArray[6], hora: unArray[7]};
         resultados.push(moment);
     });
+    
+    tablaCitas = document.getElementById('citas');
+    datosCitas = tablaCitas.getElementsByTagName("tbody")[0];
+    filasCitas = datosCitas.getElementsByTagName("tr");
+    Array.from(filasCitas).map((fila, i) => {
+        var unArray = [];
+        miCelda = fila.getElementsByTagName("td");
+        Array.from(miCelda).map((celda, o) => {
+            unArray.push(celda.textContent);
+        });
+        var moment = {codigo: unArray[0], paciente: unArray[1], medico: unArray[2],
+            consulta: unArray[3], fecha: unArray[4], hora: unArray[5]};
+        citas.push(moment);
+    });
 
 
     $("#actualSubiendo").text("Subiendo examenes...");
@@ -560,9 +603,9 @@ function ingresarTodo(boton) {
             test: JSON.stringify(examenes)
         },
         success: function (data) {
-
-            if (data === 'mandato')
+            if (data.length > 0)
             {
+                cambiarEstado(data,"examenes");
                 $("#actualSubiendo").text("Subiendo administradores...");
                 $('.progress').circleProgress({
                     value: (100 / 9)
@@ -575,7 +618,8 @@ function ingresarTodo(boton) {
                         test: JSON.stringify(admin)
                     },
                     success: function (data) {
-                        if (data === 'mandato') {
+                        if (data.length > 0) {
+                            cambiarEstado(data,"admins");
                             $("#actualSubiendo").text("Subiendo consultas...");
                             $('.progress').circleProgress({
                                 value: (200 / 9)
@@ -588,7 +632,8 @@ function ingresarTodo(boton) {
                                     test: JSON.stringify(consultas)
                                 },
                                 success: function (data) {
-                                    if (data === 'mandato') {
+                                    if (data.length > 0) {
+                                        cambiarEstado(data,"consultas");
                                         $("#actualSubiendo").text("Subiendo laboratoristas...");
                                         $('.progress').circleProgress({
                                             value: 300 / 9
@@ -601,8 +646,9 @@ function ingresarTodo(boton) {
                                                 test: JSON.stringify(laboratoristas)
                                             },
                                             success: function (data) {
-                                                if (data === 'mandato')
+                                                if (data.length > 0)
                                                 {
+                                                    cambiarEstado(data,"laboratoristas");
                                                     $("#actualSubiendo").text("Subiendo pacientes...");
                                                     $('.progress').circleProgress({
                                                         value: 400 / 9
@@ -615,7 +661,8 @@ function ingresarTodo(boton) {
                                                             test: JSON.stringify(pacientes)
                                                         },
                                                         success: function (data) {
-                                                            if (data === 'mandato') {
+                                                            if (data.length > 0) {
+                                                                cambiarEstado(data,"pacientes");
                                                                 $("#actualSubiendo").text("Subiendo doctores...");
                                                                 $('.progress').circleProgress({
                                                                     value: 500 / 9
@@ -630,7 +677,8 @@ function ingresarTodo(boton) {
                                                                         test: JSON.stringify(doctores)
                                                                     },
                                                                     success: function (data) {
-                                                                        if (data === 'mandato') {
+                                                                        if (data.length > 0) {
+                                                                            cambiarEstado(data,"doctores");
                                                                             $("#actualSubiendo").text("Subiendo reportes...");
                                                                             $('.progress').circleProgress({
                                                                                 value: 600 / 9
@@ -644,7 +692,8 @@ function ingresarTodo(boton) {
                                                                                     test: JSON.stringify(reportes)
                                                                                 },
                                                                                 success: function (data) {
-                                                                                    if (data === 'mandato') {
+                                                                                    if (data.length > 0) {
+                                                                                        cambiarEstado(data,"reportes");
                                                                                         $("#actualSubiendo").text("Subiendo resultados...");
                                                                                         $('.progress').circleProgress({
                                                                                             value: 700 / 9
@@ -657,76 +706,81 @@ function ingresarTodo(boton) {
                                                                                                 test: JSON.stringify(resultados)
                                                                                             },
                                                                                             success: function (data) {
-                                                                                                if (data === 'mandato') {
+                                                                                                if (data.length > 0) {
+                                                                                                    cambiarEstado(data,"resultados");
                                                                                                     $("#actualSubiendo").text("Subiendo citas...");
                                                                                                     $('.progress').circleProgress({
                                                                                                         value: 800 / 9
                                                                                                     });
-                                                                                                } else {
-                                                                                                    alert("no hola");
-                                                                                                }
+                                                                                                    $.ajax({
+                                                                                                        type: 'POST', // it's easier to read GET request parameters
+                                                                                                        url: 'Carga',
+                                                                                                        data: {
+                                                                                                            tipo: 9,
+                                                                                                            test: JSON.stringify(citas)
+                                                                                                        },
+                                                                                                        success: function (data) {
+                                                                                                            if (data.length > 0) {
+                                                                                                                cambiarEstado(data,"citas");
+                                                                                                                $("#actualSubiendo").text("COMPLETADO...");
+                                                                                                                $('.progress').circleProgress({
+                                                                                                                    value: 100
+                                                                                                                });
+                                                                                                                $("#btn5").show(1000);
+                                                                                                                alert("Puedes revisar que datos fueron ingresados, luego presiona el boton 'TERMINADO'");
+                                                                                                            }
+                                                                                                        },
+                                                                                                        error: function (data) {
+                                                                                                            alert('Fallo al ingresar citas');
+                                                                                                        }
+                                                                                                    });
+                                                                                                } 
                                                                                             },
                                                                                             error: function (data) {
-                                                                                                alert('fail');
+                                                                                                alert('Fallo al ingresar resultados');
                                                                                             }
                                                                                         });
-                                                                                    } else {
-                                                                                        alert("no hola");
-                                                                                    }
+                                                                                    } 
                                                                                 },
                                                                                 error: function (data) {
-                                                                                    alert('fail');
+                                                                                    alert('Fallo al ingresar reportes');
                                                                                 }
                                                                             });
 
-                                                                        } else {
-                                                                            alert("no hola");
-                                                                        }
+                                                                        } 
                                                                     },
                                                                     error: function (data) {
-                                                                        alert('fail');
+                                                                        alert('Fallo al ingresar doctores');
                                                                     }
                                                                 });
-
-
-                                                            } else {
-                                                                alert("no hola");
-                                                            }
+                                                            } 
                                                         },
                                                         error: function (data) {
-                                                            alert('fail');
+                                                            alert('Fallo al ingresar pacientes');
                                                         }
                                                     });
-                                                } else {
-                                                    alert("no hola");
-                                                }
+                                                } 
                                             },
                                             error: function (data) {
-                                                alert('fail');
+                                                alert('Fallo al ingresar');
                                             }
                                         });
-                                    } else {
-                                        alert("no hola");
-                                    }
+                                    } 
                                 },
                                 error: function (data) {
-                                    alert('fail');
+                                    alert('Fallo al ingresar laboratoristas');
                                 }
                             });
-                        } else {
-                            alert("no hola");
-                        }
+                        } 
                     },
                     error: function (data) {
-                        alert('fail');
+                        alert('Fallo al ingresar doctores');
                     }
                 });
-            } else {
-                alert("no hola");
-            }
+            } 
         },
         error: function (data) {
-            alert('fail en examenes');
+            alert('Fallo al ingresar examenes');
         }
     });
 }
@@ -743,4 +797,25 @@ function getBase64(file) {
     reader.onerror = function (error) {
         console.log('Error: ', error);
     };
+}
+
+function cambiarEstado(datos,tabla){
+    var arrayDeCadenas = datos.split(",");
+    console.log(datos+" "+tabla);
+    tablaDatos = document.getElementById(tabla);
+    datosTabla = tablaDatos.getElementsByTagName("tbody")[0];
+    filasTabla = datosTabla.getElementsByTagName("tr");
+    Array.from(filasTabla).map((fila, i) => {
+        miCelda = fila.getElementsByTagName("td");
+        Array.from(miCelda).map((celda, o) => {
+            if ((miCelda.length-1)===o){
+                if (arrayDeCadenas[i] === "1"){
+                    celda.textContent = "INGRESADO";
+                    celda.style.color = "#00ff17";
+                } else {
+                    celda.style.color = "#ff0000";
+                }
+            }
+        });
+    });
 }

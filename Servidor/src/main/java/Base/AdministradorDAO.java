@@ -7,6 +7,7 @@ package Base;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -15,7 +16,6 @@ import java.sql.SQLException;
  */
 public class AdministradorDAO {
     Connection cn;
-    PreparedStatement ps;
 
     public AdministradorDAO(Conector con) {
         cn = con.getConexion();

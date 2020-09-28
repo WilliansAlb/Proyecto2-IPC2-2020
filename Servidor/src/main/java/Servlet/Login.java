@@ -6,6 +6,7 @@
 package Servlet;
 
 import Base.Conector;
+import Base.UsuarioDAO;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -60,9 +62,14 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         String usuario = request.getParameter("usuario");
         String contraseña = request.getParameter("password");
+        HttpSession s = request.getSession();
         Conector cn = new Conector();
         if (cn.conectar()) {
             if (cn.existe(usuario, contraseña)) {
+                UsuarioDAO us = new UsuarioDAO(cn);
+                String tipo = us.obtenerTipo(usuario);
+                s.setAttribute("usuario",usuario);
+                s.setAttribute("tipo", tipo);
                 response.getWriter().write("bien");
             } else {
                 response.getWriter().write("mal");

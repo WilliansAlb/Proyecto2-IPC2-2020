@@ -20,12 +20,12 @@ public class DoctorDAO {
         cn = con.getConexion();
     }
     
-    public String ingresarDoctor(String codigo, String nombre, String dpi, String no_colegiado
+    public boolean ingresarDoctor(String codigo, String nombre, String dpi, String no_colegiado
             , String horario, String email, String fecha_inicio, String telefono) {
         String sql = "INSERT INTO Medico(codigo,nombre,no_colegiado,dpi,horario,email,fecha_inicio,telefono) "
                 + " SELECT ?, ?, ?, ?, ?, ?, ?, ?"
                 + " FROM dual WHERE NOT EXISTS (SELECT * FROM Medico WHERE codigo = ?);";
-        String ingresado;
+        boolean ingresado;
         try (PreparedStatement ps1 = cn.prepareStatement(sql);) {
             ps1.setString(1, codigo);
             ps1.setString(2, nombre);
@@ -37,11 +37,27 @@ public class DoctorDAO {
             ps1.setString(8,telefono);
             ps1.setString(9,codigo);
             ps1.executeUpdate();
-            ingresado = "ingresado";
+            ingresado = true;
         } catch (SQLException sqle) {
             System.err.print("ERROR: " + sqle);
-            ingresado = sqle.toString();
+            ingresado = false;
         }
         return ingresado;
+    }
+    
+    public boolean ingresarEspecialidades(String codigo, String nombre){
+        String sql = "INSERT INTO Especialidad(consulta,medico) SELECT codigo, ? FROM Consulta WHERE nombre = ?";
+        boolean ingreso = false;
+        
+        try (PreparedStatement ps = cn.prepareStatement(sql)){
+            ps.setString(1, codigo);
+            ps.setString(2, nombre);
+            ps.executeUpdate();
+            ingreso = true;
+            System.out.println("Ingresada Especialidad "+ nombre);
+        } catch (SQLException sqle){
+            System.out.println(sqle);
+        }
+        return ingreso;
     }
 }

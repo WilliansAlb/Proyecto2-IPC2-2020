@@ -7,6 +7,7 @@ package Base;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -21,8 +22,8 @@ public class ConsultaDAO {
         cn = con.getConexion();
     }
 
-    public String ingresarConsulta(String nombre, Double costo) {
-        String ingreso = "";
+    public boolean ingresarConsulta(String nombre, Double costo) {
+        boolean ingreso;
         String sql = "INSERT INTO Consulta(nombre,costo) SELECT ?, ? "
                 + " FROM dual WHERE NOT EXISTS (SELECT * FROM Consulta"
                 + " WHERE nombre = ?)";
@@ -31,11 +32,27 @@ public class ConsultaDAO {
             ps.setDouble(2, costo);
             ps.setString(3, nombre);
             ps.executeUpdate();
-            ingreso = "ingresado "+nombre;
+            ingreso = true;
         }catch (SQLException sqle){
-            ingreso = "ERROR "+sqle;
+            ingreso = true;
         }
         return ingreso;
+    }
+    
+    public int obtenerCodigoConsulta(String nombre){
+        int retorno = -1;
+        String sql = "SELECT codigo FROM Consulta WHERE nombre = ?";
+        
+        try (PreparedStatement ps = cn.prepareStatement(sql)){
+            ps.setString(1, nombre);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                retorno = rs.getInt("codigo");
+            }
+        } catch (SQLException sqle){
+            
+        }
+        return retorno;
     }
     
 }

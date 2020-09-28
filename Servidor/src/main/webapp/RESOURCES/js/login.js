@@ -17,7 +17,8 @@ function metodo(x, y) {
                 $('#password').val("");
                 alert("ERROR: fallo al conectar con la base de datos");
             } else if (result === 'bien'){
-                alert("SI ES");
+                alert("bien");
+                window.location = "JSP/Carga.jsp";
             }
         }
     });

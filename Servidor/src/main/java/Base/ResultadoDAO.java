@@ -22,8 +22,8 @@ public class ResultadoDAO {
         cn = con.getConexion();
     }
 
-    public String ingresarResultado(String codigo, String paciente, String laboratorista, String examen, InputStream archivoOrden, InputStream archivoInforme, String fecha, String hora) {
-        String ingreso;
+    public boolean ingresarResultado(String codigo, String paciente, String laboratorista, String examen, InputStream archivoOrden, InputStream archivoInforme, String fecha, String hora) {
+        boolean ingreso;
         String sql = "INSERT INTO Resultado(codigo,paciente,examen,"
                 + "laboratorista,fecha,orden,hora,informe,realizado) "
                 + "SELECT ?, ?, ?, ?, ?, ?, ?, ?, ? FROM dual "
@@ -41,9 +41,9 @@ public class ResultadoDAO {
             ps.setBoolean(9, true);
             ps.setString(10, codigo);
             ps.executeUpdate();
-            ingreso = "Resultado ingresado "+codigo;
+            ingreso = true;
         } catch ( SQLException ex ){
-            ingreso = "ERROR: "+ex;
+            ingreso = false;
         }
         return ingreso;
     }

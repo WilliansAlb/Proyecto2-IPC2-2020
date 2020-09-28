@@ -20,11 +20,11 @@ public class LaboratoristaDAO {
         cn = con.getConexion();
     }
 
-    public String ingresarLaboratorista(String codigo, String examen, String nombre, String dpi, String registro, String correo, String inicio, String telefono) {
+    public boolean ingresarLaboratorista(String codigo, String examen, String nombre, String dpi, String registro, String correo, String inicio, String telefono) {
         String sql = "INSERT INTO Laboratorista(codigo,examen,nombre,no_registro,dpi,telefono,fecha_inicio,email) "
                 + " SELECT ?, ?, ?, ?, ?, ?, ?, ?"
                 + " FROM dual WHERE NOT EXISTS (SELECT * FROM Laboratorista WHERE codigo = ?);";
-        String ingreso;
+        boolean ingreso;
         try (PreparedStatement ps = cn.prepareStatement(sql)){
             ps.setString(1, codigo);
             ps.setString(2, examen);
@@ -36,10 +36,26 @@ public class LaboratoristaDAO {
             ps.setString(8, correo);
             ps.setString(9, codigo);
             ps.executeUpdate();
-            ingreso = "ingresado";
+            ingreso = true;
         } catch(SQLException sqle){
             System.err.print("ERROR: "+sqle);
-            ingreso = "ERROR: "+sqle;
+            ingreso = false;
+        }
+        return ingreso;
+    }
+    
+    public boolean ingresarDiasTrabajo(String codigo, String dia){
+        String sql = "INSERT INTO Trabajo(laboratorista,dia) SELECT ?, codigo FROM Dia WHERE nombre = ?";
+        boolean ingreso = false;
+        
+        try (PreparedStatement ps = cn.prepareStatement(sql)){
+            ps.setString(1, codigo);
+            ps.setString(2, dia);
+            ps.executeUpdate();
+            ingreso = true;
+            System.out.println("Ingresado dia "+dia);
+        } catch (SQLException sqle){
+            System.out.println(sqle);
         }
         return ingreso;
     }

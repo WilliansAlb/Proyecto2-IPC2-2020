@@ -6,6 +6,7 @@
 package Servlet;
 
 import Base.AdministradorDAO;
+import Base.CitaDAO;
 import Base.Conector;
 import Base.ConsultaDAO;
 import Base.DoctorDAO;
@@ -14,6 +15,7 @@ import Base.LaboratoristaDAO;
 import Base.PacienteDAO;
 import Base.ReporteDAO;
 import Base.ResultadoDAO;
+import Base.UsuarioDAO;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -95,13 +97,12 @@ public class Carga extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/plain; charset=ISO-8859-2");
-
         if (request.getParameter("tipo") != null) {
             String tipo = request.getParameter("tipo");
             String s = request.getParameter("test");
             Gson gson = new Gson();
             JsonArray elements = gson.fromJson(s, JsonArray.class);
+            String ingresados = "";
             if (tipo.equalsIgnoreCase("1")) {
                 ExamenDAO ex = new ExamenDAO(cn);
                 for (JsonElement obj : elements) {
@@ -116,9 +117,9 @@ public class Carga extends HttpServlet {
                     Double costo = gsonObj.get("costo").getAsDouble();
                     String informe = gsonObj.get("informe").getAsString();
                     if (ex.ingresarExamen(codigo, nombre, descripcion, costo, orden1, informe)) {
-                        System.out.println("ingresado " + codigo);
+                        ingresados += "1,";
                     } else {
-                        System.out.println("algo falló");
+                        ingresados += "0,";
                     }
                     /**
                      * File file = new File("./sesupone3.xml");
@@ -131,6 +132,7 @@ public class Carga extends HttpServlet {
                      */
                 }
             } else if (tipo.equalsIgnoreCase("2")) {
+                UsuarioDAO us = new UsuarioDAO(cn);
                 AdministradorDAO ex = new AdministradorDAO(cn);
                 for (JsonElement obj : elements) {
                     // Object of array
@@ -142,13 +144,18 @@ public class Carga extends HttpServlet {
                     String password = gsonObj.get("password").getAsString();
                     String ingreso = ex.ingresarAdmin(codigo, nombre, dpi);
                     if (ingreso.equalsIgnoreCase("ingresado")) {
-                        System.out.println("ingresado " + codigo);
+                        if(us.ingresarUsuario(codigo, codigo, password, "ADMIN")){
+                            ingresados += "1,";
+                        } else {
+                            ingresados += "0,";
+                        }
                     } else {
-                        System.out.println(ingreso);
+                        ingresados += "0,";
                     }
                 }
             } else if (tipo.equalsIgnoreCase("3")) {
                 DoctorDAO ex = new DoctorDAO(cn);
+                UsuarioDAO us = new UsuarioDAO(cn);
                 for (JsonElement obj : elements) {
                     // Object of array
                     JsonObject gsonObj = obj.getAsJsonObject();
@@ -159,15 +166,33 @@ public class Carga extends HttpServlet {
                     String password = gsonObj.get("password").getAsString();
                     String colegiado = gsonObj.get("colegiado").getAsString();
                     String telefono = gsonObj.get("telefono").getAsString();
-                    String especialidades = gsonObj.get("especialidades").getAsString();
+                    String especialidad = gsonObj.get("especialidades").getAsString();
+                    String[] especialidades = especialidad.split(",");
                     String correo = gsonObj.get("correo").getAsString();
                     String horario = gsonObj.get("horario").getAsString();
                     String trabajo = gsonObj.get("trabajo").getAsString();
-                    String ingreso = ex.ingresarDoctor(codigo, nombre, dpi, colegiado, horario, correo, trabajo, telefono);
-                    System.out.println(ingreso);
+                    boolean ingreso = ex.ingresarDoctor(codigo, nombre, dpi, colegiado, horario, correo, trabajo, telefono);
+                    if (ingreso) {
+                        if(us.ingresarUsuario(codigo, codigo, password, "DOCTOR")){
+                            boolean todos = false;
+                            for (String especialidade : especialidades) {
+                                todos = ex.ingresarEspecialidades(codigo, especialidade);
+                            }
+                            if (todos){
+                                ingresados += "1,";
+                            } else {
+                                ingresados += "0,";
+                            }
+                        } else {
+                            ingresados += "0,";
+                        }
+                    } else {
+                        ingresados += "0,";
+                    }
                 }
             } else if (tipo.equalsIgnoreCase("4")) {
                 LaboratoristaDAO ex = new LaboratoristaDAO(cn);
+                UsuarioDAO us = new UsuarioDAO(cn);
                 ExamenDAO exa = new ExamenDAO(cn);
                 for (JsonElement obj : elements) {
                     // Object of array
@@ -182,13 +207,31 @@ public class Carga extends HttpServlet {
                     String examenNombre = gsonObj.get("examen").getAsString();
                     String examenCodigo = exa.obtenerCodigo(examenNombre);
                     String correo = gsonObj.get("correo").getAsString();
-                    String dias = gsonObj.get("dias").getAsString();
+                    String dia = gsonObj.get("dias").getAsString();
+                    String[] dias = dia.split(",");
                     String inicio = gsonObj.get("inicio").getAsString();
-                    String ingreso = ex.ingresarLaboratorista(codigo, examenCodigo, nombre, dpi, registro, correo, inicio, telefono);
-                    System.out.println(ingreso);
+                    boolean ingreso = ex.ingresarLaboratorista(codigo, examenCodigo, nombre, dpi, registro, correo, inicio, telefono);
+                    if (ingreso) {
+                        if(us.ingresarUsuario(codigo, codigo, password, "LABORATORISTA")){
+                            boolean todos = false;
+                            for (String dia1 : dias) {
+                                todos = ex.ingresarDiasTrabajo(codigo, dia1);
+                            }
+                            if (todos){
+                                ingresados += "1,";
+                            } else {
+                                ingresados += "0,";
+                            }
+                        } else {
+                            ingresados += "0,";
+                        }
+                    } else {
+                        ingresados += "0,";
+                    }
                 }
             } else if (tipo.equalsIgnoreCase("5")) {
                 PacienteDAO ex = new PacienteDAO(cn);
+                UsuarioDAO us = new UsuarioDAO(cn);
                 for (JsonElement obj : elements) {
                     // Object of array
                     JsonObject gsonObj = obj.getAsJsonObject();
@@ -203,8 +246,16 @@ public class Carga extends HttpServlet {
                     String correo = gsonObj.get("correo").getAsString();
                     String peso = gsonObj.get("peso").getAsString();
                     String sangre = gsonObj.get("sangre").getAsString();
-                    String ingreso = ex.ingresarPaciente(codigo, nombre, sexo, nacimiento, dpi, telefono, peso, sangre, correo);
-                    System.out.println(ingreso);
+                    boolean ingreso = ex.ingresarPaciente(codigo, nombre, sexo, nacimiento, dpi, telefono, peso, sangre, correo);
+                    if (ingreso) {
+                        if(us.ingresarUsuario(codigo, codigo, password, "PACIENTE")){
+                            ingresados += "1,";
+                        } else {
+                            ingresados += "0,";
+                        }
+                    } else {
+                        ingresados += "0,";
+                    }
                 }
             } else if (tipo.equalsIgnoreCase("6")) {
                 ConsultaDAO ex = new ConsultaDAO(cn);
@@ -214,8 +265,12 @@ public class Carga extends HttpServlet {
                     // Primitives elements of object}
                     String nombre = gsonObj.get("nombre").getAsString();
                     Double costo = gsonObj.get("costo").getAsDouble();
-                    String ingreso = ex.ingresarConsulta(nombre, costo);
-                    System.out.println(ingreso);
+                    boolean ingreso = ex.ingresarConsulta(nombre, costo);
+                    if (ingreso) {
+                        ingresados += "1,";
+                    } else {
+                        ingresados += "0,";
+                    }
                 }
             } else if (tipo.equalsIgnoreCase("7")) {
                 ReporteDAO ex = new ReporteDAO(cn);
@@ -229,8 +284,12 @@ public class Carga extends HttpServlet {
                     String informe = gsonObj.get("informe").getAsString();
                     String fecha = gsonObj.get("fecha").getAsString();
                     String hora = gsonObj.get("hora").getAsString();
-                    String ingreso = ex.ingresarReporte(codigo, paciente, medico, informe, fecha, hora);
-                    System.out.println(ingreso);
+                    boolean ingreso = ex.ingresarReporte(codigo, paciente, medico, informe, fecha, hora);
+                    if (ingreso) {
+                        ingresados += "1,";
+                    } else {
+                        ingresados += "0,";
+                    }
                 }
             } else if (tipo.equalsIgnoreCase("8")) {
                 ResultadoDAO re = new ResultadoDAO(cn);
@@ -262,13 +321,38 @@ public class Carga extends HttpServlet {
                     } else {
 
                     }
-                    String ingreso = re.ingresarResultado(codigo,paciente,laboratorista,examen,archivoOrden,archivoInforme,fecha,hora);
-                    System.out.println(ingreso);
+                    boolean ingreso = re.ingresarResultado(codigo,paciente,laboratorista,examen,archivoOrden,archivoInforme,fecha,hora);
+                    if (ingreso) {
+                        ingresados += "1,";
+                    } else {
+                        ingresados += "0,";
+                    }
                 }
-            }
-            response.getWriter().write("mandato");
+            } else if (tipo.equalsIgnoreCase("9")) {
+                CitaDAO ex = new CitaDAO(cn);
+                ConsultaDAO ex2 = new ConsultaDAO(cn);
+                for (JsonElement obj : elements) {
+                    // Object of array
+                    JsonObject gsonObj = obj.getAsJsonObject();
+                    // Primitives elements of object}
+                    String codigo = gsonObj.get("codigo").getAsString();
+                    String paciente = gsonObj.get("paciente").getAsString();
+                    String medico = gsonObj.get("medico").getAsString();
+                    String consultaNombre = gsonObj.get("consulta").getAsString();
+                    int consulta = ex2.obtenerCodigoConsulta(consultaNombre);
+                    String fecha = gsonObj.get("fecha").getAsString();
+                    String hora = gsonObj.get("hora").getAsString();
+                    boolean ingreso = ex.ingresarCita(codigo,paciente,medico,consulta,fecha,hora);
+                    if (ingreso) {
+                        ingresados += "1,";
+                    } else {
+                        ingresados += "0,";
+                    }
+                }
+            } 
+            response.getWriter().write(ingresados);
         } else {
-            response.getWriter().write("nel");
+            response.getWriter().write("");
         }
     }
 

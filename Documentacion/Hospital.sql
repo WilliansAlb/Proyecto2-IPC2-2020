@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS Usuario(
 	id INT NOT NULL,
 	codigo VARCHAR(15) NOT NULL,
    	password VARCHAR(50) NOT NULL,
+	tipo VARCHAR(15) NOT NULL,
 	PRIMARY KEY(id)
 );
 
@@ -125,13 +126,21 @@ CREATE TABLE IF NOT EXISTS Resultado(
 	examen VARCHAR(15) NOT NULL,
 	laboratorista VARCHAR(15) NOT NULL,
 	fecha DATE NOT NULL,
-	orden BLOB,
+	orden MEDIUMBLOB,
 	hora VARCHAR(15) NOT NULL,
-	informe BLOB,
+	informe MEDIUMBLOB,
 	realizado TINYINT(1),
 	PRIMARY KEY(codigo),
 	FOREIGN KEY(paciente) REFERENCES Paciente(codigo) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(examen) REFERENCES Examen(codigo) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(laboratorista) REFERENCES Laboratorista(codigo) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+INSERT INTO Dia(nombre) VALUES('Lunes');
+INSERT INTO Dia(nombre) VALUES('Martes');
+INSERT INTO Dia(nombre) VALUES('Miercoles');
+INSERT INTO Dia(nombre) VALUES('Jueves');
+INSERT INTO Dia(nombre) VALUES('Viernes');
+INSERT INTO Dia(nombre) VALUES('Sabado');
+INSERT INTO Dia(nombre) VALUES('Domingo');
 

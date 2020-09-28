@@ -56,6 +56,7 @@
                         <th>DPI</th>
                         <th>NOMBRE</th>
                         <th>PASSWORD</th>
+                        <th>ESTADO</th>
                         </thead>
                         <tbody>
                         </tbody>
@@ -72,6 +73,7 @@
                         <th>HORARIO</th>
                         <th>INICIO TRABAJO</th>
                         <th>PASSWORD</th>
+                        <th>ESTADO</th>
                         </thead>
                         <tbody>
                         </tbody>
@@ -88,6 +90,7 @@
                         <th>DIAS TRABAJO</th>
                         <th>INICIO TRABAJO</th>
                         <th>PASSWORD</th>
+                        <th>ESTADO</th>
                         </thead>
                         <tbody>
                         </tbody>
@@ -104,6 +107,7 @@
                         <th>SANGRE</th>
                         <th>CORREO</th>
                         <th>PASSWORD</th>
+                        <th>ESTADO</th>
                         </thead>
                         <tbody>
                         </tbody>
@@ -116,6 +120,7 @@
                         <th>DESCRIPCION</th>
                         <th>COSTO</th>
                         <th>INFORME</th>
+                        <th>ESTADO</th>
                         </thead>
                         <tbody>
                         </tbody>
@@ -128,6 +133,7 @@
                         <th>INFORME</th>
                         <th>FECHA</th>
                         <th>HORA</th>
+                        <th>ESTADO</th>
                         </thead>
                         <tbody>
                         </tbody>
@@ -142,6 +148,7 @@
                         <th>INFORME</th>
                         <th>FECHA</th>
                         <th>HORA</th>
+                        <th>ESTADO</th>
                         </thead>
                         <tbody>
                         </tbody>
@@ -150,10 +157,11 @@
                         <thead>
                         <th>CODIGO</th>
                         <th>PACIENTE</th>
-                        <th>TIPO CONSULTA</th>
                         <th>MEDICO</th>
+                        <th>TIPO CONSULTA</th>
                         <th>FECHA</th>
                         <th>HORA</th>
+                        <th>ESTADO</th>
                         </thead>
                         <tbody>
                         </tbody>
@@ -162,6 +170,7 @@
                         <thead>
                         <th>TIPO</th>
                         <th>COSTO</th>
+                        <th>ESTADO</th>
                         </thead>
                         <tbody>
                         </tbody>
@@ -184,6 +193,11 @@
                     </center>
                     <button id="ingresar-todo" onclick="ingresarTodo(this)" style="display: none;" >INGRESAR TODO</button>
                 </div>
+                <div class="buttons" id="btn5" style="display: none;">
+                        <div class="container">
+                            <a onclick="location.reload()" class="effect01" target="_blank"><span>TERMINADO</span></a>
+                        </div>
+                </div>
             </center>
         </div>
         <div id="descripcion" style="display: none;">
@@ -205,7 +219,8 @@
         <div id ="contenedorArchivos"  style="display: none;">
             <div id="archivos">
                 <center>
-                    <h1 id="nombreArchivo">ORDEN</h1>
+                    <h1 id="nombreArchivo" style="margin-bottom: 0;">ORDEN</h1>
+                    <h3 id="codigoResultado" style="margin: 0;">XLX</h3>
                     <embed src="" width="500" height="460" id="visualizacionArchivo">
                     <div class="buttons" id="btn4">
                         <div class="container">

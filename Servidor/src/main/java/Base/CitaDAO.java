@@ -13,36 +13,34 @@ import java.sql.SQLException;
  *
  * @author yelbetto
  */
-public class ReporteDAO {
+public class CitaDAO {
     
     Connection cn;
     
-    public ReporteDAO(Conector con){
+    public CitaDAO(Conector con){
         cn = con.getConexion();
     }
     
-
-    public boolean ingresarReporte(String codigo, String paciente, String medico, String informe, String fecha, String hora) {
+    public boolean ingresarCita(String codigo, String paciente, String medico, int consulta, String fecha, String hora){
         boolean ingreso;
-        String sql = "INSERT INTO Reporte(codigo, medico, paciente, fecha, "
-                + "informe, hora) SELECT ?, ?, ?, ?, ?, ? FROM dual "
-                + "WHERE NOT EXISTS (SELECT * FROM Reporte WHERE codigo = ? "
-                + "AND medico = ? AND hora = ?)";
-        try ( PreparedStatement ps = cn.prepareStatement(sql)){
+        String sql = "INSERT INTO Cita(codigo,medico,paciente,fecha,consulta,hora)"
+                + " SELECT ?, ?, ?, ?, ?, ? FROM dual WHERE NOT EXISTS (SELECT * FROM"
+                + " Cita WHERE codigo = ?)";
+        
+        try(PreparedStatement ps = cn.prepareStatement(sql)){
             ps.setString(1, codigo);
             ps.setString(2, medico);
             ps.setString(3, paciente);
             ps.setString(4, fecha);
-            ps.setString(5, informe);
+            ps.setInt(5, consulta);
             ps.setString(6, hora);
             ps.setString(7, codigo);
-            ps.setString(8, medico);
-            ps.setString(9, hora);
             ps.executeUpdate();
             ingreso = true;
-        } catch ( SQLException sqle ) {
+        } catch (SQLException sqle){
             ingreso = false;
         }
+        
         return ingreso;
     }
     
