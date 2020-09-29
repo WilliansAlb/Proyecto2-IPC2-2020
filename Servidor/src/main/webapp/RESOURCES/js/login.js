@@ -18,7 +18,7 @@ function metodo(x, y) {
                 alert("ERROR: fallo al conectar con la base de datos");
             } else if (result === 'bien'){
                 alert("bien");
-                window.location = "JSP/Carga.jsp";
+                window.location = "JSP/Medico.jsp";
             }
         }
     });

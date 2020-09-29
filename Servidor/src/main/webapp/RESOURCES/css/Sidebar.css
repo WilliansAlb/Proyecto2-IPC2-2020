@@ -1,0 +1,144 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 28/09/2020, 09:18:47 PM
+    Author     : yelbetto
+*/
+*{
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+
+.page-bg {
+    background-image: url('../imagenes/hospital.jpg');
+    background-size: 100%;
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.w3-container{
+    display: inline-block;
+    padding: 0px;
+    width: 100%;
+}
+#menu{
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 700;
+    border: none;
+display: inline-block;
+padding: 8px 16px;
+vertical-align: middle;
+overflow: hidden;
+text-decoration: none;
+color: inherit;
+background-color: inherit;
+font-size: 2em;
+text-align: center;
+cursor: pointer;
+white-space: nowrap;
+}
+.boton{
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 700;
+    border: none;
+display: inline-block;
+padding: 8px 16px;
+vertical-align: middle;
+overflow: hidden;
+text-decoration: none;
+font-size: 1.64em;
+color: white;
+background-color: black;
+text-align: center;
+cursor: pointer;
+white-space: nowrap;
+line-height: 2em;
+width: 100%;
+}
+.boton:hover{
+    background-color: grey;
+}
+
+.nav{
+    padding: 0;
+    background-color: #002d448c;
+    color: white;
+}
+
+#menu:hover{
+    background-color: #0000002a;
+}
+
+#menuBar{
+    background-color: #625656;
+}
+.w3-bar-item{
+    text-decoration: none;
+    font-size: 1.21em;
+}
+.w3-bar-item:hover{
+    background-color: #ffffff2a;
+}
+#nombreHospital{
+    font-size: 1em;
+    display: inline-block;
+}
+#contenedor{
+    width: 100%;
+}
+#izquierda{
+    display: inline-block;
+}
+#derecha{
+    float: right;
+}
+#imagenHospital{
+    border-radius: 200px 200px 200px 200px;
+-moz-border-radius: 200px 200px 200px 200px;
+-webkit-border-radius: 200px 200px 200px 200px;
+border: 0px solid #000000;
+}
+
+#informacionPerfil{
+padding: 5px;
+margin: 0.15em;
+}
+
+.boton1{
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 700;
+    border: none;
+display: inline-block;
+background-color: inherit;
+vertical-align: middle;
+overflow: hidden;
+text-decoration: none;
+font-size: 1.64em;
+text-align: center;
+cursor: pointer;
+white-space: nowrap;
+line-height: 2em;
+width: 100%;
+border-radius: 44px 44px 44px 44px;
+    -moz-border-radius: 44px 44px 44px 44px;
+    -webkit-border-radius: 22px 22px 22px 22px;
+    border: 0px dashed skyblue;
+}
+#boton1:hover{
+    background-color: #8e8e8e;
+    cursor: pointer;
+}

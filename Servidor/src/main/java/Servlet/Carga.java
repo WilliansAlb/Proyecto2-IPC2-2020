@@ -305,6 +305,10 @@ public class Carga extends HttpServlet {
                     String informe = gsonObj.get("informe").getAsString();
                     String fecha = gsonObj.get("fecha").getAsString();
                     String hora = gsonObj.get("hora").getAsString();
+                    String medico = gsonObj.get("medico").getAsString();
+                    if(medico.equalsIgnoreCase("")){
+                        medico = null;
+                    }
                     InputStream archivoOrden = null;
                     InputStream archivoInforme = null;
                     if (!orden.equalsIgnoreCase("sin")) {
@@ -321,7 +325,7 @@ public class Carga extends HttpServlet {
                     } else {
 
                     }
-                    boolean ingreso = re.ingresarResultado(codigo,paciente,laboratorista,examen,archivoOrden,archivoInforme,fecha,hora);
+                    boolean ingreso = re.ingresarResultado(codigo,paciente,laboratorista,examen,archivoOrden,archivoInforme,fecha,hora,medico);
                     if (ingreso) {
                         ingresados += "1,";
                     } else {
@@ -341,7 +345,8 @@ public class Carga extends HttpServlet {
                     String consultaNombre = gsonObj.get("consulta").getAsString();
                     int consulta = ex2.obtenerCodigoConsulta(consultaNombre);
                     String fecha = gsonObj.get("fecha").getAsString();
-                    String hora = gsonObj.get("hora").getAsString();
+                    String horaConPuntos = gsonObj.get("hora").getAsString().replaceFirst(":", "");
+                    int hora = Integer.parseInt(horaConPuntos);
                     boolean ingreso = ex.ingresarCita(codigo,paciente,medico,consulta,fecha,hora);
                     if (ingreso) {
                         ingresados += "1,";

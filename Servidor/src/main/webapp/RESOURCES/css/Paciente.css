@@ -1,0 +1,78 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 28/09/2020, 07:04:52 PM
+    Author     : yelbetto
+*/
+
+table {
+    font-family:lucida sans unicode,lucida grande,Sans-Serif;
+ font-size:1.2em;
+ width:400px;
+ text-align:center;
+ border-collapse:collapse;
+ border:1px solid #6cf;
+ margin:2px;
+ background-color: #ffffff;
+}
+
+table th {
+font-weight:bold;
+ color:#039;
+ text-transform:uppercase;
+ border-right:1px solid #0865c2;
+ border-top:1px solid #0865c2;
+ border-left:1px solid #0865c2;
+ border-bottom: 1px dashed #66ccff52;
+ padding:5px;
+ line-height: 0.8em;
+}
+table td {
+    color:#000;
+ border-right:1px dashed #6cf;
+ padding:5px 10px;
+ border-bottom: 1px dashed #66ccff52;
+ line-height: 1.2em;
+}
+table tbody tr:hover td {
+    color:#339;
+    background:#d0dafd
+}
+
+h1,h2,h3,h4,h5{
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 700;
+    margin: 0.1em;
+}
+button{
+    font-weight: 700;
+}
+
+#contenedor2{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    width: 75%;
+    background-color: #0000002a;
+    padding: 5px;
+    margin: 1em;
+}
+.item{
+    background-color: #ffffff2a;
+    padding: 5px;
+    font-size: 1em;
+    text-align: left;
+    vertical-align: middle;
+    display: inline-grid;
+}
+#agregarInforme{
+    background-color: #0000002a;
+    width: 50%;
+}
+#tablaCitas{
+    background-color: #0000002a;
+    width: 50%;
+    margin: 1em;
+}

@@ -148,6 +148,7 @@
                         <th>INFORME</th>
                         <th>FECHA</th>
                         <th>HORA</th>
+                        <th>MEDICO</th>
                         <th>ESTADO</th>
                         </thead>
                         <tbody>

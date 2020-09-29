@@ -22,11 +22,11 @@ public class ResultadoDAO {
         cn = con.getConexion();
     }
 
-    public boolean ingresarResultado(String codigo, String paciente, String laboratorista, String examen, InputStream archivoOrden, InputStream archivoInforme, String fecha, String hora) {
+    public boolean ingresarResultado(String codigo, String paciente, String laboratorista, String examen, InputStream archivoOrden, InputStream archivoInforme, String fecha, String hora, String medico) {
         boolean ingreso;
         String sql = "INSERT INTO Resultado(codigo,paciente,examen,"
-                + "laboratorista,fecha,orden,hora,informe,realizado) "
-                + "SELECT ?, ?, ?, ?, ?, ?, ?, ?, ? FROM dual "
+                + "laboratorista,fecha,orden,hora,informe,realizado,medico) "
+                + "SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ? FROM dual "
                 + "WHERE NOT EXISTS (SELECT * FROM Resultado WHERE "
                 + "codigo = ? )";
         try(PreparedStatement ps = cn.prepareStatement(sql);){
@@ -39,7 +39,8 @@ public class ResultadoDAO {
             ps.setString(7, hora);
             ps.setBlob(8, archivoInforme);
             ps.setBoolean(9, true);
-            ps.setString(10, codigo);
+            ps.setString(10, medico);
+            ps.setString(11, codigo);
             ps.executeUpdate();
             ingreso = true;
         } catch ( SQLException ex ){

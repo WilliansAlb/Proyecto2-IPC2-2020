@@ -202,7 +202,7 @@ function showDocInTable(xml) {
         })
         const TRABAJO = document.createElement('td');
         TRABAJO.textContent = dias1.slice(0, -1);
-        const INICIO = tagToData(laboratorista.querySelectorAll('TRABAJO')[1]);
+        const INICIO = tagToData(laboratorista.querySelector("TRABAJOF"));
         const PASSWORD = tagToData(laboratorista.querySelector('PASSWORD'));
         const ESTADO = estado();
         tr.append(CODIGO, NOMBRE, REGISTRO, DPI, TELEFONO, EXAMEN, CORREO, TRABAJO, INICIO, PASSWORD, ESTADO);
@@ -257,6 +257,7 @@ function showDocInTable(xml) {
         const tr = document.createElement('tr');
         const CODIGO = tagToData(resultado.querySelector('CODIGO'));
         const PACIENTE = tagToData(resultado.querySelector('PACIENTE'));
+        const MEDICO = tagToData(resultado.querySelector('MEDICO'));
         const EXAMEN = tagToData(resultado.querySelector('EXAMEN'));
         const LABORATORISTA = tagToData(resultado.querySelector('LABORATORISTA'));
         const ORDEN = tagToData(resultado.querySelector('ORDEN'));
@@ -297,7 +298,7 @@ function showDocInTable(xml) {
         const FECHA = tagToData(resultado.querySelector('FECHA'));
         const HORA = tagToData(resultado.querySelector('HORA'));
         const ESTADO = estado();
-        tr.append(CODIGO, PACIENTE, EXAMEN, LABORATORISTA, ORDEN, INFORME, FECHA, HORA, ESTADO);
+        tr.append(CODIGO, PACIENTE, EXAMEN, LABORATORISTA, ORDEN, INFORME, FECHA, HORA, MEDICO, ESTADO);
         table6.appendChild(tr);
     });
     Array.from(citas).map((cita, i) => {
@@ -305,7 +306,7 @@ function showDocInTable(xml) {
         const CODIGO = tagToData(cita.querySelector('CODIGO'));
         const PACIENTE = tagToData(cita.querySelector('PACIENTE'));
         const MEDICO = tagToData(cita.querySelector('MEDICO'));
-        const CONSULTA = tagToData(cita.querySelector('CONSULTA'));
+        const CONSULTA = tagToData(cita.querySelector('ESPECIALIDAD'));
         const FECHA = tagToData(cita.querySelector('FECHA'));
         const HORA = tagToData(cita.querySelector('HORA'));
         const ESTADO = estado();
@@ -575,7 +576,7 @@ function ingresarTodo(boton) {
         });
         var moment = {codigo: unArray[0], paciente: unArray[1], examen: unArray[2],
             laboratorista: unArray[3], orden: unArray[4], informe: unArray[5],
-            fecha: unArray[6], hora: unArray[7]};
+            fecha: unArray[6], hora: unArray[7],medico:unArray[8]};
         resultados.push(moment);
     });
     

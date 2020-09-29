@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS Medico(
 	no_colegiado VARCHAR(10) NOT NULL,
 	dpi VARCHAR(13) NOT NULL,
 	horario VARCHAR(20) NOT NULL,
-	email VARCHAR(50),
+	email VARCHAR(50) NULL,
 	fecha_inicio DATE NOT NULL,
 	telefono VARCHAR(8) NOT NULL,
 	PRIMARY KEY(codigo)
@@ -50,8 +50,8 @@ CREATE TABLE IF NOT EXISTS Paciente(
 	dpi VARCHAR(13) NOT NULL,
 	sangre VARCHAR(10) NOT NULL,
 	fecha_nacimiento DATE NOT NULL,
-	email VARCHAR(50),
-	telefono VARCHAR(8),
+	email VARCHAR(50) NULL,
+	telefono VARCHAR(8) NULL,
 	PRIMARY KEY(codigo)
 );
 
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS Laboratorista(
 	dpi VARCHAR(13) NOT NULL,
 	telefono VARCHAR(8) NOT NULL,
 	fecha_inicio DATE NOT NULL,
-	email VARCHAR(50),
+	email VARCHAR(50) NULL,
 	PRIMARY KEY(codigo),
 	FOREIGN KEY(examen) REFERENCES Examen(codigo) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -101,8 +101,9 @@ CREATE TABLE IF NOT EXISTS Cita(
 	medico VARCHAR(15) NOT NULL,
 	paciente VARCHAR(15) NOT NULL,
 	fecha DATE NOT NULL,
-	consulta INT,
-	hora VARCHAR(15) NOT NULL,
+	consulta INT NULL,
+	hora INT NOT NULL,
+	realizada TINYINT(1) NULL DEFAULT false,
 	PRIMARY KEY(codigo),
 	FOREIGN KEY(medico) REFERENCES Medico(codigo) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(paciente) REFERENCES Paciente(codigo) ON DELETE CASCADE ON UPDATE CASCADE
@@ -126,10 +127,11 @@ CREATE TABLE IF NOT EXISTS Resultado(
 	examen VARCHAR(15) NOT NULL,
 	laboratorista VARCHAR(15) NOT NULL,
 	fecha DATE NOT NULL,
-	orden MEDIUMBLOB,
+	orden MEDIUMBLOB NULL,
 	hora VARCHAR(15) NOT NULL,
-	informe MEDIUMBLOB,
-	realizado TINYINT(1),
+	informe MEDIUMBLOB NULL,
+	realizado TINYINT(1) NULL DEFAULT false,
+	medico VARCHAR(15) NULL,
 	PRIMARY KEY(codigo),
 	FOREIGN KEY(paciente) REFERENCES Paciente(codigo) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(examen) REFERENCES Examen(codigo) ON DELETE CASCADE ON UPDATE CASCADE,
