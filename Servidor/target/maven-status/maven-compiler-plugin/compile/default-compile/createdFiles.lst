@@ -1,14 +1,17 @@
 Base/ExamenDAO.class
 Servlet/Login.class
+POJO/ExamenDTO.class
 Base/ReporteDAO.class
 Base/Conector.class
 Base/AdministradorDAO.class
 com/mycompany/servidor/MyServletContextListener.class
 Servlet/Carga.class
+Servlet/IngresoInforme.class
 Base/PacienteDAO.class
 Base/ResultadoDAO.class
 Base/LaboratoristaDAO.class
 Base/CitaDAO.class
 Base/UsuarioDAO.class
+POJO/CitaDTO.class
 Base/DoctorDAO.class
 Base/ConsultaDAO.class

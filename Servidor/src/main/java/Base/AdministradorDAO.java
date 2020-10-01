@@ -5,6 +5,7 @@
  */
 package Base;
 
+import POJO.AdministradorDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,5 +39,27 @@ public class AdministradorDAO {
             ingresado = sqle.toString();
         }
         return ingresado;
+    }
+    
+    public AdministradorDTO obtenerAdmin(String codigo){
+        AdministradorDTO admin = new AdministradorDTO();
+        String sql = "SELECT * FROM Administrador WHERE codigo = ?";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ps.setString(1, codigo);
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                admin.setCodigo(codigo);
+                admin.setDpi(rs.getString("dpi"));
+                admin.setNombre(rs.getString("nombre"));
+            }
+        } catch ( SQLException sqle )
+        {
+        
+        }
+        
+        return admin;
     }
 }

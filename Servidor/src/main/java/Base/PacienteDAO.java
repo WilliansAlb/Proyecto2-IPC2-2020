@@ -5,8 +5,10 @@
  */
 package Base;
 
+import POJO.PacienteDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -47,5 +49,30 @@ public class PacienteDAO {
         return ingresado;
     }
     
-    
+    public PacienteDTO obtenerPaciente(String codigo){
+        PacienteDTO paciente = new PacienteDTO();
+        String sql = "SELECT * FROM Paciente WHERE codigo = ?";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ps.setString(1, codigo);
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                paciente.setCodigo(codigo);
+                paciente.setDpi(rs.getString("dpi"));
+                paciente.setEmail(rs.getString("email"));
+                paciente.setFecha_nacimiento(rs.getString("fecha_nacimiento"));
+                paciente.setNombre(rs.getString("nombre"));
+                paciente.setPeso(rs.getDouble("peso"));
+                paciente.setSangre(rs.getString("sangre"));
+                paciente.setSexo(rs.getString("sexo"));
+                paciente.setTelefono(rs.getString("telefono"));
+            }
+        } catch ( SQLException sqle )
+        {
+        
+        }
+        return paciente;
+    }
 }

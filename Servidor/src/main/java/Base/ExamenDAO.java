@@ -5,10 +5,12 @@
  */
 package Base;
 
+import POJO.ExamenDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,7 +19,6 @@ import java.sql.SQLException;
 public class ExamenDAO {
 
     Connection cn;
-    PreparedStatement ps;
 
     public ExamenDAO(Conector con) {
         cn = con.getConexion();
@@ -58,6 +59,45 @@ public class ExamenDAO {
             codigo = "ERROR: "+sqle;
         }
         return codigo;
+    }
+    
+    public ArrayList<ExamenDTO> obtenerExamenes(){
+        ArrayList<ExamenDTO> examenes = new ArrayList<>();
+        String sql = "SELECT * FROM Examen";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql)){
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                ExamenDTO examen = new ExamenDTO();
+                examen.setCodigo(rs.getString("codigo"));
+                examen.setCosto(rs.getDouble("costo"));
+                examen.setDescripcion(rs.getString("descripcion"));
+                examen.setInforme(rs.getString("informe"));
+                examen.setNombre(rs.getString("nombre"));
+                examen.setOrden(rs.getBoolean("orden"));
+                examenes.add(examen);
+            }
+        } catch ( SQLException exa ){
+        
+        }
+        return examenes;
+    }
+    
+    public boolean isOrdenRequerida(String codigo){
+        String sql = "SELECT orden FROM Examen WHERE codigo = ?";
+        boolean requerida = false;
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql)){
+            ps.setString(1, codigo);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                requerida = rs.getBoolean("orden");
+            }
+        } catch ( SQLException sqle){
+            requerida = false;
+                System.out.println(sqle);
+        }
+        return requerida;
     }
 
 }

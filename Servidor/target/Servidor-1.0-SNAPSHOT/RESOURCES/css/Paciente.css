@@ -51,28 +51,103 @@ button{
     font-weight: 700;
 }
 
-#contenedor2{
+.contenedor2{
     display: grid;
     grid-template-columns: auto auto auto;
-    width: 75%;
-    background-color: #0000002a;
-    padding: 5px;
-    margin: 1em;
+    width: 90%;
+}
+.contenedor3{
+    display: grid;
+    grid-template-columns: auto auto;
+    width: 90%;
 }
 .item{
     background-color: #ffffff2a;
     padding: 5px;
+    margin: 1px;
     font-size: 1em;
+    font-weight: 500;
     text-align: left;
     vertical-align: middle;
     display: inline-grid;
 }
 #agregarInforme{
-    background-color: #0000002a;
+    background-color: #002d448c;
     width: 50%;
+    margin: 1em;
+}
+#agregarExamen{
+    background-color: #002d448c;
+    width: 50%;
+    margin: 1em;
 }
 #tablaCitas{
     background-color: #0000002a;
     width: 50%;
     margin: 1em;
 }
+
+.left{
+    float: left;
+}
+.right{
+    float: right;
+}
+.center{
+   display:inline-block
+}
+
+
+.input-file-trigger {
+    display: block;
+    padding: 10px 10px;
+    background: #39D2B4;
+    color: #07569ba8;
+    font-weight: bold;
+    font-size: 1em;
+    transition: all .4s;
+    cursor: pointer;
+    width: 100%;
+  }
+  #examenArchivo {
+    display: none;
+    top: 0; left: 0;
+    width: 225px;
+    opacity: 0;
+    padding: 14px 0;
+    cursor: pointer;
+  }
+  #examenArchivo:hover + .input-file-trigger,
+  #examenArchivo:focus + .input-file-trigger,
+  .input-file-trigger:hover,
+  .input-file-trigger:focus {
+    background: #34495E;
+    color: #39D2B4;
+  }
+
+  .file-return {
+    margin: 0;
+    display: inline-block;
+  }
+  .file-return:not(:empty) {
+    margin: 1em 0;
+  }
+  .file-return {
+    font-style: italic;
+    font-size: .9em;
+    font-weight: bold;
+  }
+  .file-return:not(:empty):before {
+    content: "Archivo PDF: ";
+    font-style: normal;
+    font-weight: normal;
+  }
+  
+  #codigoCorrecto{
+      display: inline-block;
+      margin: 0;
+  }
+  
+  #codigoInforme{
+      width: 100%;
+  }

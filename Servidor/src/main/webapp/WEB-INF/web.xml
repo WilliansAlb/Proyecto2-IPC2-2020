@@ -8,6 +8,10 @@
         <servlet-name>Carga</servlet-name>
         <servlet-class>Servlet.Carga</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>IngresoInforme</servlet-name>
+        <servlet-class>Servlet.IngresoInforme</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -19,6 +23,10 @@
     <listener>
         <listener-class>com.mycompany.servidor.MyServletContextListener</listener-class>
     </listener>
+    <servlet-mapping>
+        <servlet-name>IngresoInforme</servlet-name>
+        <url-pattern>/IngresoInforme</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

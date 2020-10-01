@@ -22,7 +22,7 @@ public class ResultadoDAO {
         cn = con.getConexion();
     }
 
-    public boolean ingresarResultado(String codigo, String paciente, String laboratorista, String examen, InputStream archivoOrden, InputStream archivoInforme, String fecha, String hora, String medico) {
+    public boolean ingresarResultado(String codigo, String paciente, String laboratorista, String examen, InputStream archivoOrden, InputStream archivoInforme, String fecha, int hora, String medico) {
         boolean ingreso;
         String sql = "INSERT INTO Resultado(codigo,paciente,examen,"
                 + "laboratorista,fecha,orden,hora,informe,realizado,medico) "
@@ -36,7 +36,7 @@ public class ResultadoDAO {
             ps.setString(4, laboratorista);
             ps.setString(5, fecha);
             ps.setBlob(6, archivoOrden);
-            ps.setString(7, hora);
+            ps.setInt(7, hora);
             ps.setBlob(8, archivoInforme);
             ps.setBoolean(9, true);
             ps.setString(10, medico);

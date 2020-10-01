@@ -7,6 +7,7 @@ package Base;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -22,28 +23,46 @@ public class ReporteDAO {
     }
     
 
-    public boolean ingresarReporte(String codigo, String paciente, String medico, String informe, String fecha, String hora) {
+    public boolean ingresarReporte(String codigo, String paciente, String medico, String informe, String fecha, int hora) {
         boolean ingreso;
         String sql = "INSERT INTO Reporte(codigo, medico, paciente, fecha, "
                 + "informe, hora) SELECT ?, ?, ?, ?, ?, ? FROM dual "
                 + "WHERE NOT EXISTS (SELECT * FROM Reporte WHERE codigo = ? "
-                + "AND medico = ? AND hora = ?)";
+                + "OR (medico = ? AND hora = ?))";
         try ( PreparedStatement ps = cn.prepareStatement(sql)){
             ps.setString(1, codigo);
             ps.setString(2, medico);
             ps.setString(3, paciente);
             ps.setString(4, fecha);
             ps.setString(5, informe);
-            ps.setString(6, hora);
+            ps.setInt(6, hora);
             ps.setString(7, codigo);
             ps.setString(8, medico);
-            ps.setString(9, hora);
+            ps.setInt(9, hora);
             ps.executeUpdate();
             ingreso = true;
         } catch ( SQLException sqle ) {
             ingreso = false;
         }
         return ingreso;
+    }
+
+    public boolean isCodigoExistente(String codigo) {
+        boolean existente = false;
+        String sql = "SELECT COUNT(*) AS total FROM Reporte WHERE codigo = ?";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql))
+        {
+            ps.setString(1, codigo);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next())
+            {
+                existente = rs.getInt("total") > 0;
+            }
+        } catch ( SQLException sqle ){
+        
+        }
+        return existente;
     }
     
 }

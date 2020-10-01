@@ -28,7 +28,7 @@ public class CitaDAO {
         boolean ingreso;
         String sql = "INSERT INTO Cita(codigo,medico,paciente,fecha,consulta,hora)"
                 + " SELECT ?, ?, ?, ?, ?, ? FROM dual WHERE NOT EXISTS (SELECT * FROM"
-                + " Cita WHERE codigo = ?)";
+                + " Cita WHERE codigo = ? OR (hora = ? AND medico = ? AND fecha = ?))";
         
         try(PreparedStatement ps = cn.prepareStatement(sql)){
             ps.setString(1, codigo);
@@ -38,6 +38,9 @@ public class CitaDAO {
             ps.setInt(5, consulta);
             ps.setInt(6, hora);
             ps.setString(7, codigo);
+            ps.setInt(8, hora);
+            ps.setString(9, medico);
+            ps.setString(10, fecha);
             ps.executeUpdate();
             ingreso = true;
         } catch (SQLException sqle){

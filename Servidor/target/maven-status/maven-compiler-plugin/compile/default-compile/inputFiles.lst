@@ -1,10 +1,13 @@
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Base/ReporteDAO.java
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Servlet/Login.java
+/home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Servlet/IngresoInforme.java
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Base/ConsultaDAO.java
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Base/CitaDAO.java
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Servlet/Carga.java
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Base/ExamenDAO.java
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Base/UsuarioDAO.java
+/home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/POJO/ExamenDTO.java
+/home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/POJO/CitaDTO.java
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Base/AdministradorDAO.java
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Base/ResultadoDAO.java
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Base/DoctorDAO.java

@@ -7,7 +7,7 @@
 <div class="w3-sidebar w3-bar-block w3-border-right" style="display:none" id="menuBar">
     <button onclick="w3_close()" class="boton">CERRAR &times;</button>
     <a href="Medico.jsp" class="w3-bar-item">Citas</a>
-    <a href="#" class="w3-bar-item">Ingresar paciente</a>
+    <a href="Perfil.jsp" class="w3-bar-item">Perfil</a>
     <a href="#" class="w3-bar-item">Ver historial de paciente</a>
 </div>
 
