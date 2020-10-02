@@ -16,9 +16,9 @@
             PacienteDAO pa = new PacienteDAO(cn);
             PacienteDTO paciente = pa.obtenerPaciente("118258");
         %>
-        <form>
-            <center>
-                <h2>Tu perfil</h2>
+        <center>
+            <h2>Tu perfil</h2>
+            <form id="formularioPaciente" method="POST" action="../Perfil">
                 <div class="contenedor">
                     <center>
                         <div class="item">
@@ -32,7 +32,13 @@
                         <div class="item">
                             <label for="sexo">SEXO: </label>
                             <select name="sexo" id="sexo" required disabled>
-                                <option value="<%out.print(paciente.getSexo());%>"><%out.print(paciente.getSexo());%></option>
+                                <%if (paciente.getSexo().equalsIgnoreCase("hombre")){%>
+                                <option value="<%out.print(paciente.getSexo());%>" selected><%out.print(paciente.getSexo().toUpperCase());%></option>
+                                <option value="Mujer">MUJER</option>
+                                <%} else {%>
+                                <option value="<%out.print(paciente.getSexo());%>" selected><%out.print(paciente.getSexo().toUpperCase());%></option>
+                                <option value="Hombre">HOMBRE</option>
+                                <%}%>
                             </select>
                         </div>
                         <div class="item">
@@ -62,8 +68,8 @@
                     </center>
                 </div>
                 <button id="guardarCambios" style="display:none;">GUARDAR CAMBIOS</button>
-            </center>
-        </form>
-        <button>EDITAR INFORMACION</button>
+            </form>
+        </center>
+        <button onclick="editarPaciente(this)">EDITAR INFORMACION</button>
     </div>
 </center>

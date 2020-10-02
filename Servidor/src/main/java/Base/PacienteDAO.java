@@ -75,4 +75,29 @@ public class PacienteDAO {
         }
         return paciente;
     }
+
+    public boolean actualizarPaciente(String codigo, String nombre, String sexo, Double peso, String dpi, String sangre, String fecha_nacimiento, String email, String telefono) {
+        boolean actualizado = false;
+        String sql = "UPDATE Paciente SET nombre = ?, sexo = ?, peso = ?, dpi = ?, sangre = ?, fecha_nacimiento = ?, "
+                + "email = ?, telefono = ? WHERE codigo = ?";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ps.setString(1, nombre);
+            ps.setString(2, sexo);
+            ps.setDouble(3, peso);
+            ps.setString(4, dpi);
+            ps.setString(5, sangre);
+            ps.setString(6, fecha_nacimiento);
+            ps.setString(7, email);
+            ps.setString(8, telefono);
+            ps.setString(9, codigo);
+            ps.executeUpdate();
+            actualizado = true;
+        } catch ( SQLException sqle )
+        {
+            
+        }
+        return actualizado;    
+    }
 }

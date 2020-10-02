@@ -62,4 +62,22 @@ public class AdministradorDAO {
         
         return admin;
     }
+    
+    public boolean actualizarAdmin(String codigo, String nombre, String dpi){
+        boolean actualizado = false;
+        String sql = "UPDATE Administrador SET nombre = ?, dpi = ? WHERE codigo = ?";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ps.setString(1, nombre);
+            ps.setString(2, dpi);
+            ps.setString(3, codigo);
+            ps.executeUpdate();
+            actualizado = true;
+        } catch ( SQLException sqle )
+        {
+            
+        }
+        return actualizado;    
+    }
 }

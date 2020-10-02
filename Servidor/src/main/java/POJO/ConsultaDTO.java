@@ -15,6 +15,7 @@ public class ConsultaDTO {
     private int codigo;
     private String nombre;
     private double costo;
+    private int codigoEspecialidad;
     
     public ConsultaDTO(){
     
@@ -43,5 +44,15 @@ public class ConsultaDTO {
     public void setCosto(double costo) {
         this.costo = costo;
     }
+
+    public int getCodigoEspecialidad() {
+        return codigoEspecialidad;
+    }
+
+    public void setCodigoEspecialidad(int codigoEspecialidad) {
+        this.codigoEspecialidad = codigoEspecialidad;
+    }
+    
+    
     
 }

@@ -177,7 +177,7 @@ public class DoctorDAO {
     
     public EspecialidadDTO obtenerEspecialidades( String codigo ) {
         EspecialidadDTO especial = new EspecialidadDTO();
-        String sql = "SELECT c.codigo AS cod, c.nombre AS nom, c.costo AS cos FROM Especialidad e, Consulta c WHERE e.medico = ? AND e.consulta = c.codigo";
+        String sql = "SELECT c.codigo AS cod, c.nombre AS nom, c.costo AS cos, e.codigo AS codE FROM Especialidad e, Consulta c WHERE e.medico = ? AND e.consulta = c.codigo";
         ArrayList<ConsultaDTO> consultas = new ArrayList<>();
         
         try ( PreparedStatement ps = cn.prepareStatement(sql) )
@@ -190,6 +190,7 @@ public class DoctorDAO {
                 consulta.setCodigo(rs.getInt("cod"));
                 consulta.setCosto(rs.getDouble("cos"));
                 consulta.setNombre(rs.getString("nom"));
+                consulta.setCodigoEspecialidad(rs.getInt("codE"));
                 consultas.add(consulta);
             }
         } catch (SQLException ex) {
@@ -229,4 +230,70 @@ public class DoctorDAO {
         }
         return consultas;
     }
+
+    public boolean actualizarDoctor(String codigo, String nombre, String dpi, String colegiado, String fecha, String horario, String telefono, String correo) {
+        boolean actualizado = false;
+        String sql = "UPDATE Medico SET nombre = ?, no_colegiado = ?, dpi = ?, horario = ?, email = ?, fecha_inicio = ?, telefono = ? "
+                + "WHERE codigo = ?";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ps.setString(1, nombre);
+            ps.setString(2, colegiado);
+            ps.setString(3, dpi);
+            ps.setString(4, horario);
+            ps.setString(5, correo);
+            ps.setString(6, fecha);
+            ps.setString(7, telefono);
+            ps.setString(8, codigo);
+            ps.executeUpdate();
+            actualizado = true;
+        } catch ( SQLException sqle )
+        {
+            
+        }
+        return actualizado;  
+    }
+
+    public boolean actualizarEspecialidad(String codigo, String especialidades) {
+        int contador = 0;
+        boolean actualizado = false;
+        for (int i = 0; i < especialidades.length(); i++){
+            if (especialidades.charAt(i)=='-'){
+                contador++;
+            }
+        }
+        if (contador > 1 && contador != 0){
+            String[] especialidadesPartidas = especialidades.split("/");
+            for (String especialidadesPartida : especialidadesPartidas) {
+                String[] parts = especialidadesPartida.split("-");
+                if (!parts[0].equalsIgnoreCase("SIN")){
+                    actualizado = isActualizadaEspecialidad(Integer.parseInt(parts[0]),Integer.parseInt(parts[1]));
+                }
+            }
+        } else {
+            String[] parts = especialidades.split("-");
+            if (!parts[0].equalsIgnoreCase("SIN")){
+                actualizado = isActualizadaEspecialidad(Integer.parseInt(parts[0]),Integer.parseInt(parts[1]));
+            }
+        }
+        return actualizado;
+    }
+    
+    public boolean isActualizadaEspecialidad(int especialidad, int consulta){
+        boolean actualizado = false;
+        String sql = "UPDATE Especialidad SET consulta = ? WHERE codigo = ?";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ps.setInt(1, consulta);
+            ps.setInt(2, especialidad);
+            ps.executeUpdate();
+            actualizado = true;
+        } catch ( SQLException sqle ) {
+            
+        }
+        return actualizado;
+    }
+   
 }

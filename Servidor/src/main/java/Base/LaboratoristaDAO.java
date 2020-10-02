@@ -6,10 +6,12 @@
 package Base;
 
 import POJO.LaboratoristaDTO;
+import POJO.TrabajoDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -120,7 +122,9 @@ public class LaboratoristaDAO {
     public LaboratoristaDTO obtenerLaboratorista(String codigo)
     {
         LaboratoristaDTO lab = new LaboratoristaDTO();
-        String slq = "SELECT * FROM Laboratorista WHERE codigo = ?";
+        String slq = "SELECT l.examen AS examen, l.nombre AS nombre, l.no_registro AS registro, "
+                + "l.dpi AS dpi, l.telefono AS telefono, l.fecha_inicio AS fecha, l.email AS email, e.nombre AS nombreE "
+                + "FROM Laboratorista l, Examen e WHERE l.codigo = ? AND l.examen = e.codigo";
         
         try ( PreparedStatement ps = cn.prepareStatement(slq) )
         {
@@ -128,11 +132,137 @@ public class LaboratoristaDAO {
             ResultSet rs = ps.executeQuery();
             while ( rs.next() )
             {
-                
+                lab.setCodigo(codigo);
+                lab.setDpi(rs.getString("dpi"));
+                lab.setEmail(rs.getString("email"));
+                lab.setExamen(rs.getString("examen"));
+                lab.setNombre(rs.getString("nombre"));
+                lab.setNo_registro(rs.getString("registro"));
+                lab.setNombreExamen(rs.getString("nombreE"));
+                lab.setTelefono(rs.getString("telefono"));
+                lab.setFecha(rs.getString("fecha"));
+                lab.setTrabajos(obtenerDias(codigo));
             }
         } catch ( SQLException sqle ){
             
         }
         return lab;
+    }
+    
+    public ArrayList<TrabajoDTO> obtenerDias(String codigo){
+        ArrayList<TrabajoDTO> dias = new ArrayList<>();
+        String sql = "SELECT * FROM Trabajo WHERE laboratorista = ?";
+        try ( PreparedStatement ps = cn.prepareStatement(sql)) 
+        {
+            ps.setString(1, codigo);
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                TrabajoDTO trabajo = new TrabajoDTO();
+                trabajo.setCodigo(rs.getInt("codigo"));
+                trabajo.setCodigoLaboratorista(codigo);
+                trabajo.setDia(rs.getInt("dia"));
+                dias.add(trabajo);
+            }
+        } catch ( SQLException sqle )
+        {
+            
+        }
+        return dias;
+    }
+
+    public boolean actualizarLaboratorista(String codigo, String nombre, String dpi, String examen, String email,
+            String registro, String fecha, String telefono) {
+        boolean actualizado = false;
+        String sql = "UPDATE Laboratorista SET nombre = ?, examen = ?, "
+                + "no_registro = ?, dpi = ?, telefono = ?, "
+                + "fecha_inicio = ?, email = ? WHERE codigo = ?";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ps.setString(1, nombre);
+            ps.setString(2, examen);
+            ps.setString(3, registro);
+            ps.setString(4, dpi);
+            ps.setString(5, telefono);
+            ps.setString(6, fecha);
+            ps.setString(7, email);
+            ps.setString(8, codigo);
+            ps.executeUpdate();
+            actualizado = true;
+        } catch ( SQLException sqle )
+        {
+            
+        }
+        return actualizado;  
+    }
+
+    public boolean actualizarTrabajo(String codigo, String dias) {
+        int contador = 0;
+        boolean actualizado = false;
+        for (int i = 0; i < dias.length(); i++){
+            if (dias.charAt(i)=='-'){
+                contador++;
+            }
+        }
+        if (contador > 1)
+        {
+            String[] partes = dias.split("/");
+            for (int i = 0; i < partes.length; i++)
+            {
+                String[] dia = partes[i].split("-");
+                if (dia[0].equalsIgnoreCase("2")){
+                    actualizado = eliminarDia(codigo, Integer.parseInt(dia[1]));
+                } else {
+                    actualizado = agregarDia(codigo,Integer.parseInt(dia[1]));
+                }
+            }
+        }
+        else 
+        {
+            String[] dia = dias.split("-");
+            if (dia[0].equalsIgnoreCase("2")){
+                actualizado = eliminarDia(codigo, Integer.parseInt(dia[1]));
+            } else {
+                actualizado = agregarDia(codigo,Integer.parseInt(dia[1]));
+            }
+        }
+        return actualizado;
+    }
+
+    private boolean eliminarDia(String codigo, int dia) {
+        boolean actualizado = false;
+        String sql = "DELETE FROM Trabajo WHERE laboratorista = ? AND dia = ?";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ps.setString(1, codigo);
+            ps.setInt(2, dia);
+            ps.executeUpdate();
+            actualizado = true;
+        } catch ( SQLException sqle )
+        {
+            System.out.println(sqle);
+        }
+        return actualizado;  
+    }
+
+    private boolean agregarDia(String codigo, int dia) {
+        boolean actualizado = false;
+        String sql = "INSERT INTO Trabajo(laboratorista,dia) SELECT ?,? FROM dual WHERE NOT EXISTS (SELECT * FROM Trabajo WHERE laboratorista = ? AND dia = ?)";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ps.setString(1, codigo);
+            ps.setInt(2, dia);
+            ps.setString(3, codigo);
+            ps.setInt(4, dia);
+            ps.executeUpdate();
+            actualizado = true;
+        } catch ( SQLException sqle )
+        {
+            System.out.println(sqle);
+        }
+        return actualizado; 
     }
 }

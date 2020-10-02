@@ -5,6 +5,8 @@
  */
 package POJO;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author yelbetto
@@ -13,11 +15,14 @@ public class LaboratoristaDTO {
     
     private String codigo;
     private String nombre;
-    private int no_registro;
+    private String no_registro;
     private String examen;
+    private String nombreExamen;
     private String dpi;
     private String telefono;
     private String email;
+    private String fecha;
+    private ArrayList<TrabajoDTO> trabajos;
     
     public LaboratoristaDTO(){
         
@@ -39,11 +44,11 @@ public class LaboratoristaDTO {
         this.nombre = nombre;
     }
 
-    public int getNo_registro() {
+    public String getNo_registro() {
         return no_registro;
     }
 
-    public void setNo_registro(int no_registro) {
+    public void setNo_registro(String no_registro) {
         this.no_registro = no_registro;
     }
 
@@ -78,5 +83,30 @@ public class LaboratoristaDTO {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getNombreExamen() {
+        return nombreExamen;
+    }
+
+    public void setNombreExamen(String nombreExamen) {
+        this.nombreExamen = nombreExamen;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public ArrayList<TrabajoDTO> getTrabajos() {
+        return trabajos;
+    }
+
+    public void setTrabajos(ArrayList<TrabajoDTO> trabajos) {
+        this.trabajos = trabajos;
+    }
+    
     
 }

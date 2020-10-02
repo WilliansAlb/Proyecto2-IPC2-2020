@@ -12,6 +12,10 @@
         <servlet-name>IngresoInforme</servlet-name>
         <servlet-class>Servlet.IngresoInforme</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Perfil</servlet-name>
+        <servlet-class>Servlet.Perfil</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -26,6 +30,10 @@
     <servlet-mapping>
         <servlet-name>IngresoInforme</servlet-name>
         <url-pattern>/IngresoInforme</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Perfil</servlet-name>
+        <url-pattern>/Perfil</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

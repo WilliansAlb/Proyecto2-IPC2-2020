@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Perfil Medico</title><link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-        <script src="../RESOURCES/js/IngresarInforme.js" type="text/javascript"></script>
+        <script src="../RESOURCES/js/Perfil.js" type="text/javascript"></script>
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:ital,wght@0,300;0,700;1,300&display=swap" rel="stylesheet"> 
         <link rel="stylesheet" href="../RESOURCES/css/Sidebar.css">
         <link rel="shortcut icon" type="image/x-icon" href="../RESOURCES/imagenes/saludico.ico"/>
@@ -19,6 +19,6 @@
     </head>
     <body>
         <%@include file='Sidebar.jsp'%>
-        <%@include file='PerfilPaciente.jsp'%>
+        <%@include file='PerfilLaboratorista.jsp'%>
 </body>
 </html>
