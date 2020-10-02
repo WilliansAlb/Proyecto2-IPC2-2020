@@ -52,7 +52,4 @@ public class ConsultaDTO {
     public void setCodigoEspecialidad(int codigoEspecialidad) {
         this.codigoEspecialidad = codigoEspecialidad;
     }
-    
-    
-    
 }

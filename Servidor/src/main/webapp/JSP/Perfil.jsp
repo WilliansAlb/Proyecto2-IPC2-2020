@@ -20,5 +20,5 @@
     <body>
         <%@include file='Sidebar.jsp'%>
         <%@include file='PerfilLaboratorista.jsp'%>
-</body>
+    </body>
 </html>

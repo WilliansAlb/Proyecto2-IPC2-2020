@@ -149,6 +149,36 @@ public class LaboratoristaDAO {
         return lab;
     }
     
+    public ArrayList<LaboratoristaDTO> obtenerTodosLaboratoristas(){
+        ArrayList<LaboratoristaDTO> labs = new ArrayList<>();
+        String slq = "SELECT l.examen AS examen, l.codigo AS codigo, l.nombre AS nombre, l.no_registro AS registro, "
+                + "l.dpi AS dpi, l.telefono AS telefono, l.fecha_inicio AS fecha, l.email AS email, e.nombre AS nombreE "
+                + "FROM Laboratorista l, Examen e WHERE l.examen = e.codigo";
+        System.out.println("llega");
+        try ( PreparedStatement ps = cn.prepareStatement(slq) )
+        {
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                LaboratoristaDTO lab = new LaboratoristaDTO();
+                lab.setCodigo(rs.getString("codigo"));
+                lab.setDpi(rs.getString("dpi"));
+                lab.setEmail(rs.getString("email"));
+                lab.setExamen(rs.getString("examen"));
+                lab.setNombre(rs.getString("nombre"));
+                lab.setNo_registro(rs.getString("registro"));
+                lab.setNombreExamen(rs.getString("nombreE"));
+                lab.setTelefono(rs.getString("telefono"));
+                lab.setFecha(rs.getString("fecha"));
+                lab.setTrabajos(obtenerDias(rs.getString("codigo")));
+                labs.add(lab);
+            }
+        } catch ( SQLException sqle ){
+            System.out.println(sqle);
+        }
+        return labs;
+    }
+    
     public ArrayList<TrabajoDTO> obtenerDias(String codigo){
         ArrayList<TrabajoDTO> dias = new ArrayList<>();
         String sql = "SELECT * FROM Trabajo WHERE laboratorista = ?";

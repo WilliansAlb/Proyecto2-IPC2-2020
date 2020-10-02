@@ -1,0 +1,151 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2/10/2020, 12:20:39 AM
+    Author     : yelbetto
+*/
+
+*{
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+#examenes{
+    width: 50%;
+}
+
+table {
+    font-family:Open Sans Condensed;
+ font-size:1.2em;
+ width:50%;
+ text-align:center;
+ border-collapse:collapse;
+ border:1px solid #6cf;
+ margin:2px;
+ background-color: #ffffff;
+}
+
+table th {
+font-weight:bold;
+ color:#039;
+ text-transform:uppercase;
+ border-right:1px solid #0865c2;
+ border-top:1px solid #0865c2;
+ border-left:1px solid #0865c2;
+ border-bottom: 1px dashed #66ccff52;
+ padding:5px;
+ line-height: 0.8em;
+}
+table td {
+    color:#000;
+ border-right:1px dashed #6cf;
+ padding:5px 10px;
+ border-bottom: 1px dashed #66ccff52;
+ line-height: 0.8em;
+}
+table tbody tr:hover td {
+    color:#339;
+    background:#d0dafd
+}
+
+#descripcion{
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    background-color: #00000070;
+}
+#mensaje{
+    padding: 0;
+    float: left;
+    background-color: #2E4450;
+    overflow: hidden;
+    width: 30%;
+    height: 100%;
+    -webkit-box-shadow: 7px 6px 78px 7px rgba(84,0,84,1);
+-moz-box-shadow: 7px 6px 78px 7px rgba(84,0,84,1);
+box-shadow: 7px 6px 78px 7px rgba(84,0,84,1);
+}
+h1,h2,h3,h4,h5{
+    font-family:Open Sans Condensed;
+    margin: 0px;
+    font-weight: 700;
+}
+#des{
+    border: none;
+    resize: none;
+    background-color: #ffffff2a;
+}
+.oculto{
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    background-color: #00000070;
+}
+.mensaje{
+    padding: 0;
+    background-color: #2E4450;
+    overflow-y: hidden;
+    width: 70%;
+    height: 100%;
+    -webkit-box-shadow: 7px 6px 78px 7px rgba(84,0,84,1);
+-moz-box-shadow: 7px 6px 78px 7px rgba(84,0,84,1);
+box-shadow: 7px 6px 78px 7px rgba(84,0,84,1);
+}
+.contenedor{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    width: 80%;
+}
+.item{
+    background-color: #ffffff2a;
+    padding: 5px;
+    margin: 1px;
+    font-size: 1em;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+    display: inline-grid;
+    width: 100%;
+}
+#contenedor1{
+    grid-template-columns: auto auto auto;
+}
+#contenedor2{
+    grid-template-columns: auto;
+}
+#contenedor3{
+    grid-template-columns: auto auto;
+}
+#descripcionExamen{
+    background-color: #ffffff2a;
+}
+select{
+    text-align: center;
+}
+input{
+    text-align: center;
+}
+#contenidoConsulta{
+    position: relative;
+    top: 12em;
+    height: auto;
+    width:40%;
+}
+#contenidoExamen{
+    position: relative;
+    top: 2em;
+    height: auto;
+}
+.item input {
+    width: 100%;
+}
+select{
+    width: 100%;
+    border: none;
+}
+#tablaLabora{
+    width: auto;
+}

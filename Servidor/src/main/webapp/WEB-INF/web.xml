@@ -16,6 +16,10 @@
         <servlet-name>Perfil</servlet-name>
         <servlet-class>Servlet.Perfil</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Admin</servlet-name>
+        <servlet-class>Servlet.Admin</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -34,6 +38,10 @@
     <servlet-mapping>
         <servlet-name>Perfil</servlet-name>
         <url-pattern>/Perfil</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Admin</servlet-name>
+        <url-pattern>/Admin</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

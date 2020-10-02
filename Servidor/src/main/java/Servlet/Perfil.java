@@ -157,7 +157,6 @@ public class Perfil extends HttpServlet {
                     String dias = request.getParameter("dias");
                     boolean actualizado = lab.actualizarLaboratorista(codigo,nombre,dpi,examen,email,registro,fecha,telefono);
                     if (actualizado) {
-                        System.out.println(dias);
                         boolean isActualizado = lab.actualizarTrabajo(codigo, dias);
                         if (isActualizado) {
                             response.getWriter().write("ACTUALIZADO LABORATORISTA " + codigo);

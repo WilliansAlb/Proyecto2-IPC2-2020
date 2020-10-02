@@ -100,4 +100,40 @@ public class ExamenDAO {
         return requerida;
     }
 
+    public boolean actualizarExamen(String codigo, String nombre, String descripcion, Double costo, boolean orden, String informe) {
+        String sql = "UPDATE Examen SET nombre = ?,orden = ?,costo = ?,informe = ?,descripcion = ? WHERE codigo = ?";
+        boolean ingresado = false;
+        try (PreparedStatement ps1 = cn.prepareStatement(sql);) {
+            ps1.setString(1, nombre);
+            ps1.setBoolean(2, orden);
+            ps1.setDouble(3, costo);
+            ps1.setString(4, informe);
+            ps1.setString(5, descripcion);
+            ps1.setString(6, codigo);
+            ps1.executeUpdate();
+            ingresado = true;
+        } catch (SQLException sqle) {
+            System.err.print("ERROR: " + sqle);
+            System.out.println("ERROR: "+sqle);
+        }
+        return ingresado;
+    }
+    
+    public boolean isExistente(String codigo){
+        boolean existente = false;
+        String sql = "SELECT COUNT(*) AS total FROM Examen WHERE codigo = ?";
+        try (PreparedStatement ps1 = cn.prepareStatement(sql);) {
+            ps1.setString(1, codigo);
+            ResultSet rs = ps1.executeQuery();
+            while ( rs.next() )
+            {
+                existente = rs.getInt("total") > 0;
+            }
+        } catch (SQLException sqle) {
+            System.err.print("ERROR: " + sqle);
+            System.out.println("ERROR: "+sqle);
+        }
+        return existente;
+    }
+
 }

@@ -5,10 +5,12 @@
  */
 package Base;
 
+import POJO.ConsultaDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -53,6 +55,46 @@ public class ConsultaDAO {
             
         }
         return retorno;
+    }
+    
+    public ArrayList<ConsultaDTO> obtenerConsultas(){
+        ArrayList<ConsultaDTO> consultas = new ArrayList<>();
+        String sql = "SELECT * FROM Consulta";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                ConsultaDTO nueva = new ConsultaDTO();
+                nueva.setCodigo(rs.getInt("codigo"));
+                nueva.setCosto(rs.getDouble("costo"));
+                nueva.setNombre(rs.getString("nombre"));
+                consultas.add(nueva);
+            }
+        }
+        catch ( SQLException sqle )
+        {
+            System.out.println(sqle);
+        }
+        return consultas;
+    } 
+
+    public boolean actualizarConsulta(int codigo, String nombre, Double costo) {
+        boolean actualizado = false;
+        String sql = "UPDATE Consulta SET nombre = ?, costo = ? WHERE codigo = ?";
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ps.setString(1, nombre);
+            ps.setDouble(2, costo);
+            ps.setInt(3, codigo);
+            ps.executeUpdate();
+            actualizado = true;
+        } catch ( SQLException sqle )
+        {
+            
+        }
+        return actualizado;    
     }
     
 }

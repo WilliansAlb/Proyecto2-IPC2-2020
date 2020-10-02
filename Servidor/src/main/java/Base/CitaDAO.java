@@ -55,7 +55,7 @@ public class CitaDAO {
         String sql = "SELECT c.codigo AS cod, c.medico AS med, p.nombre AS pac, "
                 + "c.fecha AS fec, con.nombre AS cons, c.hora AS ho FROM Cita c, "
                 + "Consulta con, Paciente p WHERE c.medico = ? AND c.fecha = ? AND c.realizada = ? AND con.codigo = c.consulta AND "
-                + "p.codigo = c.paciente ORDER BY (c.hora) ASC";
+                + "p.codigo = c.paciente ORDER BY (c.hora) ASC, (c.fecha) ASC";
         
         try (PreparedStatement ps = cn.prepareStatement(sql)){
             ps.setString(1, codigo);
@@ -78,5 +78,31 @@ public class CitaDAO {
         }
         return citas;
     }
-    
+    public ArrayList<CitaDTO> obtenerCitas(String codigo){
+        ArrayList<CitaDTO> citas = new ArrayList<>();
+        String sql = "SELECT c.codigo AS cod, c.medico AS med, p.nombre AS pac, "
+                + "c.fecha AS fec, con.nombre AS cons, c.hora AS ho FROM Cita c, "
+                + "Consulta con, Paciente p WHERE c.medico = ? AND c.realizada = ? AND con.codigo = c.consulta AND "
+                + "p.codigo = c.paciente ORDER BY (c.hora) ASC, (c.fecha) ASC";
+        
+        try (PreparedStatement ps = cn.prepareStatement(sql)){
+            ps.setString(1, codigo);
+            ps.setBoolean(2, false);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                CitaDTO cita = new CitaDTO();
+                cita.setCodigo(rs.getString("cod"));
+                cita.setFecha(rs.getString("fec"));
+                cita.setMedico(codigo);
+                cita.setRealizada(false);
+                cita.setHora(rs.getInt("ho"));
+                cita.setConsulta(rs.getString("cons"));
+                cita.setPaciente(rs.getString("pac"));
+                citas.add(cita);
+            }
+        } catch (SQLException sqle){
+            System.out.println(sqle);
+        }
+        return citas;
+    }
 }
