@@ -67,6 +67,41 @@ public class DoctorDAO {
         }
         return ingreso;
     }
+    public boolean ingresarEspecialidadesSegunCodigo(String medico, int consulta){
+        String sql = "INSERT INTO Especialidad(consulta,medico) SELECT ?, ? FROM dual WHERE NOT EXISTS (SELECT * FROM Especialidad WHERE consulta = ? AND medico = ?)";
+        boolean ingreso = false;
+        
+        try (PreparedStatement ps = cn.prepareStatement(sql)){
+            ps.setInt(1, consulta);
+            ps.setString(2, medico);
+            ps.setInt(3, consulta);
+            ps.setString(4, medico);
+            ps.executeUpdate();
+            ingreso = true;
+        } catch (SQLException sqle){
+            System.out.println(sqle);
+        }
+        return ingreso;
+    }
+    
+    public boolean descomponerEIngresar(String medico, String consulta){
+        int contador = 0;
+        boolean actualizado = false;
+        for (int i = 0; i < consulta.length(); i++){
+            if (consulta.charAt(i)=='/'){
+                contador++;
+            }
+        }
+        if (contador > 0 && contador != 0){
+            String[] especialidadesPartidas = consulta.split("/");
+            for (String especialidadesPartida : especialidadesPartidas) {
+                actualizado = ingresarEspecialidadesSegunCodigo(medico,Integer.parseInt(especialidadesPartida));
+            }
+        } else {
+            actualizado = ingresarEspecialidadesSegunCodigo(medico,Integer.parseInt(consulta));
+        }
+        return actualizado;
+    }
     
     public String obtenerHorarioMedico(String codigo){
         String horario = "";
@@ -279,6 +314,26 @@ public class DoctorDAO {
         }
         return actualizado;
     }
+    public boolean actualizarEspecialidadSegunCodigo(String codigo, String especialidades) {
+        int contador = 0;
+        boolean actualizado = false;
+        for (int i = 0; i < especialidades.length(); i++){
+            if (especialidades.charAt(i)=='-'){
+                contador++;
+            }
+        }
+        if (contador > 1 && contador != 0){
+            String[] especialidadesPartidas = especialidades.split("/");
+            for (String especialidadesPartida : especialidadesPartidas) {
+                String[] parts = especialidadesPartida.split("-");
+                actualizado = isActualizadaEspecialidad(Integer.parseInt(parts[0]),Integer.parseInt(parts[1]));
+            }
+        } else {
+            String[] parts = especialidades.split("-");
+            actualizado = isActualizadaEspecialidad(Integer.parseInt(parts[0]),Integer.parseInt(parts[1]));
+        }
+        return actualizado;
+    }
     
     public boolean isActualizadaEspecialidad(int especialidad, int consulta){
         boolean actualizado = false;
@@ -294,6 +349,156 @@ public class DoctorDAO {
             
         }
         return actualizado;
+    }
+    
+    public ArrayList<DoctorDTO> obtenerMedicos(){
+        ArrayList<DoctorDTO> doctores = new ArrayList<>();
+        String sql = "SELECT * FROM Medico";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                DoctorDTO doctor = new DoctorDTO();
+                doctor.setCodigo(rs.getString("codigo"));
+                doctor.setDpi(rs.getString("dpi"));
+                doctor.setEmail(rs.getString("email"));
+                doctor.setEspecialidades(obtenerEspecialidades(rs.getString("codigo")));
+                doctor.setFecha_inicio(rs.getString("fecha_inicio"));
+                doctor.setHorario(obtenerHorarioTrabajo(rs.getString("horario")));
+                doctor.setNo_colegiado(Integer.parseInt(rs.getString("no_colegiado")));
+                doctor.setNombre(rs.getString("nombre"));
+                doctor.setEmail(rs.getString("email"));
+                doctor.setTelefono(Integer.parseInt(rs.getString("telefono")));
+                doctores.add(doctor);
+            }
+        } catch ( SQLException sqle )
+        {
+            System.out.println(sqle);
+        }
+        return doctores;
+    }
+    public ArrayList<DoctorDTO> obtenerMedicosLike(String nombre){
+        nombre = nombre.toUpperCase();
+        ArrayList<DoctorDTO> doctores = new ArrayList<>();
+        String sql = "SELECT * FROM Medico WHERE UPPER(nombre) LIKE '%"+nombre+"' OR UPPER(nombre) LIKE '%"+nombre+"%' OR UPPER(nombre) LIKE '"+nombre+"%'";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                DoctorDTO doctor = new DoctorDTO();
+                doctor.setCodigo(rs.getString("codigo"));
+                doctor.setDpi(rs.getString("dpi"));
+                doctor.setEmail(rs.getString("email"));
+                doctor.setEspecialidades(obtenerEspecialidades(rs.getString("codigo")));
+                doctor.setFecha_inicio(rs.getString("fecha_inicio"));
+                doctor.setHorario(obtenerHorarioTrabajo(rs.getString("horario")));
+                doctor.setNo_colegiado(Integer.parseInt(rs.getString("no_colegiado")));
+                doctor.setNombre(rs.getString("nombre"));
+                doctor.setEmail(rs.getString("email"));
+                doctor.setTelefono(Integer.parseInt(rs.getString("telefono")));
+                doctores.add(doctor);
+            }
+        } catch ( SQLException sqle )
+        {
+            System.out.println(sqle);
+        }
+        return doctores;
+    }
+    
+    public ArrayList<DoctorDTO> obtenerMedicosPorEspecialidad(String codigo){
+        ArrayList<DoctorDTO> doctores = new ArrayList<>();
+        String sql = "SELECT * FROM Medico m, Especialidad e WHERE e.consulta = ? AND e.medico = m.codigo";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ps.setInt(1,Integer.parseInt(codigo));
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                DoctorDTO doctor = new DoctorDTO();
+                doctor.setCodigo(rs.getString("codigo"));
+                doctor.setDpi(rs.getString("dpi"));
+                doctor.setEmail(rs.getString("email"));
+                doctor.setEspecialidades(obtenerEspecialidades(rs.getString("codigo")));
+                doctor.setFecha_inicio(rs.getString("fecha_inicio"));
+                doctor.setHorario(obtenerHorarioTrabajo(rs.getString("horario")));
+                doctor.setNo_colegiado(Integer.parseInt(rs.getString("no_colegiado")));
+                doctor.setNombre(rs.getString("nombre"));
+                doctor.setEmail(rs.getString("email"));
+                doctor.setTelefono(Integer.parseInt(rs.getString("telefono")));
+                doctores.add(doctor);
+            }
+        } catch ( SQLException sqle )
+        {
+            System.out.println(sqle);
+        }
+        return doctores;
+    }
+    
+    public ArrayList<DoctorDTO> obtenerMedicosPorFecha(String fecha1, String fecha2){
+        ArrayList<DoctorDTO> doctores = new ArrayList<>();
+        String sql = "SELECT * FROM Medico WHERE fecha_inicio BETWEEN ? AND ?";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ps.setString(1, fecha1);
+            ps.setString(2, fecha2);
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                DoctorDTO doctor = new DoctorDTO();
+                doctor.setCodigo(rs.getString("codigo"));
+                doctor.setDpi(rs.getString("dpi"));
+                doctor.setEmail(rs.getString("email"));
+                doctor.setEspecialidades(obtenerEspecialidades(rs.getString("codigo")));
+                doctor.setFecha_inicio(rs.getString("fecha_inicio"));
+                doctor.setHorario(obtenerHorarioTrabajo(rs.getString("horario")));
+                doctor.setNo_colegiado(Integer.parseInt(rs.getString("no_colegiado")));
+                doctor.setNombre(rs.getString("nombre"));
+                doctor.setEmail(rs.getString("email"));
+                doctor.setTelefono(Integer.parseInt(rs.getString("telefono")));
+                doctores.add(doctor);
+            }
+        } catch ( SQLException sqle )
+        {
+            System.out.println(sqle);
+        }
+        return doctores;
+    }
+    
+    public ArrayList<DoctorDTO> obtenerMedicosPorHora(String hora){
+        ArrayList<DoctorDTO> doctores = obtenerMedicos();
+        ArrayList<DoctorDTO> nuevecito = new ArrayList<>();
+        for (DoctorDTO doctor : doctores){
+            int inicio = Integer.parseInt(doctor.getHorario()[0]);
+            int final1 = Integer.parseInt(doctor.getHorario()[1]);
+            int hora1 = Integer.parseInt(hora);
+            if (inicio <= hora1 && hora1 <= final1){
+                nuevecito.add(doctor);
+            }
+        }
+        return nuevecito;
+    }
+
+    public boolean isExistente(String codigo) {
+        boolean existente = false;
+        String sql = "SELECT COUNT(*) AS total FROM Medico WHERE codigo = ?";
+        try (PreparedStatement ps1 = cn.prepareStatement(sql);) {
+            ps1.setString(1, codigo);
+            ResultSet rs = ps1.executeQuery();
+            while ( rs.next() )
+            {
+                existente = rs.getInt("total") > 0;
+            }
+        } catch (SQLException sqle) {
+            System.err.print("ERROR: " + sqle);
+            System.out.println("ERROR: "+sqle);
+        }
+        return existente;
     }
    
 }

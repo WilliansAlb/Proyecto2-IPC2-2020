@@ -139,6 +139,20 @@ input{
     top: 2em;
     height: auto;
 }
+#contenidoLaboratorista{
+    position: relative;
+    top: 2em;
+    margin-bottom: 5em;
+    width: 40%;
+    height: auto;
+}
+#contenidoMedico{
+    position: relative;
+    top: 2em;
+    margin-bottom: 5em;
+    width: 40%;
+    height: auto;
+}
 .item input {
     width: 100%;
 }
@@ -148,4 +162,33 @@ select{
 }
 #tablaLabora{
     width: auto;
+}
+#nuevoLaboratorista{
+    overflow-y: auto; 
+    width: 40%;
+}
+#nuevoMedico{
+    overflow-y: auto; 
+    width: 40%;
+}
+#contenidoLaboratorista .contenedor{
+    grid-template-columns: auto;
+    width: 80%;
+}
+
+#diasDeTrabajo{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto;
+    width: 100%;
+}
+#diasDeTrabajo .item{
+    width: 100%;
+}
+
+#paraEspecialidades{
+    border: 3px solid goldenrod;
+}
+#paraEspecialidades:hover{
+    background-color: gray;
+    cursor: pointer;
 }

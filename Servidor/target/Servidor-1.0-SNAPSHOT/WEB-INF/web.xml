@@ -20,6 +20,10 @@
         <servlet-name>Admin</servlet-name>
         <servlet-class>Servlet.Admin</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Cita</servlet-name>
+        <servlet-class>Servlet.Cita</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -42,6 +46,10 @@
     <servlet-mapping>
         <servlet-name>Admin</servlet-name>
         <url-pattern>/Admin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Cita</servlet-name>
+        <url-pattern>/Cita</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

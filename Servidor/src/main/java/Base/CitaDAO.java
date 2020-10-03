@@ -50,6 +50,27 @@ public class CitaDAO {
         return ingreso;
     }
     
+    public ArrayList<String> obtenerCitasHora(String codigo, String fecha){
+        ArrayList<String> citas = new ArrayList<>();
+        String sql = "SELECT c.hora AS hora FROM Cita c, "
+                + "Consulta con, Paciente p WHERE c.medico = ? AND c.fecha = ? AND c.realizada = ? AND con.codigo = c.consulta AND "
+                + "p.codigo = c.paciente ORDER BY (c.hora) ASC, (c.fecha) ASC";
+        
+        try (PreparedStatement ps = cn.prepareStatement(sql)){
+            ps.setString(1, codigo);
+            ps.setString(2, fecha);
+            ps.setBoolean(3, false);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                Double hora = (double)rs.getInt("hora")/100;
+                citas.add(hora+"");
+            }
+        } catch (SQLException sqle){
+            System.out.println(sqle);
+        }
+        return citas;
+    }
+    
     public ArrayList<CitaDTO> obtenerCitas(String codigo, String fecha){
         ArrayList<CitaDTO> citas = new ArrayList<>();
         String sql = "SELECT c.codigo AS cod, c.medico AS med, p.nombre AS pac, "
@@ -78,6 +99,8 @@ public class CitaDAO {
         }
         return citas;
     }
+    
+    
     public ArrayList<CitaDTO> obtenerCitas(String codigo){
         ArrayList<CitaDTO> citas = new ArrayList<>();
         String sql = "SELECT c.codigo AS cod, c.medico AS med, p.nombre AS pac, "

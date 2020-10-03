@@ -7,7 +7,9 @@ package Servlet;
 
 import Base.Conector;
 import Base.ConsultaDAO;
+import Base.DoctorDAO;
 import Base.ExamenDAO;
+import Base.LaboratoristaDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -128,6 +130,97 @@ public class Admin extends HttpServlet {
                     }
                 } else {
                     response.getWriter().write("ERRORBASE");
+                }
+            } else if (tipo.equalsIgnoreCase("INGRESO LABORATORISTA")) {
+                if (cn.conectar()) {
+                    LaboratoristaDAO lab = new LaboratoristaDAO(cn);
+                    String codigo = request.getParameter("codigo");
+                    String nombre = request.getParameter("nombre");
+                    String registro = request.getParameter("registro");
+                    String dpi = request.getParameter("dpi");
+                    String telefono = request.getParameter("telefono");
+                    String dias = request.getParameter("dias");
+                    String fecha = request.getParameter("fecha");
+                    String email = request.getParameter("email");
+                    String examen = request.getParameter("examen");
+                    String nuevo = request.getParameter("nuevo");
+                    if (nuevo.equalsIgnoreCase("true")) {
+                        if (lab.actualizarLaboratorista(codigo, nombre, dpi, examen, email, registro, fecha, telefono)) {
+                            boolean isActualizado = lab.actualizarTrabajo(codigo, dias);
+                            if (isActualizado) {
+                                response.getWriter().write("ACTUALIZADO LABORATORISTA " + codigo);
+                            } else {
+                                response.getWriter().write("SIN INGRESAR ESPECIALIDADES");
+                            }
+                        } else {
+                            response.getWriter().write("ERRORBASE");
+                        }
+                    } else {
+                        if (!lab.isExistente(codigo)) {
+                            if (lab.ingresarLaboratorista(codigo, examen, nombre, dpi, registro, email, fecha, telefono)) {
+                                boolean isActualizado = lab.actualizarTrabajo(codigo, dias);
+                                if (isActualizado) {
+                                    response.getWriter().write("ACTUALIZADO LABORATORISTA " + codigo);
+                                } else {
+                                    response.getWriter().write("SIN INGRESAR ESPECIALIDADES");
+                                }
+                            } else {
+                                response.getWriter().write("ERRORBASE");
+                            }
+                        } else {
+                            response.getWriter().write("EXISTE");
+                        }
+                    }
+                } else {
+                    response.getWriter().write("ERRORBASE");
+                }
+            } else if (tipo.equalsIgnoreCase("INGRESO MEDICO")) {
+                if (cn.conectar()) {
+                    DoctorDAO doctor = new DoctorDAO(cn);
+                    String codigo = request.getParameter("codigo");
+                    String nombre = request.getParameter("nombre");
+                    String dpi = request.getParameter("dpi");
+                    String colegiado = request.getParameter("colegiado");
+                    String final1 = request.getParameter("final");
+                    String final2 = final1 + ":00";
+                    String inicio = request.getParameter("inicio");
+                    String inicio1 = inicio + ":00";
+                    String telefono = request.getParameter("telefono");
+                    String fecha = request.getParameter("fecha");
+                    String correo = request.getParameter("correo");
+                    String nuevos = request.getParameter("nuevos");
+                    String cambios = request.getParameter("cambios");
+                    boolean nuevo = request.getParameter("nuevo").equalsIgnoreCase("true");
+                    if (nuevo) {
+                        if (doctor.actualizarDoctor(codigo, nombre, dpi, colegiado, fecha, inicio1 + "-" + final2, telefono, correo)) {
+                            if (!cambios.isEmpty()) {
+                                boolean isActualizado = doctor.actualizarEspecialidadSegunCodigo(codigo, cambios);
+                            }
+                            if (!nuevos.isEmpty()) {
+                                boolean isNuevo = doctor.descomponerEIngresar(codigo, nuevos);
+                            }
+                            response.getWriter().write("ACTUALIZADO CORRECTAMENTE");
+                        } else {
+                            response.getWriter().write("ERRORBASE");
+                        }
+                    } else {
+                        if (!doctor.isExistente(codigo)) {
+                            if (doctor.ingresarDoctor(codigo, nombre, dpi, colegiado, inicio1 + "-" + final2, correo, fecha, telefono)) {
+                                if (!nuevos.isEmpty()) {
+                                    boolean isNuevo = doctor.descomponerEIngresar(codigo, nuevos);
+                                    response.getWriter().write("INGRESADO CORRECTAMENTE");
+                                } else {
+                                    response.getWriter().write("INGRESADO PERO SIN ESPECIALIDADES");
+                                }
+                            } else {
+                                response.getWriter().write("ERRORBASE");
+                            }
+                        } else {
+                            response.getWriter().write("EXISTE");
+                        }
+                    }
+                } else {
+                    response.getWriter().write("ERROR: base de datos");
                 }
             }
         } else {

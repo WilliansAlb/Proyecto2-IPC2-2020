@@ -4,6 +4,8 @@
     Author     : yelbetto
 --%>
 
+<%@page import="Base.ExamenDAO"%>
+<%@page import="POJO.ExamenDTO"%>
 <%@page import="POJO.TrabajoDTO"%>
 <%@page import="POJO.LaboratoristaDTO"%>
 <%@page import="java.util.ArrayList"%>
@@ -27,14 +29,16 @@
         <%@include file='Sidebar.jsp'%>
     <center>
         <div id="tablaLab">
-            <h4>EXAMENES</h4>
+            <h4>LABORATORISTAS</h4>
             <%
                 Conector cn = new Conector("encender");
                 LaboratoristaDAO laboratorista = new LaboratoristaDAO(cn);
+                ExamenDAO examen = new ExamenDAO(cn);
+                ArrayList<ExamenDTO> examenes = examen.obtenerExamenes();
                 ArrayList<LaboratoristaDTO> laboratoristas = laboratorista.obtenerTodosLaboratoristas();
-                String[] dias = {"Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"};
+                String[] dias = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
             %>
-            <button id="agregarNuevoLab" onclick="mostrarNuevoLab(this)">AGREGAR NUEVO EXAMEN</button>
+            <button id="agregarNuevoLab" onclick="mostrarNuevoLab(this)">AGREGAR NUEVO LABORATORISTA</button>
             <table id="tablaLabora">
                 <thead>
                     <tr>
@@ -60,18 +64,78 @@
                         <td><%out.print(laboratoristas.get(i).getTelefono());%></td>
                         <td><%out.print(laboratoristas.get(i).getNombreExamen());%></td>
                         <td><%out.print(laboratoristas.get(i).getEmail());%></td>
-                        <td><select id="selectTrabajo" name="trabajos"><%
+                        <td><select name="trabajos"><%
                             ArrayList<TrabajoDTO> trabajos = laboratoristas.get(i).getTrabajos();
-                            for (int u = 0; u < trabajos.size(); u++){
-                        %>
-                        <option value="<%out.print(trabajos.get(u).getDia());%>"><%out.print(dias[trabajos.get(u).getDia()-1]);%></option>
-                        <%}%></select></td>
+                            for (int u = 0; u < trabajos.size(); u++) {
+                                %>
+                                <option value="<%out.print(trabajos.get(u).getDia());%>"><%out.print(dias[trabajos.get(u).getDia() - 1]);%></option>
+                                <%}%></select></td>
                         <td><%out.print(laboratoristas.get(i).getFecha());%></td>
                         <td><button onclick="editarActualLab(this)">EDITAR</button></td>
                     </tr>
                     <%}%>
                 </tbody>
             </table>
+        </div>
+        <div id="nuevoLaboratorista" class="oculto" style="display: none;">
+            <div id="contenidoLaboratorista" class="mensaje">
+                <center>
+                    <h1>LABORATORISTA</h1>
+                    <form id="formularioAdminLaboratorista" method="POST" action="../Admin">
+                        <div class="contenedor">
+                        <div class="item">
+                            <label for="codigo">CODIGO: </label>
+                            <input type="text" id="codigo" required>
+                        </div>
+                        <div class="item">
+                            <label for="nombre">NOMBRE: </label>
+                            <input type="text" id="nombre" required>
+                        </div>
+                        <div class="item">
+                            <label for="examen">EXAMEN: </label>
+                            <select name="examen" id="examen" required>
+                                <%for (int i = 0; i < examenes.size(); i++) {%>
+                                <option value="<%out.print(examenes.get(i).getCodigo());%>"><%out.print(examenes.get(i).getNombre());%></option>
+                                <%}%>
+                            </select>
+                        </div>
+                        <div class="item">
+                            <label for="registro">REGISTRO: </label>
+                            <input type="text" name="registro" id="registro" required>
+                        </div>
+                        <div class="item">
+                            <label for="dpi">DPI: </label>
+                            <input type="number" name="dpi" id="dpi" step="1" min="1" required>
+                        </div>
+                        <div class="item">
+                            <label for="telefono">TELEFONO: </label>
+                            <input type="number" name="telefono" id="telefono" step="1" min="1" required>
+                        </div>
+                        <div class="item">
+                            <label>DIAS DE TRABAJO: </label>
+                            <div id="diasDeTrabajo">
+                            <%for (int i = 0; i < dias.length; i++) {
+                            %>
+                            <div class="item">
+                                <input type="checkbox" class="trabajos" id="<%out.print(dias[i]);%>" name="dias" value="0" ><label for="<%out.print(dias[i]);%>" class="dias"><%out.print(dias[i]);%></label>
+                            </div>
+                            <%}%>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <label for="fecha">FECHA NACIMIENTO: </label>
+                            <input type="date" name="fecha" id="fecha" required>
+                        </div>
+                        <div class="item">
+                            <label for="email">EMAIL: </label>
+                            <input type="text"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" name="email" id="email" required>
+                        </div>
+                        </div>
+                        <button id="ingresar">INGRESAR</button>
+                    </form>
+                    <button id="ocultarLaboratorista" onclick="ocultar(document.getElementById('nuevoLaboratorista'))">CANCELAR</button>
+                </center>
+            </div>
         </div>
     </center>
 </body>
