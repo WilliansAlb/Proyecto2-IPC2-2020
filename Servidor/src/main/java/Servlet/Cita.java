@@ -39,7 +39,7 @@ public class Cita extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Cita</title>");            
+            out.println("<title>Servlet Cita</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Cita at " + request.getContextPath() + "</h1>");
@@ -61,33 +61,34 @@ public class Cita extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession s = request.getSession();
-        if (request.getParameter("tipo")!=null){
+        if (request.getParameter("tipo") != null) {
             String tipo = request.getParameter("tipo");
-            if (tipo.equalsIgnoreCase("1")){
-                s.setAttribute("filtroMedico",request.getParameter("nombre"));
-            } else if (tipo.equalsIgnoreCase("2")){
-                s.setAttribute("filtroMedico",request.getParameter("especial"));
-            } else if (tipo.equalsIgnoreCase("3")){
-                s.setAttribute("filtroMedico",request.getParameter("desde"));
-                s.setAttribute("filtroMedico1",request.getParameter("hasta"));
-            } else if (tipo.equalsIgnoreCase("4")){
+            if (tipo.equalsIgnoreCase("1")) {
+                s.setAttribute("filtroMedico", request.getParameter("nombre"));
+            } else if (tipo.equalsIgnoreCase("2")) {
+                s.setAttribute("filtroMedico", request.getParameter("especial"));
+            } else if (tipo.equalsIgnoreCase("3")) {
+                s.setAttribute("filtroMedico", request.getParameter("desde"));
+                s.setAttribute("filtroMedico1", request.getParameter("hasta"));
+            } else if (tipo.equalsIgnoreCase("4")) {
                 s.setAttribute("filtroMedico", request.getParameter("hora"));
             }
             s.setAttribute("tipoConsulta", tipo);
-            response.getWriter().write("TIPO CONSULTA "+tipo);
+            response.getWriter().write("TIPO CONSULTA " + tipo);
         } else {
-            if (request.getParameter("pedido")!=null){
+            if (request.getParameter("pedido") != null) {
+                response.setContentType("text/plain;charset=UTF-8");
                 String codigoMedico = request.getParameter("medico");
                 String fecha = request.getParameter("fecha");
                 Conector cn = new Conector();
-                if (cn.conectar()){
+                if (cn.conectar()) {
                     CitaDAO cita = new CitaDAO(cn);
-                    ArrayList<String> citas = cita.obtenerCitasHora(codigoMedico,fecha);
+                    ArrayList<String> citas = cita.obtenerCitasHora(codigoMedico, fecha);
                     String aEnviar = "";
-                    for (int i = 0; i < citas.size(); i++){
-                        aEnviar += citas.get(i)+"/";
+                    for (int i = 0; i < citas.size(); i++) {
+                        aEnviar += citas.get(i) + "/";
                     }
-                    if (aEnviar.isEmpty()){
+                    if (aEnviar.isEmpty()) {
                         response.getWriter().write("LIBRE");
                     } else {
                         response.getWriter().write(aEnviar);
@@ -112,7 +113,38 @@ public class Cita extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession s = request.getSession();
+        if (request.getParameter("tipo") != null) {
+            Conector cn = new Conector();
+            String tipo = request.getParameter("tipo");
+            if (tipo.equalsIgnoreCase("INGRESO CITA")) {
+                response.setContentType("text/plain;charset=UTF-8");
+                if (cn.conectar()) {
+                    CitaDAO cita = new CitaDAO(cn);
+                    String codigo = request.getParameter("medico");
+                    String consulta = request.getParameter("consulta");
+                    int newConsulta = Integer.parseInt(consulta);
+                    String hora = request.getParameter("horario");
+                    int newHora = Integer.parseInt(hora) * 100;
+                    String fecha = request.getParameter("fecha");
+                    String nuevoCodigo = cita.obtenerUltimo();
+                    int nuevoCod = Integer.parseInt(nuevoCodigo)+1;
+                    String newCodigo = nuevoCod+"";
+                    boolean ingreso = cita.ingresarCita(newCodigo, "118258", codigo, newConsulta, fecha, newHora);
+                    if (ingreso){
+                        response.getWriter().write(newCodigo+"");
+                    } else {
+                        response.getWriter().write("Ingresa de nuevo");
+                    }
+                } else {
+                    response.getWriter().write("ERRORBASE");
+                }
+            } else {
+                response.getWriter().write("OTRO TIPO");
+            }
+        } else {
+            response.getWriter().write("SIN DATOS");
+        }
     }
 
     /**

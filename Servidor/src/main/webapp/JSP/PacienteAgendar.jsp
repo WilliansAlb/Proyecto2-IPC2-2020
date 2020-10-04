@@ -58,8 +58,8 @@
         %>
         <%@include file='Sidebar.jsp' %>
     <center>
-        <div id="inicio" style="display: none;">
-            <h3>AGENDAR CITA</h3>
+        <div id="inicio" style="display: none;" class="ventana">
+            <h3>SELECCIONA UN TIPO DE CITA</h3>
             <p>Bienvenido al portal para agendar citas, a continuación ingresa los datos requeridos</p>
             <label for="consultas">Tipo de consulta: </label>
             <table id="consultas">
@@ -89,7 +89,7 @@
         </div>
     </center>
     <center>
-        <div id="medico">
+        <div id="medico" class="ventana">
             <h3>AGENDAR CITA</h3>
             <p>Bienvenido al portal para agendar citas, ingresa los datos solicitados luego presiona siguiente</p>
             <form id="formularioFiltros" method="GET" action="../Cita">
@@ -127,7 +127,7 @@
                 </div>
                 <button id="buscarMedico" style="display: none;">BUSCAR</button>
             </form>
-            <label for="medicos">Medicos: </label>
+            <h3>LISTADO DE MEDICOS</h3>
             <table id="medicos">
                 <thead>
                     <tr>
@@ -170,8 +170,8 @@
             </table>
             <button id="siguiente2" onclick="mostrarUnicasEspecialidades($('#inicio'), $('#medico'))" disabled>SIGUIENTE&rarr;</button>
         </div>
-        <div id="horario" style="display:none;">
-            <h3>Elige una fecha y un horario</h3>
+        <div id="horario" style="display:none;" class="ventana">
+            <h3>ELIGE UNA FECHA Y HORA</h3>
             <p>Selecciona una fecha y se te mostrará la disponibildad del médico según su horario</p>
             <p>*Nota:seleccionas la hora que quieres al marcar el cuadro de la tabla</p>
             <input type="date" id="fechaElegida">
@@ -190,7 +190,35 @@
                     </tr>
                 </tbody>
             </table>
-            <button onclick="retroceder($('#inicio'),$('#horario'))">&larr;ATRAS</button><button id="siguiente3" disabled>SIGUIENTE&rarr;</button>
+            <button onclick="retroceder($('#inicio'), $('#horario'))">&larr;ATRAS</button><button id="siguiente3" onclick="irAConfirmar($('#confirmar'),$('#horario'))" disabled>SIGUIENTE&rarr;</button>
+        </div>
+        <div id="confirmar" style="display: none;" class="ventana">
+            <h3 id="mensajeCita">CONFIRMAR CITA</h3>
+            <p id="verificarCita">Verifica los datos luego presiona el boton confirmar</p>
+            <table id="tablaConfirmar">
+                <thead>
+                    <tr>
+                        <td>Medico</td>
+                        <td>Consulta</td>
+                        <td>Fecha</td>
+                        <td>Costo</td>
+                        <td>Hora</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="medicoTabla">Medico</td>
+                        <td id="consultaTabla">Consulta</td>
+                        <td id="fechaTabla">Fecha</td>
+                        <td id="costoTabla">Hora</td>
+                        <td id="horaTabla">Hora</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p id="mensajeConfirmacion" style="display:none;">El codigo de tu cita es<span id="spanCodigo"></span></p>
+            <button id="regreso3" onclick="siguiente($('horario'),$('confirmar'))">&larr;ATRAS</button><button id="ingresarCita" onclick="ingresarCita()">INGRESAR</button>
+            <br>
+            <a href="PacienteAgendar.jsp" style="display: none;" id="otraConsulta">INGRESAR OTRA CONSULTA</a>
         </div>
     </center>
 </body>

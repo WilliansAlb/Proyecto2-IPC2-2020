@@ -45,6 +45,7 @@ public class CitaDAO {
             ingreso = true;
         } catch (SQLException sqle){
             ingreso = false;
+            System.out.println(sqle);
         }
         
         return ingreso;
@@ -69,6 +70,22 @@ public class CitaDAO {
             System.out.println(sqle);
         }
         return citas;
+    }
+    
+    public String obtenerUltimo(){
+        String codigo = "";
+        String sql = "SELECT codigo FROM Cita ORDER BY codigo DESC LIMIT 1;";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() ){
+                codigo = rs.getString("codigo");
+            }
+        } catch ( SQLException sqle ){
+            System.out.println(sqle);
+        }
+        return codigo;
     }
     
     public ArrayList<CitaDTO> obtenerCitas(String codigo, String fecha){

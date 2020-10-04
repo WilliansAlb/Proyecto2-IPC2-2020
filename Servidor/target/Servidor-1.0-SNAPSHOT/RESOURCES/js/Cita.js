@@ -6,7 +6,7 @@
 var codigoMedicoGlobal = "";
 var codigoConsultaGlobal = "";
 var costoConsultaGlobal = "";
-var codigoConsultaInvididual = "";
+var codigoConsultaInvididual ="";
 var horarioElegido = "";
 window.onload = function () {
     $("#formularioFiltros").bind("submit", function () {
@@ -80,7 +80,8 @@ function cambiar(checkbox) {
     for (let i = 0; i < elementos.length; i++) {
         if (elementos[i] === checkbox) {
             costoConsultaGlobal = elementos[i].name;
-            codigoConsultaIndividual = elementos[i].value;
+            codigoConsultaInvididual = elementos[i].value;
+            console.log(codigoConsultaInvididual);
             $("#siguiente").removeAttr("disabled");
         } else {
             elementos[i].checked = false;
@@ -267,4 +268,72 @@ function marcarHorario(checkbox) {
             elementos[i].checked = false;
         }
     }
+}
+
+function irAConfirmar(div1,div2){
+    var elementos = document.getElementsByClassName("seleccionarDatos");
+    var nombre  = "";
+    for (let i = 0; i < elementos.length; i++) {
+        if (elementos[i].checked) {
+            var td = elementos[i].parentNode;
+            var tr = td.parentNode;
+            var celdas = tr.querySelectorAll("td");
+            nombre = celdas[1].textContent;
+        }
+    }
+    var elementos2 = document.getElementsByClassName("seleccionar");
+    var nombreConsulta  = "";
+    var costo = "";
+    for (let i = 0; i < elementos2.length; i++) {
+        if (elementos2[i].checked) {
+            var td = elementos2[i].parentNode;
+            var tr = td.parentNode;
+            var celdas = tr.querySelectorAll("td");
+            nombreConsulta = celdas[1].textContent;
+            costo = celdas[2].textContent;
+        }
+    }
+    $('#medicoTabla').text(nombre);
+    $("#fechaTabla").text($('#fechaElegida').val());
+    $("#consultaTabla").text(nombreConsulta);
+    $("#costoTabla").text(costo);
+    $("#horaTabla").text(horarioElegido);
+    siguiente(div1,div2);
+}
+
+function ingresarCita(){
+    var btnEnviar = $('#ingresarCita');
+    var fecha = $("#fechaElegida").val();
+    var tipo1 = codigoConsultaInvididual;
+     $.ajax({
+        type: 'POST',
+        url: '../Cita',
+        data: {tipo: "INGRESO CITA", medico:codigoMedicoGlobal,consulta:tipo1,horario:horarioElegido,fecha:fecha},
+        beforeSend: function () {
+            btnEnviar.attr("disabled", "disabled");
+        },
+        complete: function (data) {
+            btnEnviar.removeAttr("disabled");
+        },
+        success: function (data) {
+            if (data === 'EXISTE') {
+                alert("Ya existe un registro con ese mismo codigo, ingresa uno nuevo");
+            } else if( data === 'ERRORBASE') {
+                alert("ERROR al ingresar la consulta");
+            } else {
+                $("#mensajeCita").text("CITA CONFIRMADA");
+                $("#verificarCita").hide();
+                document.getElementById("spanCodigo").innerText = data;
+                document.getElementById("spanCodigo").style.color = "green";
+                $("#spanCodigo").css("font-size","3em");
+                $("#spanCodigo").css("font-weight","bold");
+                $("#mensajeConfirmacion").show();
+                btnEnviar.hide();
+                $("#regreso3").hide();
+                $("#otraConsulta").show();
+            }
+        },error: function (data) {
+            alert("Problemas al tratar de enviar el formulario");
+        }
+    });
 }

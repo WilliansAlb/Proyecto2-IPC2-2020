@@ -24,6 +24,22 @@
         <servlet-name>Cita</servlet-name>
         <servlet-class>Servlet.Cita</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Paciente</servlet-name>
+        <servlet-class>Servlet.Paciente</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ControladorPDF</servlet-name>
+        <servlet-class>Servlet.ControladorPDF</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ControladorIMG</servlet-name>
+        <servlet-class>Servlet.ControladorIMG</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Laboratorista</servlet-name>
+        <servlet-class>Servlet.Laboratorista</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -50,6 +66,22 @@
     <servlet-mapping>
         <servlet-name>Cita</servlet-name>
         <url-pattern>/Cita</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Paciente</servlet-name>
+        <url-pattern>/Paciente</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControladorPDF</servlet-name>
+        <url-pattern>/ControladorPDF</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ControladorIMG</servlet-name>
+        <url-pattern>/ControladorIMG</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Laboratorista</servlet-name>
+        <url-pattern>/Laboratorista</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

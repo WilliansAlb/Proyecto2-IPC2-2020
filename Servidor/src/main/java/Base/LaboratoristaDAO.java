@@ -119,6 +119,44 @@ public class LaboratoristaDAO {
         return horarios;
     }
     
+    public String obtenerHorariosLimite(String laboratorista, String fecha){
+        String horarios = "";
+        String sql = "SELECT hora FROM Resultado WHERE fecha = ? "
+                + "AND laboratorista = ? AND 24 > (SELECT COUNT(hora) FROM Resultado WHERE fecha = ? AND laboratorista = ?);";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) ){
+            ps.setString(2,laboratorista);
+            ps.setString(1, fecha);
+            ps.setString(4,laboratorista);
+            ps.setString(3, fecha);
+            ResultSet rs = ps.executeQuery();
+            while ( rs. next() ){
+                horarios += rs.getInt("hora")+",";
+                System.out.println(horarios);
+            }
+        } catch ( SQLException sqle ){
+            System.out.println(sqle);
+        }
+        return horarios;
+    }
+    public boolean obtenerHorariosDia(String laboratorista, String fecha){
+        boolean actualizado = false;
+        String sql = "SELECT COUNT(hora) AS horas FROM Resultado WHERE fecha = ? AND laboratorista = ?";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) ){
+            ps.setString(2,laboratorista);
+            ps.setString(1, fecha);
+            ResultSet rs = ps.executeQuery();
+            while ( rs. next() ){
+                actualizado = rs.getInt("horas") < 24;
+                System.out.println(rs.getInt("horas")+"");
+            }
+        } catch ( SQLException sqle ){
+            System.out.println(sqle);
+        }
+        return actualizado;
+    }
+    
     public LaboratoristaDTO obtenerLaboratorista(String codigo)
     {
         LaboratoristaDTO lab = new LaboratoristaDTO();

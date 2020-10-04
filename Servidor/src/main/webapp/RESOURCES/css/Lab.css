@@ -1,0 +1,107 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 4/10/2020, 04:26:43 AM
+    Author     : yelbetto
+*/
+
+.oculto{
+   border: solid 1px black;
+position: fixed;
+z-index: 100;
+width: 100%;
+height: 100%;
+}
+.mensaje2{
+    padding: 0;
+    background-color: #2E4450;
+    overflow-y: hidden;
+    width: 40%;
+    display: block;
+    height: 100%;
+    -webkit-box-shadow: 7px 6px 78px 7px rgba(84,0,84,1);
+-moz-box-shadow: 7px 6px 78px 7px rgba(84,0,84,1);
+box-shadow: 7px 6px 78px 7px rgba(84,0,84,1);
+}
+
+
+.ventana{
+    width: 75%;
+    background-color: #bdb76b91;
+    margin-top: 3em;
+}
+
+
+.input-file-trigger {
+    display: block;
+    padding: 10px 10px;
+    background: #39D2B4;
+    color: #07569ba8;
+    font-weight: bold;
+    font-size: 1em;
+    transition: all .4s;
+    cursor: pointer;
+    width: 100%;
+  }
+  #archivo {
+    display: none;
+    top: 0; left: 0;
+    width: 225px;
+    opacity: 0;
+    padding: 14px 0;
+    cursor: pointer;
+  }
+  #archivo:hover + .input-file-trigger,
+  #archivo:focus + .input-file-trigger,
+  .input-file-trigger:hover,
+  .input-file-trigger:focus {
+    background: #34495E;
+    color: #39D2B4;
+  }
+
+  .file-return {
+    margin: 0;
+    display: inline-block;
+  }
+  .file-return:not(:empty) {
+    margin: 1em 0;
+  }
+  .file-return {
+    font-style: italic;
+    font-size: .9em;
+    font-weight: bold;
+  }
+  .file-return:not(:empty):before {
+    content: "Archivo PDF: ";
+    font-style: normal;
+    font-weight: normal;
+  }
+  
+  
+.contenedor{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    width: 90%;
+}
+.item{
+    background-color: #ffffff2a;
+    padding: 5px;
+    margin: 1px;
+    font-size: 1em;
+    font-weight: 500;
+    text-align: left;
+    vertical-align: middle;
+    display: inline-grid;
+}
+
+#tablas1,#tablas2,#tabla4{
+    height: 390px;
+    overflow-y: auto;
+}
+#visualizarArchivo{
+    width: 100%;
+    height: 280px;
+}

@@ -19,3 +19,20 @@ and open the template in the editor.
 #consultas{
     width: 100%;
 }
+.ventana{
+    width: 50%;
+    background-color: #bdb76b91;
+    margin-top: 3em;
+}
+#formularioFiltros{
+    width: 50%;
+}
+#otraConsulta{
+    text-decoration: none;
+font-weight: bold;
+border: 2px solid white;
+background-color: gray;
+}
+#otraConsulta:hover{
+background-color: greenyellow;
+}
