@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -116,6 +117,208 @@ public class ResultadoDAO {
                 result.setPaciente(rs.getString(9));
                 result.setRealizado(rs.getBoolean(10));
                 resultados.add(result);
+            }
+        }
+        catch ( SQLException sqle )
+        {
+            System.out.println(sqle);
+        }
+        return resultados;
+    }
+     public ArrayList<ResultadoDTO> obtenerResultadosDeLaboratorista(String laboratorista){
+        ArrayList<ResultadoDTO> resultados = new ArrayList<>();
+        String sql = "SELECT r.codigo, e.nombre, r.fecha, r.hora, r.informe, r.laboratorista, r.medico, r.orden, p.nombre,"
+                + "r.realizado FROM Resultado r, Paciente p, Examen e WHERE r.paciente = p.codigo AND r.examen = e.codigo AND r.laboratorista = ? "
+                + "ORDER BY fecha ASC, hora ASC";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql)){
+            ps.setString(1, laboratorista);
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                ResultadoDTO result = new ResultadoDTO();
+                result.setCodigo(rs.getString(1));
+                result.setExamen(rs.getString(2));
+                result.setFecha(rs.getString(3));
+                result.setHora(rs.getInt(4));
+                result.setInforme(rs.getBinaryStream(5));
+                result.setLaboratorista(rs.getString(6));
+                result.setMedico(rs.getString(7));
+                result.setOrden(rs.getBinaryStream(8));
+                result.setPaciente(rs.getString(9));
+                result.setRealizado(rs.getBoolean(10));
+                resultados.add(result);
+            }
+        }
+        catch ( SQLException sqle )
+        {
+            System.out.println(sqle);
+        }
+        return resultados;
+    }
+    public ArrayList<ResultadoDTO> obtenerResultadosDePaciente(String paciente){
+        ArrayList<ResultadoDTO> resultados = new ArrayList<>();
+        String sql = "SELECT r.codigo, e.nombre, r.fecha, r.hora, r.informe, r.laboratorista, r.medico, r.orden, p.nombre,"
+                + "r.realizado FROM Resultado r, Paciente p, Examen e WHERE r.paciente = p.codigo AND r.examen = e.codigo AND r.paciente = ? "
+                + "ORDER BY fecha ASC, hora ASC";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql)){
+            ps.setString(1, paciente);
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                ResultadoDTO result = new ResultadoDTO();
+                result.setCodigo(rs.getString(1));
+                result.setExamen(rs.getString(2));
+                result.setFecha(rs.getString(3));
+                result.setHora(rs.getInt(4));
+                result.setInforme(rs.getBinaryStream(5));
+                result.setLaboratorista(rs.getString(6));
+                result.setMedico(rs.getString(7));
+                result.setOrden(rs.getBinaryStream(8));
+                result.setPaciente(rs.getString(9));
+                result.setRealizado(rs.getBoolean(10));
+                resultados.add(result);
+            }
+        }
+        catch ( SQLException sqle )
+        {
+            System.out.println(sqle);
+        }
+        return resultados;
+    }
+    public ArrayList<ResultadoDTO> obtenerResultadosDePacienteRealizado(String paciente){
+        ArrayList<ResultadoDTO> resultados = new ArrayList<>();
+        String sql = "SELECT r.codigo, e.nombre, r.fecha, r.hora, r.informe, r.laboratorista, r.medico, r.orden, p.nombre,"
+                + "r.realizado FROM Resultado r, Paciente p, Examen e WHERE r.paciente = p.codigo AND r.examen = e.codigo AND r.paciente = ? "
+                + "AND r.realizado = ? "
+                + "ORDER BY fecha ASC, hora ASC";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql)){
+            ps.setString(1, paciente);
+            ps.setBoolean(2, true);
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                ResultadoDTO result = new ResultadoDTO();
+                result.setCodigo(rs.getString(1));
+                result.setExamen(rs.getString(2));
+                result.setFecha(rs.getString(3));
+                result.setHora(rs.getInt(4));
+                result.setInforme(rs.getBinaryStream(5));
+                result.setLaboratorista(rs.getString(6));
+                result.setMedico(rs.getString(7));
+                result.setOrden(rs.getBinaryStream(8));
+                result.setPaciente(rs.getString(9));
+                result.setRealizado(rs.getBoolean(10));
+                resultados.add(result);
+            }
+        }
+        catch ( SQLException sqle )
+        {
+            System.out.println(sqle);
+        }
+        return resultados;
+    }
+    
+     public ArrayList<ResultadoDTO> obtenerResultadosDePacientePendientes(String paciente){
+        ArrayList<ResultadoDTO> resultados = new ArrayList<>();
+        String sql = "SELECT r.codigo, e.nombre, r.fecha, r.hora, r.informe, r.laboratorista, r.medico, r.orden, p.nombre,"
+                + "r.realizado FROM Resultado r, Paciente p, Examen e WHERE r.paciente = p.codigo AND r.examen = e.codigo AND r.paciente = ? "
+                + "AND r.realizado = ? "
+                + "ORDER BY fecha ASC, hora ASC";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql)){
+            ps.setString(1, paciente);
+            ps.setBoolean(2, false);
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                ResultadoDTO result = new ResultadoDTO();
+                result.setCodigo(rs.getString(1));
+                result.setExamen(rs.getString(2));
+                result.setFecha(rs.getString(3));
+                result.setHora(rs.getInt(4));
+                result.setInforme(rs.getBinaryStream(5));
+                result.setLaboratorista(rs.getString(6));
+                result.setMedico(rs.getString(7));
+                result.setOrden(rs.getBinaryStream(8));
+                result.setPaciente(rs.getString(9));
+                result.setRealizado(rs.getBoolean(10));
+                resultados.add(result);
+            }
+        }
+        catch ( SQLException sqle )
+        {
+            System.out.println(sqle);
+        }
+        return resultados;
+    }
+     
+     public ArrayList<ResultadoDTO> obtenerResultadosDeLaboratoristaHoy(String laboratorista){
+        SimpleDateFormat objSDF = new SimpleDateFormat("yyyy-MM-dd");
+        String hoy = objSDF.format(new java.util.Date());
+        ArrayList<ResultadoDTO> resultados = new ArrayList<>();
+        String sql = "SELECT r.codigo, e.nombre, r.fecha, r.hora, r.informe, r.laboratorista, r.medico, r.orden, p.nombre,"
+                + "r.realizado FROM Resultado r, Paciente p, Examen e WHERE r.paciente = p.codigo AND r.examen = e.codigo AND r.laboratorista = ? "
+                + "AND r.realizado = ? AND r.fecha = ? "
+                + "ORDER BY fecha ASC, hora ASC";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql)){
+            ps.setString(1, laboratorista);
+            ps.setBoolean(2, false);
+            ps.setString(3, hoy);
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                ResultadoDTO result = new ResultadoDTO();
+                result.setCodigo(rs.getString(1));
+                result.setExamen(rs.getString(2));
+                result.setFecha(rs.getString(3));
+                result.setHora(rs.getInt(4));
+                result.setInforme(rs.getBinaryStream(5));
+                result.setLaboratorista(rs.getString(6));
+                result.setMedico(rs.getString(7));
+                result.setOrden(rs.getBinaryStream(8));
+                result.setPaciente(rs.getString(9));
+                result.setRealizado(rs.getBoolean(10));
+                resultados.add(result);
+            }
+        }
+        catch ( SQLException sqle )
+        {
+            System.out.println(sqle);
+        }
+        return resultados;
+    }
+     
+      public ArrayList<ResultadoDTO> obtenerResultadosDeLaboratoristaFechas(String laboratorista, String fecha1, String fecha2){
+        ArrayList<ResultadoDTO> resultados = new ArrayList<>();
+        String sql = "SELECT r.codigo, e.nombre, r.fecha, r.hora, r.informe, r.laboratorista, r.medico, r.orden, p.nombre,"
+                + "r.realizado FROM Resultado r, Paciente p, Examen e WHERE r.paciente = p.codigo AND r.examen = e.codigo AND r.laboratorista = ? "
+                + "AND r.fecha BETWEEN ? AND ? "
+                + "ORDER BY fecha ASC, hora ASC";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql)){
+            ps.setString(1, laboratorista);
+            ps.setString(2, fecha1);
+            ps.setString(3, fecha2);
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                ResultadoDTO result = new ResultadoDTO();
+                result.setCodigo(rs.getString(1));
+                result.setExamen(rs.getString(2));
+                result.setFecha(rs.getString(3));
+                result.setHora(rs.getInt(4));
+                result.setInforme(rs.getBinaryStream(5));
+                result.setLaboratorista(rs.getString(6));
+                result.setMedico(rs.getString(7));
+                result.setOrden(rs.getBinaryStream(8));
+                result.setPaciente(rs.getString(9));
+                result.setRealizado(rs.getBoolean(10));
+                resultados.add(result);
+                System.out.println("encuentra en el intervalo");
             }
         }
         catch ( SQLException sqle )

@@ -75,6 +75,24 @@ public class PacienteDAO {
         }
         return paciente;
     }
+    public String obtenerCodigoPaciente(String nombre){
+        String codigo = "";
+        String sql = "SELECT codigo FROM Paciente WHERE nombre = ?";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ps.setString(1, nombre);
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                codigo = rs.getString("codigo");
+            }
+        } catch ( SQLException sqle )
+        {
+            System.out.println("ERROR en metodo obtenerCodigoPaciente en PacienteDAO-ERROR: "+sqle);
+        }
+        return codigo;
+    }
 
     public boolean actualizarPaciente(String codigo, String nombre, String sexo, Double peso, String dpi, String sangre, String fecha_nacimiento, String email, String telefono) {
         boolean actualizado = false;

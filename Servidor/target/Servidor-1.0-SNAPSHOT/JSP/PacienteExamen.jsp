@@ -38,7 +38,6 @@
             ArrayList<LaboratoristaDTO> laboratoristas = pa.obtenerTodosLaboratoristas();
             String[] dias = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
         %>
-
     <center>
         <div id="examenes" class="ventana">
             <h3>AGENDAR EXAMEN</h3>
@@ -78,6 +77,7 @@
             </div>
             <button id="siguiente" onclick="mostrarLaboratoristas(document.getElementById('examenes'), document.getElementById('ordenP'))" disabled>SIGUIENTE&rarr;</button>
         </div>
+    </center>
         <div id="ordenP" style="display:none;" class="ventana">
             <h3>INGRESAR ORDEN PARA EXAMEN</h3>
             <p>Para este tipo de examen es requerido una orden en formato pdf, ingresala, luego presiona siguiente</p>

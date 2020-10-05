@@ -1,8 +1,11 @@
 POJO/ConsultaDTO.class
 Servlet/Admin.class
+Servlet/Laboratorista.class
 Servlet/Login.class
 Base/ReporteDAO.class
 Base/Conector.class
+Servlet/ControladorIMG.class
+Servlet/ControladorPDF.class
 com/mycompany/servidor/MyServletContextListener.class
 Servlet/Perfil.class
 POJO/LaboratoristaDTO.class
@@ -13,11 +16,13 @@ POJO/TrabajoDTO.class
 POJO/CitaDTO.class
 POJO/AdministradorDTO.class
 Base/DoctorDAO.class
+Servlet/Paciente.class
 POJO/DoctorDTO.class
 Base/ExamenDAO.class
 POJO/ExamenDTO.class
 Base/AdministradorDAO.class
 Servlet/Carga.class
+POJO/ResultadoDTO.class
 POJO/EspecialidadDTO.class
 Base/ResultadoDAO.class
 Base/LaboratoristaDAO.class

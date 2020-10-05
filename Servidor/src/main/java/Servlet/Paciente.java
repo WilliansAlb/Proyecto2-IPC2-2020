@@ -126,11 +126,10 @@ public class Paciente extends HttpServlet {
         if (tipo != null) {
             if (tipo.equalsIgnoreCase("INGRESO EXAMEN")) {
                 if (cn.conectar()) {
-
                     response.setContentType("text/plain;charset=UTF-8");
                     ResultadoDAO re = new ResultadoDAO(cn);
                     String paciente = "";
-                    if (s.getAttribute("codigo") != null && s.getAttribute("tipo").toString().equalsIgnoreCase("PACIENTE")) {
+                    if (s.getAttribute("usuario") != null && s.getAttribute("tipo").toString().equalsIgnoreCase("PACIENTE")) {
                         paciente = s.getAttribute("codigo").toString();
                     } else {
                         paciente = "118258";

@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -61,7 +62,24 @@ public class Laboratorista extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession s = request.getSession();
+        if (request.getParameter("tipo") != null)
+        {
+            String tipo = request.getParameter("tipo");
+            if (tipo.equalsIgnoreCase("2")){
+                s.setAttribute("filtroLaboratorista", "1");
+            } else if (tipo.equalsIgnoreCase("3")){
+                String fechaInicio = request.getParameter("fecha1");
+                String fechaFinal = request.getParameter("fecha2");
+                s.setAttribute("filtroLaboratorista", "2");
+                s.setAttribute("filtroLabFecha1", fechaInicio);
+                s.setAttribute("filtroLabFecha2", fechaFinal);
+            }
+        }
+        else 
+        {
+            response.getWriter().write("SIN DATOS");
+        }
     }
 
     /**

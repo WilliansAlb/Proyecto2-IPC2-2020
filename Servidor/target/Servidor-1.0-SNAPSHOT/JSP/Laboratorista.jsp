@@ -29,61 +29,117 @@
             Conector cn = new Conector("encender");
             ResultadoDAO resultado = new ResultadoDAO(cn);
             ArrayList<ResultadoDTO> examenes = resultado.obtenerResultados();
+            HttpSession s = request.getSession();
+            String prueba = "1";
+            String fecha1 = "";
+            String fecha2 = "";
+            if (s.getAttribute("filtroLaboratorista") == null) {
+                examenes = resultado.obtenerResultadosDeLaboratorista("LAB-123");
+                prueba = "1";
+            } else {
+                String tipoco = s.getAttribute("filtroLaboratorista").toString();
+                if (tipoco.equalsIgnoreCase("1")) {
+                    examenes = resultado.obtenerResultadosDeLaboratoristaHoy("LAB-123");
+                    prueba = "2";
+                } else if (tipoco.equalsIgnoreCase("2")) {
+                    String inicio = s.getAttribute("filtroLabFecha1").toString();
+                    String final1 = s.getAttribute("filtroLabFecha2").toString();
+                    prueba = "3";
+                    fecha1 = inicio;
+                    fecha2 = final1;
+                    examenes = resultado.obtenerResultadosDeLaboratoristaFechas("LAB-948", inicio, final1);
+                }
+                s.setAttribute("filtroLaboratorista", null);
+            }
         %>
     <center>
         <div id="examenesPendientes" class="ventana">
             <h4>TUS EXAMENES</h4>
-            <select name="filtros">
-                <option>MOSTRAR TODOS</option>
-                <option>MOSTRAR HOY SIN REALIZAR</option>
-                <option>MOSTRAR SEGUN FECHA</option>
+            <select name="filtros" id="filtros1" onchange="mandar(this)" value="2">
+                <%if (prueba.equalsIgnoreCase("1")) {%>
+                <option value="1" selected>MOSTRAR TODOS</option>
+                <%} else {%>
+                <option value="1">MOSTRAR TODOS</option>
+                <%}%>
+                <%if (prueba.equalsIgnoreCase("2")) {%>
+                <option value="2" selected>MOSTRAR HOY SIN REALIZAR</option>
+                <%} else {%>
+                <option value="2">MOSTRAR HOY SIN REALIZAR</option>
+                <%}%>
+                <%if (prueba.equalsIgnoreCase("3")) {%>
+                <option value="3" selected>MOSTRAR SEGUN FECHA</option>
+                <%} else {%>
+                <option value="3">MOSTRAR SEGUN FECHA</option>
+                <%}%>
             </select>
-            <div id="tablas1">
-                <table id="tablaExamenes">
-                    <thead>
-                        <tr>
-                            <th>CODIGO</th>
-                            <th>EXAMEN</th>
-                            <th>PACIENTE</th>
-                            <th>MEDICO</th>
-                            <th>ORDEN</th>
-                            <th>INFORME</th>
-                            <th>HORA</th>
-                            <th>FECHA</th>
-                            <th>LABORATORISTA</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <%for (int i = 0; i < examenes.size(); i++) {%>
-                        <tr id="filaexamen<%out.print(examenes.get(i).getCodigo());%>">
-                            <td><%out.print(examenes.get(i).getCodigo());%></td>
-                            <td><%out.print(examenes.get(i).getExamen());%></td>
-                            <td><%out.print(examenes.get(i).getPaciente());%></td>
-                            <%if (examenes.get(i).getMedico() != null) {%>
-                            <td><%out.print(examenes.get(i).getMedico());%></td>
-                            <%} else {%>
-                            <td></td>
+            <%if (prueba.equalsIgnoreCase("3")) {%>
+            <div id="fechas" class="contenedor">
+                <%} else {%>
+                <div id="fechas" class="contenedor" style="display:none;">
+                    <%}%>
+                    <center>
+                        <form id="formularioFiltroSeleccion" class="item" method="GET" action="../Laboratorista">
+                            <div class="item">
+                                <label for="desde">Desde: </label>
+                                <input type="date" value="<%out.print(fecha1);%>" id="desde" required>
+                            </div>
+                            <div class="item">
+                                <label for="hasta">Hasta: </label>
+                                <input type="date" value="<%out.print(fecha2);%>" id="hasta" required>
+                            </div>
+                            <div class="item">
+                                <button id="ingresarFiltroFecha">INGRESAR</button>
+                            </div>
+                        </form>
+                    </center>
+                </div>
+                <div id="tablas1">
+                    <p>*Notas: si la tabla aparece vacia significa que no hay ningún registro que coincida. Los registros que tienen el boton de color rojo en la columna informe son los que aun no tienen dicho dato</p>
+                    <table id="tablaExamenes">
+                        <thead>
+                            <tr>
+                                <th>CODIGO</th>
+                                <th>EXAMEN</th>
+                                <th>PACIENTE</th>
+                                <th>MEDICO</th>
+                                <th>ORDEN</th>
+                                <th>INFORME</th>
+                                <th>HORA</th>
+                                <th>FECHA</th>
+                                <th>LABORATORISTA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%for (int i = 0; i < examenes.size(); i++) {%>
+                            <tr id="filaexamen<%out.print(examenes.get(i).getCodigo());%>">
+                                <td><%out.print(examenes.get(i).getCodigo());%></td>
+                                <td><%out.print(examenes.get(i).getExamen());%></td>
+                                <td><%out.print(examenes.get(i).getPaciente());%></td>
+                                <%if (examenes.get(i).getMedico() != null) {%>
+                                <td><%out.print(examenes.get(i).getMedico());%></td>
+                                <%} else {%>
+                                <td></td>
+                                <%}%>
+                                <%if (examenes.get(i).getOrden() != null) {%>
+                                <td><button value="<%out.print(examenes.get(i).getCodigo());%>" name="orden" onclick="mostrar(this)">VER ORDEN</button></td>
+                                <%} else {%>
+                                <td></td>
+                                <%}%>
+                                <%if (examenes.get(i).getInforme() != null) {%>
+                                <td><button style="background-color: greenyellow;" value="<%out.print(examenes.get(i).getCodigo());%>" name="informe" onclick="mostrar(this)">VER INFORME</button></td>
+                                <%} else {%>
+                                <td><button style="background-color: red;" value="<%out.print(examenes.get(i).getCodigo());%>" onclick="agregarResultado(this)">AGREGAR RESULTADO</button></td>
+                                <%}%>
+                                <td><%out.print(examenes.get(i).getHora());%></td>
+                                <td><%out.print(examenes.get(i).getFecha());%></td>
+                                <td><%out.print(examenes.get(i).getLaboratorista());%></td>
+                            </tr>
                             <%}%>
-                            <%if (examenes.get(i).getOrden() != null) {%>
-                            <td><button value="<%out.print(examenes.get(i).getCodigo());%>" name="orden" onclick="mostrar(this)">VER ORDEN</button></td>
-                            <%} else {%>
-                            <td></td>
-                            <%}%>
-                            <%if (examenes.get(i).getInforme() != null) {%>
-                            <td><button style="background-color: greenyellow;" value="<%out.print(examenes.get(i).getCodigo());%>" name="informe" onclick="mostrar(this)">VER INFORME</button></td>
-                            <%} else {%>
-                            <td><button style="background-color: red;" value="<%out.print(examenes.get(i).getCodigo());%>" onclick="agregarResultado(this)">AGREGAR RESULTADO</button></td>
-                            <%}%>
-                            <td><%out.print(examenes.get(i).getHora());%></td>
-                            <td><%out.print(examenes.get(i).getFecha());%></td>
-                            <td><%out.print(examenes.get(i).getLaboratorista());%></td>
-                        </tr>
-                        <%}%>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>        
             </div>
-            <hr>        
-        </div>
     </center>
     <div id="descripcionE" class="oculto" style="display: none;">
         <center>

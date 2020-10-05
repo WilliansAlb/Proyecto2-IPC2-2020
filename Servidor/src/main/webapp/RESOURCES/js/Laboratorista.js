@@ -6,6 +6,42 @@
 var base = "";
 var fuente = "";
 
+window.onload = function () {
+    $("#formularioFiltroSeleccion").bind("submit", function () {
+        var btnEnviar = $("#ingresarFiltroFecha");
+        var fecha1 = $("#desde").val();
+        var fecha2 = $("#hasta").val();
+        console.log(fecha1+"/"+fecha2);
+        $.ajax({
+            type: $(this).attr("method"),
+            url: $(this).attr("action"),
+            data: {tipo: 3, fecha1: fecha1, fecha2: fecha2},
+            beforeSend: function () {
+                btnEnviar.text("INGRESANDO"); //Para button 
+                //btnEnviar.val("Enviando"); // Para input de tipo button
+                btnEnviar.attr("disabled", "disabled");
+            },
+            complete: function (data) {
+                btnEnviar.text("GUARDAR CAMBIOS");
+                btnEnviar.removeAttr("disabled");
+            },
+            success: function (data) {
+                if (data === 'EXISTE') {
+                    alert("Ya existe un registro con ese mismo codigo, ingresa uno nuevo");
+                } else if (data === 'ERRORBASE') {
+                    alert("No fue posible concretar la acción, intenta de nuevo");
+                } else {
+                    alert("fechas");
+                    window.location = "Laboratorista.jsp";
+                }
+            },
+            error: function (data) {
+                alert("Problemas al tratar de enviar el formulario");
+            }
+        });
+        return false;
+    });
+};
 function mostrar(boton) {
     $('#des').val(boton.value);
     var name = boton.name;
@@ -60,7 +96,7 @@ function ingresarExamenLaboratorista() {
     $.ajax({
         type: "POST",
         url: "../Laboratorista",
-        data: {tipo: "INGRESO EXAMEN",archivo:base,codigo:$("#reporteDato").val()},
+        data: {tipo: "INGRESO EXAMEN", archivo: base, codigo: $("#reporteDato").val()},
         beforeSend: function () {
             /*
              * Esta función se ejecuta durante el envió de la petición al
@@ -99,4 +135,30 @@ function ingresarExamenLaboratorista() {
             alert("Problemas al tratar de enviar el formulario");
         }
     });
+}
+function mandar(select) {
+    var valor = select.value;
+    if (valor === '1') {
+        window.location = "Laboratorista.jsp";
+    } else if (valor === '2') {
+        $("#fechas").hide();
+        $.ajax({
+            type: "GET",
+            url: "../Laboratorista",
+            data: {tipo: 2},
+            success: function (data) {
+                if (data === 'ERRORBASE') {
+                    alert("No fue posible concretar la acción, intenta de nuevo");
+                } else {
+                    window.location = "Laboratorista.jsp";
+                }
+            },
+            error: function (data) {
+                alert("Problemas al tratar de enviar el formulario");
+            }
+        });
+    } else if (valor === '3') {
+        $("#fechas").show();
+    }
+
 }

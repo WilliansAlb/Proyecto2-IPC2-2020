@@ -87,6 +87,21 @@ public class CitaDAO {
         }
         return codigo;
     }
+    public boolean actualizarCita(String codigo){
+        boolean actualizado = false;
+        String sql = "UPDATE Cita SET realizada = ? WHERE codigo = ?";
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ps.setBoolean(1, true);
+            ps.setString(2, codigo);
+            ps.executeUpdate();
+            actualizado = true;
+        }
+        catch (SQLException sqle){
+            System.out.println("ERROR en metodo actualizarCita en CitaDAO ERROR: "+sqle);
+        }
+        return actualizado;
+    }
     
     public ArrayList<CitaDTO> obtenerCitas(String codigo, String fecha){
         ArrayList<CitaDTO> citas = new ArrayList<>();
@@ -138,6 +153,60 @@ public class CitaDAO {
                 cita.setHora(rs.getInt("ho"));
                 cita.setConsulta(rs.getString("cons"));
                 cita.setPaciente(rs.getString("pac"));
+                citas.add(cita);
+            }
+        } catch (SQLException sqle){
+            System.out.println(sqle);
+        }
+        return citas;
+    }
+    public ArrayList<CitaDTO> obtenerCitasDePaciente(String paciente){
+        ArrayList<CitaDTO> citas = new ArrayList<>();
+        String sql = "SELECT c.codigo, c.medico, p.nombre, "
+                + "c.fecha, con.nombre, c.hora, c.realizada FROM Cita c, "
+                + "Consulta con, Paciente p WHERE c.paciente = ? AND con.codigo = c.consulta AND "
+                + "p.codigo = c.paciente ORDER BY (c.hora) ASC, (c.fecha) ASC";
+        
+        try (PreparedStatement ps = cn.prepareStatement(sql)){
+            ps.setString(1, paciente);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                CitaDTO cita = new CitaDTO();
+                cita.setCodigo(rs.getString(1));
+                cita.setFecha(rs.getString(4));
+                cita.setMedico(rs.getString(2));
+                cita.setRealizada(rs.getBoolean(7));
+                cita.setHora(rs.getInt(6));
+                cita.setConsulta(rs.getString(5));
+                cita.setPaciente(rs.getString(3));
+                citas.add(cita);
+            }
+        } catch (SQLException sqle){
+            System.out.println(sqle);
+        }
+        return citas;
+    }
+    
+    public ArrayList<CitaDTO> obtenerCitasDePacientePendientes(String paciente){
+        ArrayList<CitaDTO> citas = new ArrayList<>();
+        String sql = "SELECT c.codigo, c.medico, p.nombre, "
+                + "c.fecha, con.nombre, c.hora, c.realizada FROM Cita c, "
+                + "Consulta con, Paciente p WHERE c.paciente = ? AND con.codigo = c.consulta AND "
+                + "p.codigo = c.paciente AND c.realizada = ? ORDER BY (c.hora) ASC, (c.fecha) ASC";
+        
+        try (PreparedStatement ps = cn.prepareStatement(sql)){
+            ps.setString(1, paciente);
+            ps.setBoolean(2, false);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                CitaDTO cita = new CitaDTO();
+                cita.setCodigo(rs.getString(1));
+                cita.setFecha(rs.getString(4));
+                cita.setMedico(rs.getString(2));
+                cita.setRealizada(rs.getBoolean(7));
+                cita.setHora(rs.getInt(6));
+                cita.setConsulta(rs.getString(5));
+                cita.setPaciente(rs.getString(3));
                 citas.add(cita);
             }
         } catch (SQLException sqle){
