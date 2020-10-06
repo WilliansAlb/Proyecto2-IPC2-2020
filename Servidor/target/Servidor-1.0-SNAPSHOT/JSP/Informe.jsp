@@ -265,8 +265,9 @@
         </div>
 
         <div id="confirmar" style="display: none;" class="ventana">
-            <h3 id="mensajeCita">INGRESAR EXAMEN</h3>
+            <h1>DATOS DE EXAMEN Y PROXIMA CONSULTA A INGRESAR</h1>
             <p id="verificarCita">Verifica los datos luego presiona el boton ingresar</p>
+            <h3 id="mensajeCita">EXAMEN</h3>
             <table id="tablaConfirmar">
                 <thead>
                     <tr>
@@ -289,12 +290,34 @@
                     </tr>
                 </tbody>
             </table>
-            <button id="regreso3" onclick="siguiente(document.getElementById('confirmar'), document.getElementById('disponibilidadExa'))">&larr;ATRAS</button><button id="ingresarCita" onclick="ingresarExamen()">INGRESAR</button>
+            <h3 id="mensajeCita2">CITA</h3>
+            <table id="tablaConfirmar2">
+                <thead>
+                    <tr>
+                        <td>Medico</td>
+                        <td>Consulta</td>
+                        <td>Fecha</td>
+                        <td>Costo</td>
+                        <td>Hora</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="pacienteTabla">Medico</td>
+                        <td id="consultaTabla">Consulta</td>
+                        <td id="fechaTabla2">Fecha</td>
+                        <td id="costoTabla2">Hora</td>
+                        <td id="horaTabla2">Hora</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p id="mensajeConfirmacion" style="display:none;">El codigo de tu examen es<span id="spanCodigo"></span></p>
+            <p id="mensajeConfirmacion" style="display:none;">El codigo de tu cita es<span id="spanCodigo"></span></p>
+            <button id="regreso3" onclick="siguiente(document.getElementById('confirmar'), document.getElementById('horario'))">&larr;ATRAS</button><button id="ingresarCita" onclick="ingresarExamen()">INGRESAR</button>
             <br>
         </div>
 
         <div id="horario" style="display:none;" class="ventana">
-            <p id="mensajeConfirmacion" style="display:none;">El codigo de tu cita es<span id="spanCodigo"></span></p>
             <h3>ELIGE UNA FECHA Y HORA PARA LA PROXIMA CONSULTA</h3>
             <p>Selecciona una fecha y se te mostrará la disponibildad del médico según su horario</p>
             <p>*Nota:seleccionas la hora que quieres al marcar el cuadro de la tabla</p>
@@ -323,7 +346,8 @@
                         }%>
                 </tbody>
             </table>
-            <button onclick="siguiente(document.getElementById('confirmar'), document.getElementById('horario'))">&larr;ATRAS</button><button id="siguiente3" onclick="irAConfirmar($('#confirmar'), $('#horario'))" disabled>SIGUIENTE&rarr;</button>
+            <button onclick="siguiente(document.getElementById('horario'), document.getElementById('disponibilidadExa'))">&larr;ATRAS</button>
+            <button id="siguiente3" onclick="rellenarDatosCita(document.getElementById('horario'), document.getElementById('confirmar'))" disabled>SIGUIENTE&rarr;</button>
             <a href="Informe.jsp" style="display: none;" id="otraConsulta">INGRESAR OTRA CONSULTA</a>
         </div>
     </center>

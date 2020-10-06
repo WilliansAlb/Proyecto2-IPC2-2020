@@ -57,6 +57,22 @@ public class ConsultaDAO {
         return retorno;
     }
     
+    public String obtenerCostoConsulta(String nombre){
+        String retorno = "0.00";
+        String sql = "SELECT costo FROM Consulta WHERE nombre = ?";
+        
+        try (PreparedStatement ps = cn.prepareStatement(sql)){
+            ps.setString(1, nombre);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()){
+                retorno = rs.getDouble("costo")+"";
+            }
+        } catch (SQLException sqle){
+            
+        }
+        return retorno;
+    }
+    
     public ArrayList<ConsultaDTO> obtenerConsultas(){
         ArrayList<ConsultaDTO> consultas = new ArrayList<>();
         String sql = "SELECT * FROM Consulta";

@@ -7,6 +7,7 @@ var codigoExamen = "";
 var codigoLaboratorista = "";
 var isRequeridaOrden = "";
 var hora = "";
+var horarioElegido = "";
 var base = "";
 var fuente = "";
 var trabajos = "";
@@ -222,7 +223,7 @@ function confirmarExamen() {
     } else {
         $("#ordenTabla").text("NO");
     }
-    siguiente(document.getElementById("disponibilidadExa"), document.getElementById("confirmar"));
+    siguiente(document.getElementById("disponibilidadExa"), document.getElementById("horario"));
 }
 
 function ingresarExamen() {
@@ -242,7 +243,7 @@ function ingresarExamen() {
     $.ajax({
         type: 'POST',
         url: '../Informe',
-        data: {tipo: "INGRESO EXAMEN", fecha: fecha, paciente:paciente, laboratorista: laboratorista, examen: examen, archivo: archivo, hora: hora1, orden: orden},
+        data: {tipo: "INGRESO CON EXAMEN", fecha: fecha, paciente: paciente, laboratorista: laboratorista, examen: examen, archivo: archivo, hora: hora1, orden: orden},
         beforeSend: function () {
             btnEnviar.attr("disabled", "disabled");
         },
@@ -256,6 +257,7 @@ function ingresarExamen() {
                 alert("ERROR al ingresar la consulta");
             } else {
                 $("#confirmar").hide();
+                $("#spanCodigo").show();
                 $("#horario").show();
                 document.getElementById("spanCodigo").innerText = data;
                 document.getElementById("spanCodigo").style.color = "green";
@@ -385,11 +387,10 @@ function mostrarInforme() {
 function seleccionandoFecha() {
     var btnEnviar = $("#fechaSeleccion");
     var fechaElegida = document.getElementById('fechaElegida').value;
-    
     $.ajax({
         type: 'GET',
         url: '../Informe',
-        data: {tipo: "OBTENER OCUPADO", medico: medico, fecha: fechaElegida},
+        data: {tipo: "OBTENER OCUPADO", fecha: fechaElegida},
         beforeSend: function () {
             btnEnviar.attr("disabled", "disabled");
         },
@@ -413,4 +414,68 @@ function seleccionandoFecha() {
         }
     });
 
+}
+function rellenarTabla() {
+    var tabla = document.querySelector("#horarios > tbody");
+    var tablaC = tabla.querySelectorAll("tr");
+    for (let i = 0; i < tablaC.length; i++) {
+        var celda = tablaC[i].querySelectorAll("td");
+        var codigo = celda[0].textContent;
+        var input = celda[1];
+        input.innerHTML = "<input type='checkbox' class='marcarHorarios' onclick='marcarHorario(this)' value='" + codigo + "'>";
+    }
+
+}
+
+function rellenarTablaHorarios(data) {
+    data = data.slice(0, -1);
+    var partido = data.split("/");
+    console.log(partido);
+    for (let i = 0; i < partido.length; i++) {
+        var hora = parseInt(partido[i]);
+        var fila = document.getElementById("filaHorario" + hora);
+        var celda = fila.querySelectorAll("td")[1];
+        celda.innerHTML = "<h3 style='color:red'>OCUPADO</h3>";
+    }
+}
+
+function marcarHorario(checkbox) {
+    var elementos = document.getElementsByClassName("marcarHorarios");
+    for (let i = 0; i < elementos.length; i++) {
+        if (elementos[i] === checkbox) {
+            $("#siguiente3").removeAttr("disabled");
+            console.log(elementos[i].value);
+            horarioElegido = elementos[i].value;
+        } else {
+            elementos[i].checked = false;
+        }
+    }
+}
+
+function rellenarDatosCita(div, div2) {
+    var nombreConsulta = $("#consultaTipo").val();
+    var paciente = $("#pacienteNombre").val();
+    $('#pacienteTabla').text(paciente);
+    $("#fechaTabla2").text($('#fechaElegida').val());
+    $("#consultaTabla").text(nombreConsulta);
+    $.ajax({
+        type: 'GET',
+        url: '../Informe',
+        data: {tipo: "OBTENER COSTO", consulta: nombreConsulta},
+        success: function (data) {
+            if (data === 'EXISTE') {
+                alert("Ya existe un registro con ese mismo codigo, ingresa uno nuevo");
+                $("#codigo").focus();
+            } else if (data === 'ERRORBASE') {
+                alert("No fue posible concretar la acción, intenta de nuevo");
+            } else {
+                $("#costoTabla2").text(data);
+            }
+        },
+        error: function (data) {
+            alert("Problemas al tratar de enviar el formulario");
+        }
+    });
+    $("#horaTabla2").text(horarioElegido);
+    siguiente(div, div2);
 }

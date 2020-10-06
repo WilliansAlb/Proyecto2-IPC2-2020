@@ -7,6 +7,7 @@ package Servlet;
 
 import Base.CitaDAO;
 import Base.Conector;
+import Base.ConsultaDAO;
 import Base.PacienteDAO;
 import Base.ReporteDAO;
 import Base.ResultadoDAO;
@@ -14,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Base64;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -65,7 +67,47 @@ public class Informe extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession s = request.getSession();
+        if (request.getParameter("tipo") != null) {
+            Conector cn = new Conector();
+            String tipo = request.getParameter("tipo");
+            if (tipo.equalsIgnoreCase("OBTENER OCUPADO")) {
+                response.setContentType("text/plain;charset=UTF-8");
+                String fecha = request.getParameter("fecha");
+                String codigoMedico = "";
+                if (s.getAttribute("usuario") != null && s.getAttribute("tipo").toString().equalsIgnoreCase("DOCTOR")) {
+                    codigoMedico = s.getAttribute("usuario").toString();
+                } else {
+                    codigoMedico = "MED-123";
+                }
+                if (cn.conectar()) {
+                    CitaDAO cita = new CitaDAO(cn);
+                    ArrayList<String> citas = cita.obtenerCitasHora(codigoMedico, fecha);
+                    String aEnviar = "";
+                    for (int i = 0; i < citas.size(); i++) {
+                        aEnviar += citas.get(i) + "/";
+                    }
+                    System.out.println(aEnviar);
+                    if (aEnviar.isEmpty()) {
+                        response.getWriter().write("LIBRE");
+                    } else {
+                        response.getWriter().write(aEnviar);
+                    }
+                } else {
+                    response.getWriter().write("ERRORBASE");
+                }
+            } else if (tipo.equalsIgnoreCase("OBTENER COSTO")) {
+                response.setContentType("text/plain;charset=UTF-8");
+                String nombreConsulta = request.getParameter("consulta");
+                if (cn.conectar()){
+                    ConsultaDAO consulta = new ConsultaDAO(cn);
+                    String costo = consulta.obtenerCostoConsulta(nombreConsulta);
+                    response.getWriter().write(costo);
+                } else {
+                    response.getWriter().write("ERRORBASE");
+                }
+            }
+        }
     }
 
     /**
@@ -116,7 +158,7 @@ public class Informe extends HttpServlet {
                 } else {
                     response.getWriter().write("ERRORBASE");
                 }
-            } else if (tipo.equalsIgnoreCase("INGRESO EXAMEN")) {
+            } else if (tipo.equalsIgnoreCase("INGRESO CON EXAMEN")) {
                 if (cn.conectar()) {
                     response.setContentType("text/plain;charset=UTF-8");
                     ResultadoDAO re = new ResultadoDAO(cn);
