@@ -230,6 +230,9 @@ function ingresarExamen() {
     var btnEnviar = $('#ingresarCita');
     var fecha = $("#seleccionarFecha").val();
     var paciente = $("#pacienteNombre").val();
+    var nombreConsulta = $("#consultaTipo").val();
+    var fechaProximaConsulta = $("#fechaTabla2").text();
+    var horaProximaConsulta = parseInt(horarioElegido)*100;
     var laboratorista = codigoLaboratorista;
     var examen = codigoExamen;
     var archivo = base;
@@ -243,7 +246,8 @@ function ingresarExamen() {
     $.ajax({
         type: 'POST',
         url: '../Informe',
-        data: {tipo: "INGRESO CON EXAMEN", fecha: fecha, paciente: paciente, laboratorista: laboratorista, examen: examen, archivo: archivo, hora: hora1, orden: orden},
+        data: {tipo: "INGRESO CON EXAMEN", fecha: fecha, paciente: paciente, laboratorista: laboratorista, examen: examen, archivo: archivo, hora: hora1, orden: orden,
+            fechaProxima:fechaProximaConsulta,horaProxima:horaProximaConsulta,nombreConsulta:nombreConsulta},
         beforeSend: function () {
             btnEnviar.attr("disabled", "disabled");
         },
@@ -256,16 +260,27 @@ function ingresarExamen() {
             } else if (data === 'ERRORBASE') {
                 alert("ERROR al ingresar la consulta");
             } else {
-                $("#confirmar").hide();
-                $("#spanCodigo").show();
-                $("#horario").show();
-                document.getElementById("spanCodigo").innerText = data;
+                let codigosNuevosEntregados = data.split("/");
+                $("#spanCodigo").text(codigosNuevosEntregados[0]);
+                $("#codigosito").text(codigosNuevosEntregados[1]);
                 document.getElementById("spanCodigo").style.color = "green";
+                document.getElementById("codigosito").style.color = "green";
+                $("#mensajeCita").text("EXAMEN CONFIRMADO");
+                $("#spanCodigo").show();
+                $("#codigosito").show();
+                $("#horario").hide();
                 $("#spanCodigo").css("font-size", "3em");
                 $("#spanCodigo").css("font-weight", "bold");
-                btnEnviar.hide();
                 $("#regreso3").hide();
                 $("#otraConsulta").show();
+                $("#mensajeCita2").text("CITA CONFIRMADA");
+                $("#codigosito").css("font-size","3em");
+                $("#codigosito").css("font-weight","bold");
+                $("#mensajesDeConfirmacion").show();
+                btnEnviar.hide();
+                $("#verificarCita").hide();
+                console.log(data);
+                console.log(codigosNuevosEntregados[1]+"/");
             }
         }, error: function (data) {
             alert("Problemas al tratar de enviar el formulario");

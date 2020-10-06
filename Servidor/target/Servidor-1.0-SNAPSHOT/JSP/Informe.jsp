@@ -28,9 +28,9 @@
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:ital,wght@0,300;0,700;1,300&display=swap" rel="stylesheet"> 
         <link rel="stylesheet" href="../RESOURCES/css/Sidebar.css">
         <link rel="stylesheet" href="../RESOURCES/css/Paciente.css">
-        <link rel="stylesheet" href="../RESOURCES/css/Informe.css">
         <link rel="stylesheet" href="../RESOURCES/css/Cita.css">
         <link rel="stylesheet" href="../RESOURCES/css/PacienteExamen.css">
+        <link rel="stylesheet" href="../RESOURCES/css/Informe.css">
         <link rel="shortcut icon" type="image/x-icon" href="../RESOURCES/imagenes/saludico.ico"/>
         <script type="text/javascript" src="../RESOURCES/js/Informe.js"></script>
     </head>
@@ -265,18 +265,18 @@
         </div>
 
         <div id="confirmar" style="display: none;" class="ventana">
-            <h1>DATOS DE EXAMEN Y PROXIMA CONSULTA A INGRESAR</h1>
+            <h1>DATOS PARA PROXIMA CONSULTA</h1>
             <p id="verificarCita">Verifica los datos luego presiona el boton ingresar</p>
             <h3 id="mensajeCita">EXAMEN</h3>
             <table id="tablaConfirmar">
                 <thead>
                     <tr>
-                        <td>Examen</td>
-                        <td>Laboratorista</td>
-                        <td>Fecha</td>
-                        <td>Costo</td>
-                        <td>Orden</td>
-                        <td>Hora</td>
+                        <th>Examen</th>
+                        <th>Laboratorista</th>
+                        <th>Fecha</th>
+                        <th>Costo</th>
+                        <th>Orden</th>
+                        <th>Hora</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -294,16 +294,16 @@
             <table id="tablaConfirmar2">
                 <thead>
                     <tr>
-                        <td>Medico</td>
-                        <td>Consulta</td>
-                        <td>Fecha</td>
-                        <td>Costo</td>
-                        <td>Hora</td>
+                        <th>Paciente</th>
+                        <th>Consulta</th>
+                        <th>Fecha</th>
+                        <th>Costo</th>
+                        <th>Hora</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td id="pacienteTabla">Medico</td>
+                        <td id="pacienteTabla">Paciente</td>
                         <td id="consultaTabla">Consulta</td>
                         <td id="fechaTabla2">Fecha</td>
                         <td id="costoTabla2">Hora</td>
@@ -311,10 +311,18 @@
                     </tr>
                 </tbody>
             </table>
-            <p id="mensajeConfirmacion" style="display:none;">El codigo de tu examen es<span id="spanCodigo"></span></p>
-            <p id="mensajeConfirmacion" style="display:none;">El codigo de tu cita es<span id="spanCodigo"></span></p>
-            <button id="regreso3" onclick="siguiente(document.getElementById('confirmar'), document.getElementById('horario'))">&larr;ATRAS</button><button id="ingresarCita" onclick="ingresarExamen()">INGRESAR</button>
+            <div id="mensajesDeConfirmacion" class="contenedor2" style="display:none">
+                <div class="item">
+                    <p id="mensajeConfirmacion">El codigo de tu examen es<span id="spanCodigo"></span></p>
+                </div>
+                <div class="item">
+                    <p id="mensajeConfirmacion2">El codigo de tu cita es<span id="codigosito"></span></p></span></p>
+                </div>
+            </div>
+            <button id="regreso3" onclick="siguiente(document.getElementById('confirmar'), document.getElementById('horario'))">&larr;ATRAS</button>
+            <button id="ingresarCita" onclick="ingresarExamen()">INGRESAR</button>
             <br>
+            <a href="Informe.jsp" style="display: none;" id="otraConsulta">VER SIGUIENTES CITAS</a>
         </div>
 
         <div id="horario" style="display:none;" class="ventana">
@@ -336,19 +344,18 @@
                         int inicio = Integer.parseInt(horas[0]);
                         int final1 = Integer.parseInt(horas[1]);
                     %>
-                    <% while (inicio < final1){%>
+                    <% while (inicio < final1) {%>
                     <tr id="filaHorario<%out.print(inicio);%>">
                         <td><%out.print(inicio);%></td>
                         <td><input type='checkbox' class='marcarHorarios' onclick='marcarHorario(this)' value='<%out.print(inicio);%>'></td>
                     </tr>
                     <%
-                        inicio++;
+                            inicio++;
                         }%>
                 </tbody>
             </table>
             <button onclick="siguiente(document.getElementById('horario'), document.getElementById('disponibilidadExa'))">&larr;ATRAS</button>
             <button id="siguiente3" onclick="rellenarDatosCita(document.getElementById('horario'), document.getElementById('confirmar'))" disabled>SIGUIENTE&rarr;</button>
-            <a href="Informe.jsp" style="display: none;" id="otraConsulta">INGRESAR OTRA CONSULTA</a>
         </div>
     </center>
 

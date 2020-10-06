@@ -163,6 +163,10 @@ public class Informe extends HttpServlet {
                     response.setContentType("text/plain;charset=UTF-8");
                     ResultadoDAO re = new ResultadoDAO(cn);
                     PacienteDAO pacienteD = new PacienteDAO(cn);
+                    ConsultaDAO consultas = new ConsultaDAO(cn);
+                    CitaDAO ingreso = new CitaDAO(cn);
+                    String codigoCita = ingreso.obtenerUltimo();
+                    int nuevoCodigoCita = Integer.parseInt(codigoCita)+1;
                     String medico = "";
                     if (s.getAttribute("usuario") != null && s.getAttribute("tipo").toString().equalsIgnoreCase("DOCTOR")) {
                         medico = s.getAttribute("usuario").toString();
@@ -173,8 +177,13 @@ public class Informe extends HttpServlet {
                     String examen = request.getParameter("examen");
                     String orden = request.getParameter("orden");
                     String fecha = request.getParameter("fecha");
+                    String nombreConsulta = request.getParameter("nombreConsulta");
+                    int codigoConsulta = consultas.obtenerCodigoConsulta(nombreConsulta);
+                    String fechaProxima = request.getParameter("fechaProxima");
                     String horaConPuntos = request.getParameter("hora");
                     int hora = Integer.parseInt(horaConPuntos);
+                    String horaProxima = request.getParameter("horaProxima");
+                    int horaP = Integer.parseInt(horaProxima);
                     String paciente = request.getParameter("paciente");
                     String codigoPaciente = pacienteD.obtenerCodigoPaciente(paciente);
                     String archivo = request.getParameter("archivo");
@@ -188,7 +197,11 @@ public class Informe extends HttpServlet {
                     int newCodigo = Integer.parseInt(re.obtenerUltimo()) + 1;
                     String nuevoCodigo = newCodigo + "";
                     if (re.ingresarResultadoSinRealizar(nuevoCodigo, codigoPaciente, laboratorista, examen, archivoOrden, archivoInforme, fecha, hora, medico)) {
-                        response.getWriter().write(nuevoCodigo);
+                        if (ingreso.ingresarCita(nuevoCodigoCita+"", codigoPaciente, medico, codigoConsulta, fechaProxima, horaP)){
+                            response.getWriter().write(nuevoCodigo+"/"+nuevoCodigoCita);
+                        } else {
+                            response.getWriter().write("ERRORBASE");
+                        }
                     } else {
                         response.getWriter().write("ERRORBASE");
                     }
