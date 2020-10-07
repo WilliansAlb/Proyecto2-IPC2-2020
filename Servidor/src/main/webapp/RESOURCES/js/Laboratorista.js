@@ -31,7 +31,6 @@ window.onload = function () {
                 } else if (data === 'ERRORBASE') {
                     alert("No fue posible concretar la acción, intenta de nuevo");
                 } else {
-                    alert("fechas");
                     window.location = "Laboratorista.jsp";
                 }
             },

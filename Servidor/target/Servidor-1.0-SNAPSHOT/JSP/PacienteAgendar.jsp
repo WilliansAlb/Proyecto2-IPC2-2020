@@ -33,27 +33,34 @@
             HttpSession s = request.getSession();
             ArrayList<ConsultaDTO> todasLasConsultas = new ArrayList<>();
             todasLasConsultas = doctor.obtenerConsultas();
-            String filtro = "";
-            if (s.getAttribute("tipoConsulta") == null) {
-                doctores = doctor.obtenerMedicos();
-            } else {
-                String tipoco = s.getAttribute("tipoConsulta").toString();
-                if (tipoco.equalsIgnoreCase("1")) {
-                    doctores = doctor.obtenerMedicosLike(s.getAttribute("filtroMedico").toString());
-                    filtro = s.getAttribute("filtroMedico").toString();
-                } else if (tipoco.equalsIgnoreCase("2")) {
-                    doctores = doctor.obtenerMedicosPorEspecialidad(s.getAttribute("filtroMedico").toString());
-                    filtro = s.getAttribute("filtroMedico").toString();
-                } else if (tipoco.equalsIgnoreCase("3")) {
-                    doctores = doctor.obtenerMedicosPorFecha(s.getAttribute("filtroMedico").toString(), s.getAttribute("filtroMedico1").toString());
-                    filtro = s.getAttribute("filtroMedico").toString() + " " + s.getAttribute("filtroMedico1").toString();
-                } else if (tipoco.equalsIgnoreCase("4")) {
-                    doctores = doctor.obtenerMedicosPorHora(s.getAttribute("filtroMedico").toString());
-                    filtro = s.getAttribute("filtroMedico").toString();
+            String filtro = "5";
+            s.setAttribute("usuario", "177840");
+            s.setAttribute("tipo", "PACIENTE");
+            if (s.getAttribute("usuario") != null && s.getAttribute("tipo") != null) {
+                if (s.getAttribute("tipo").toString().equalsIgnoreCase("PACIENTE")) {
+                    if (s.getAttribute("tipoConsulta") == null) {
+                        doctores = doctor.obtenerMedicos();
+                    } else {
+                        String tipoConsulta = s.getAttribute("tipoConsulta").toString();
+                        if (tipoConsulta.equalsIgnoreCase("1")) {
+                            doctores = doctor.obtenerMedicosLike(s.getAttribute("filtroMedico").toString());
+                        } else if (tipoConsulta.equalsIgnoreCase("2")) {
+                            doctores = doctor.obtenerMedicosPorEspecialidad(s.getAttribute("filtroMedico").toString());
+                        } else if (tipoConsulta.equalsIgnoreCase("3")) {
+                            doctores = doctor.obtenerMedicosPorFecha(s.getAttribute("filtroMedico").toString(), s.getAttribute("filtroMedico1").toString());
+                        } else if (tipoConsulta.equalsIgnoreCase("4")) {
+                            doctores = doctor.obtenerMedicosPorHora(s.getAttribute("filtroMedico").toString());
+                        } else {
+                            doctores = doctor.obtenerMedicos();
+                        }
+                        filtro = tipoConsulta;
+                        s.removeAttribute("tipoConsulta");
+                    }
                 } else {
-                    doctores = doctor.obtenerMedicos();
+                    response.sendRedirect("Perfil.jsp");
                 }
-                s.setAttribute("tipoConsulta", null);
+            } else {
+                response.sendRedirect("/Servidor/index.jsp");
             }
         %>
         <%@include file='Sidebar.jsp' %>
@@ -95,11 +102,31 @@
             <form id="formularioFiltros" method="GET" action="../Cita">
                 <label for="filtroMedicos">Tipo de filtro: </label>
                 <select class="filtros" name="filtros" id="filtroMedicos" onchange="cambiandoFiltros(this)">
+                    <%if (filtro.equalsIgnoreCase("5")) {%>
+                    <option value="1" selected>SIN FILTROS</option>
+                    <%} else {%>
                     <option value="1">SIN FILTROS</option>
+                    <%}%>
+                    <%if (filtro.equalsIgnoreCase("1")) {%>
+                    <option value="filtro1" selected>POR NOMBRE</option>
+                    <%} else {%>
                     <option value="filtro1">POR NOMBRE</option>
+                    <%}%>
+                    <%if (filtro.equalsIgnoreCase("2")) {%>
+                    <option value="filtro2" selected>POR ESPECIALIDAD</option>
+                    <%} else {%>
                     <option value="filtro2">POR ESPECIALIDAD</option>
+                    <%}%>
+                    <%if (filtro.equalsIgnoreCase("3")) {%>
+                    <option value="filtro3" selected>POR RANGO DE FECHA</option>
+                    <%} else {%>
                     <option value="filtro3">POR RANGO DE FECHA</option>
+                    <%}%>
+                    <%if (filtro.equalsIgnoreCase("4")) {%>
+                    <option value="filtro4" selected>POR HORARIO</option>
+                    <%} else {%>
                     <option value="filtro4">POR HORARIO</option>
+                    <%}%>
                 </select>
                 <div id="filtro1" style="display: none;">
                     <label for="texto">Nombre:</label><br>
@@ -190,7 +217,7 @@
                     </tr>
                 </tbody>
             </table>
-            <button onclick="retroceder($('#inicio'), $('#horario'))">&larr;ATRAS</button><button id="siguiente3" onclick="irAConfirmar($('#confirmar'),$('#horario'))" disabled>SIGUIENTE&rarr;</button>
+            <button onclick="retroceder($('#inicio'), $('#horario'))">&larr;ATRAS</button><button id="siguiente3" onclick="irAConfirmar($('#confirmar'), $('#horario'))" disabled>SIGUIENTE&rarr;</button>
         </div>
         <div id="confirmar" style="display: none;" class="ventana">
             <h3 id="mensajeCita">CONFIRMAR CITA</h3>
@@ -216,7 +243,7 @@
                 </tbody>
             </table>
             <p id="mensajeConfirmacion" style="display:none;">El codigo de tu cita es<span id="spanCodigo"></span></p>
-            <button id="regreso3" onclick="siguiente($('horario'),$('confirmar'))">&larr;ATRAS</button><button id="ingresarCita" onclick="ingresarCita()">INGRESAR</button>
+            <button id="regreso3" onclick="siguiente($('horario'), $('confirmar'))">&larr;ATRAS</button><button id="ingresarCita" onclick="ingresarCita()">INGRESAR</button>
             <br>
             <a href="PacienteAgendar.jsp" style="display: none;" id="otraConsulta">INGRESAR OTRA CONSULTA</a>
         </div>

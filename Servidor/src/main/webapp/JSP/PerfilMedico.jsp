@@ -14,16 +14,38 @@
 <center>
     <div id="perfil">
         <%
+            //Conexion con la base de datos
             Conector cn = new Conector("encender");
+            //Metodos que obtienen los datos de la base de datos
             DoctorDAO doc = new DoctorDAO(cn);
+            //Metodos que contendrán los datos requeridos para la pagina
             DoctorDTO doctor = new DoctorDTO();
-            doctor = doc.obtenerMedico("MED-127");
             EspecialidadDTO esp = new EspecialidadDTO();
-            ConsultaDTO consulta = new ConsultaDTO();
-            esp = doc.obtenerEspecialidades("MED-127");
-            ConsultaDTO[] consultas = esp.getConsulta();
-            ArrayList<ConsultaDTO> todasLasConsultas = doc.obtenerConsultas();
+            ConsultaDTO[] consultas = new ConsultaDTO[1];
+            ArrayList<ConsultaDTO> todasLasConsultas = new ArrayList<>();
+            //HttpSession que verificará que el usuario que entre acá sea un Medico
+            HttpSession s2 = request.getSession();
+            boolean entra = false;
+            if (s2.getAttribute("usuario") != null && s2.getAttribute("tipo") != null) {
+                if (s2.getAttribute("tipo").toString().equalsIgnoreCase("DOCTOR")) {
+                    if (s2.getAttribute("entrada") != null) {
+                        String codigoDoctor = s2.getAttribute("usuario").toString();
+                        doctor = doc.obtenerMedico(codigoDoctor);
+                        esp = doc.obtenerEspecialidades(codigoDoctor);
+                        consultas = esp.getConsulta();
+                        todasLasConsultas = doc.obtenerConsultas();
+                        entra = true;
+                    } else {
+                        response.sendRedirect("Perfil.jsp");
+                    }
+                } else {
+                    response.sendRedirect("Perfil.jsp");
+                }
+            } else {
+                response.sendRedirect("/Servidor/index.jsp");
+            }
         %>
+        <%if (entra) {%>
         <center>
             <h2>Tu perfil</h2>
             <form id="formularioMedico" action="../Perfil" method="POST">
@@ -61,7 +83,7 @@
                                         <%} else {%>
                                         <option value="<%out.print(todasLasConsultas.get(o).getCodigo());%>"><%out.print(todasLasConsultas.get(o).getNombre());%></option>
                                         <%}
-                                }%>
+                                            }%>
                                     </select></li>
                                     <%}%>
                             </ol>
@@ -87,5 +109,6 @@
             </form>
             <button onclick="editarMedico(this)">EDITAR INFORMACION</button>
         </center>
+        <%}%>
     </div>
 </center>

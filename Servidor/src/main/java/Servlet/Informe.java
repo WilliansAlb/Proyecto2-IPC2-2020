@@ -71,8 +71,8 @@ public class Informe extends HttpServlet {
         if (request.getParameter("tipo") != null) {
             Conector cn = new Conector();
             String tipo = request.getParameter("tipo");
+            response.setContentType("text/plain;charset=UTF-8");
             if (tipo.equalsIgnoreCase("OBTENER OCUPADO")) {
-                response.setContentType("text/plain;charset=UTF-8");
                 String fecha = request.getParameter("fecha");
                 String codigoMedico = "";
                 if (s.getAttribute("usuario") != null && s.getAttribute("tipo").toString().equalsIgnoreCase("DOCTOR")) {
@@ -97,15 +97,19 @@ public class Informe extends HttpServlet {
                     response.getWriter().write("ERRORBASE");
                 }
             } else if (tipo.equalsIgnoreCase("OBTENER COSTO")) {
-                response.setContentType("text/plain;charset=UTF-8");
                 String nombreConsulta = request.getParameter("consulta");
-                if (cn.conectar()){
+                if (cn.conectar()) {
                     ConsultaDAO consulta = new ConsultaDAO(cn);
                     String costo = consulta.obtenerCostoConsulta(nombreConsulta);
                     response.getWriter().write(costo);
                 } else {
                     response.getWriter().write("ERRORBASE");
                 }
+            } else if (tipo.equalsIgnoreCase("CAMBIAR FECHA")) {
+                String fecha = request.getParameter("fecha");
+                System.out.println(fecha);
+                s.setAttribute("filtroColaCitas",fecha);
+                response.getWriter().write("CORRECTO");
             }
         }
     }
@@ -166,7 +170,7 @@ public class Informe extends HttpServlet {
                     ConsultaDAO consultas = new ConsultaDAO(cn);
                     CitaDAO ingreso = new CitaDAO(cn);
                     String codigoCita = ingreso.obtenerUltimo();
-                    int nuevoCodigoCita = Integer.parseInt(codigoCita)+1;
+                    int nuevoCodigoCita = Integer.parseInt(codigoCita) + 1;
                     String medico = "";
                     if (s.getAttribute("usuario") != null && s.getAttribute("tipo").toString().equalsIgnoreCase("DOCTOR")) {
                         medico = s.getAttribute("usuario").toString();
@@ -197,8 +201,8 @@ public class Informe extends HttpServlet {
                     int newCodigo = Integer.parseInt(re.obtenerUltimo()) + 1;
                     String nuevoCodigo = newCodigo + "";
                     if (re.ingresarResultadoSinRealizar(nuevoCodigo, codigoPaciente, laboratorista, examen, archivoOrden, archivoInforme, fecha, hora, medico)) {
-                        if (ingreso.ingresarCita(nuevoCodigoCita+"", codigoPaciente, medico, codigoConsulta, fechaProxima, horaP)){
-                            response.getWriter().write(nuevoCodigo+"/"+nuevoCodigoCita);
+                        if (ingreso.ingresarCita(nuevoCodigoCita + "", codigoPaciente, medico, codigoConsulta, fechaProxima, horaP)) {
+                            response.getWriter().write(nuevoCodigo + "/" + nuevoCodigoCita);
                         } else {
                             response.getWriter().write("ERRORBASE");
                         }

@@ -31,12 +31,26 @@
         <%@include file='Sidebar.jsp' %>
 
         <%
+            //Conexion con la base de datos con metodo que la "enciende" directamente
             Conector cn = new Conector("encender");
+            //Clases con métodos que devuelven los datos para llenar esta pagina
             LaboratoristaDAO pa = new LaboratoristaDAO(cn);
             ExamenDAO examen = new ExamenDAO(cn);
+            //Clases contenedoras y almacenadoras de los datos respectivos para esta pagina
             ArrayList<ExamenDTO> examenes = examen.obtenerExamenes();
             ArrayList<LaboratoristaDTO> laboratoristas = pa.obtenerTodosLaboratoristas();
             String[] dias = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
+            //Variable HttpSession encargada de verificar que el usuario que haya entrado a esta pagina sea un Paciente
+            HttpSession s = request.getSession();
+            if (s.getAttribute("usuario") != null && s.getAttribute("tipo") != null) {
+                if (s.getAttribute("tipo").toString().equalsIgnoreCase("PACIENTE")) {
+                    //no hay ninguna acción acá, dado que esta pagina no tiene datos especificos
+                } else {
+                    response.sendRedirect("Perfil.jsp");
+                }
+            } else {
+                response.sendRedirect("/Servidor/index.jsp");
+            }
         %>
     <center>
         <div id="examenes" class="ventana">

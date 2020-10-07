@@ -130,7 +130,8 @@ public class Cita extends HttpServlet {
                     String nuevoCodigo = cita.obtenerUltimo();
                     int nuevoCod = Integer.parseInt(nuevoCodigo)+1;
                     String newCodigo = nuevoCod+"";
-                    boolean ingreso = cita.ingresarCita(newCodigo, "118258", codigo, newConsulta, fecha, newHora);
+                    String paciente = s.getAttribute("usuario").toString();
+                    boolean ingreso = cita.ingresarCita(newCodigo, paciente, codigo, newConsulta, fecha, newHora);
                     if (ingreso){
                         response.getWriter().write(newCodigo+"");
                     } else {

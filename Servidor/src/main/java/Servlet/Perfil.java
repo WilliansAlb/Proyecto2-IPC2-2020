@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -61,7 +62,19 @@ public class Perfil extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession s = request.getSession();
+        if (request.getParameter("tipo") != null) {
+            if (s.getAttribute("usuario") != null && s.getAttribute("tipo") != null) {
+                s.removeAttribute("usuario");
+                s.removeAttribute("tipo");
+                s.invalidate();
+                response.sendRedirect("/Servidor/index.jsp");
+            } else {
+                response.getWriter().write("Perfil.jsp");
+            }
+        } else {
+            response.sendRedirect("Perfil.jsp");
+        }
     }
 
     /**
@@ -155,7 +168,7 @@ public class Perfil extends HttpServlet {
                     String fecha = request.getParameter("fecha");
                     String telefono = request.getParameter("telefono");
                     String dias = request.getParameter("dias");
-                    boolean actualizado = lab.actualizarLaboratorista(codigo,nombre,dpi,examen,email,registro,fecha,telefono);
+                    boolean actualizado = lab.actualizarLaboratorista(codigo, nombre, dpi, examen, email, registro, fecha, telefono);
                     if (actualizado) {
                         boolean isActualizado = lab.actualizarTrabajo(codigo, dias);
                         if (isActualizado) {

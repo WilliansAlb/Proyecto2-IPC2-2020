@@ -26,30 +26,45 @@
     <body>
         <%@include file="Sidebar.jsp" %>
         <%
+            //Clase que conecta con la base de datos
             Conector cn = new Conector("encender");
+            //Clases encargadas de obtener los datos de la base de 
             ResultadoDAO resultado = new ResultadoDAO(cn);
             ArrayList<ResultadoDTO> examenes = resultado.obtenerResultados();
             HttpSession s = request.getSession();
             String prueba = "1";
             String fecha1 = "";
             String fecha2 = "";
-            if (s.getAttribute("filtroLaboratorista") == null) {
-                examenes = resultado.obtenerResultadosDeLaboratorista("LAB-123");
-                prueba = "1";
-            } else {
-                String tipoco = s.getAttribute("filtroLaboratorista").toString();
-                if (tipoco.equalsIgnoreCase("1")) {
-                    examenes = resultado.obtenerResultadosDeLaboratoristaHoy("LAB-123");
-                    prueba = "2";
-                } else if (tipoco.equalsIgnoreCase("2")) {
-                    String inicio = s.getAttribute("filtroLabFecha1").toString();
-                    String final1 = s.getAttribute("filtroLabFecha2").toString();
-                    prueba = "3";
-                    fecha1 = inicio;
-                    fecha2 = final1;
-                    examenes = resultado.obtenerResultadosDeLaboratoristaFechas("LAB-948", inicio, final1);
+            s.setAttribute("usuario", "LAB-948");
+            s.setAttribute("tipo", "LABORATORISTA");
+            if (s.getAttribute("usuario") != null && s.getAttribute("tipo") != null) {
+                if (s.getAttribute("tipo").toString().equalsIgnoreCase("LABORATORISTA")) {
+                    String laboratorista = s.getAttribute("usuario").toString();
+                    if (s.getAttribute("filtroLaboratorista") == null) {
+                        examenes = resultado.obtenerResultadosDeLaboratorista(laboratorista);
+                        prueba = "1";
+                    } else {
+                        String tipoco = s.getAttribute("filtroLaboratorista").toString();
+                        if (tipoco.equalsIgnoreCase("1")) {
+                            examenes = resultado.obtenerResultadosDeLaboratoristaHoy(laboratorista);
+                            prueba = "2";
+                        } else if (tipoco.equalsIgnoreCase("2")) {
+                            String inicio = s.getAttribute("filtroLabFecha1").toString();
+                            String final1 = s.getAttribute("filtroLabFecha2").toString();
+                            prueba = "3";
+                            fecha1 = inicio;
+                            fecha2 = final1;
+                            s.removeAttribute("filtroLabFecha1");
+                            s.removeAttribute("filtroLabFecha2");
+                            examenes = resultado.obtenerResultadosDeLaboratoristaFechas(laboratorista, inicio, final1);
+                        }
+                        s.removeAttribute("filtroLaboratorista");
+                    }
+                } else {
+                    response.sendRedirect("Perfil.jsp");
                 }
-                s.setAttribute("filtroLaboratorista", null);
+            } else {
+                response.sendRedirect("/Servidor/index.jsp");
             }
         %>
     <center>

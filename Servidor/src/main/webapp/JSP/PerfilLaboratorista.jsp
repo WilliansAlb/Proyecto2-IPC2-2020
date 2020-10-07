@@ -16,17 +16,29 @@
 <%@page import="Base.Conector"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    //Conexion con la base de datos
+    Conector cn = new Conector("encender");
+    //Clases con metodos que obtienen datos de la base de datos
+    LaboratoristaDAO pa = new LaboratoristaDAO(cn);
+    ExamenDAO examen = new ExamenDAO(cn);
+    //Clases que contienen los datos respectivos a esta pagina
+    ArrayList<ExamenDTO> examenes = examen.obtenerExamenes();
+    String[] semana = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
+    LaboratoristaDTO laboratorista = new LaboratoristaDTO();
+    ArrayList<TrabajoDTO> trabajos = new ArrayList<>();
+    //Variable HttpSession que verifica que el usuario sea un laboratorista para presentar la pagina y devolver los datos requeridos
+    HttpSession s2 = request.getSession();
+    if (s2.getAttribute("usuario") != null && s2.getAttribute("tipo") != null) {
+        if (s2.getAttribute("tipo").toString().equalsIgnoreCase("LABORATORISTA")) {
+            if (s2.getAttribute("entrada") != null) {
+                String codigoLaboratorista = s2.getAttribute("usuario").toString();
+                laboratorista = pa.obtenerLaboratorista(codigoLaboratorista);
+                trabajos = laboratorista.getTrabajos();
+                s2.setAttribute("entrada", null);
+%>
 <center>
     <div id="perfil">
-        <%
-            Conector cn = new Conector("encender");
-            LaboratoristaDAO pa = new LaboratoristaDAO(cn);
-            ExamenDAO examen = new ExamenDAO(cn);
-            ArrayList<ExamenDTO> examenes = examen.obtenerExamenes();
-            String[] semana = {"Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"};
-            LaboratoristaDTO laboratorista = pa.obtenerLaboratorista("LAB-123");
-            ArrayList<TrabajoDTO> trabajos = laboratorista.getTrabajos();
-        %>
         <form id="formularioLaboratorista" method="POST" action="../Perfil">
             <center>
                 <h2>Tu perfil</h2>
@@ -66,25 +78,25 @@
                         </div>
                         <div class="item">
                             <label>DIAS DE TRABAJO: </label>
-                            <%for(int i = 0; i < semana.length; i++){
-                                boolean existe = false;%>
-                            <%for(int u = 0; u < trabajos.size(); u++){
-                                if ((i+1) == trabajos.get(u).getDia()){
-                                    existe = true;
+                            <%for (int i = 0; i < semana.length; i++) {
+                                    boolean existe = false;%>
+                            <%for (int u = 0; u < trabajos.size(); u++) {
+                                    if ((i + 1) == trabajos.get(u).getDia()) {
+                                        existe = true;
+                                    }
                                 }
-                            }
                             %>
-                            <%if(existe){%>
+                            <%if (existe) {%>
                             <div>
-                            <input type="checkbox" class="trabajos" id="<%out.print(semana[i]);%>" name="dias" value="1" disabled checked><label for="<%out.print(semana[i]);%>" class="dias"><%out.print(semana[i]);%></label>
+                                <input type="checkbox" class="trabajos" id="<%out.print(semana[i]);%>" name="dias" value="1" disabled checked><label for="<%out.print(semana[i]);%>" class="dias"><%out.print(semana[i]);%></label>
                             </div>
                             <%} else {%>
                             <div>
-                            <input type="checkbox" class="trabajos" id="<%out.print(semana[i]);%>" name="dias" value="0" disabled><label for="<%out.print(semana[i]);%>" class="dias"><%out.print(semana[i]);%></label>
+                                <input type="checkbox" class="trabajos" id="<%out.print(semana[i]);%>" name="dias" value="0" disabled><label for="<%out.print(semana[i]);%>" class="dias"><%out.print(semana[i]);%></label>
                             </div>
                             <%}%>
                             <%}%>
-                            
+
                         </div>
                         <div class="item">
                             <label for="fecha">FECHA NACIMIENTO: </label>
@@ -102,3 +114,14 @@
         <button id="editarLaboratorista" onclick="editarLaboratorista(this);">EDITAR INFORMACION</button>
     </div>
 </center>
+<%
+            } else {
+                response.sendRedirect("Perfil.jsp");
+            }
+        } else {
+            response.sendRedirect("Perfil.jsp");
+        }
+    } else {
+        response.sendRedirect("/Servidor/index.jsp");
+    }
+%>

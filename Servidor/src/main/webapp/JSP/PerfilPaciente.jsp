@@ -9,13 +9,24 @@
 <%@page import="Base.Conector"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    //Conexion con la base de datos
+    Conector cn = new Conector("encender");
+    //Clase que obtiene los datos del paciente
+    PacienteDAO pa = new PacienteDAO(cn);
+    //Contenedor de los datos del paciente
+    PacienteDTO paciente = new PacienteDTO();
+    //Variable HttpSession que verifica que el usuario sea un paciente
+    HttpSession s2 = request.getSession();
+    if (s2.getAttribute("usuario") != null && s2.getAttribute("tipo") != null) {
+        if (s2.getAttribute("tipo").toString().equalsIgnoreCase("PACIENTE")) {
+            if (s2.getAttribute("entrada") != null) {
+                String codigoPaciente = s2.getAttribute("usuario").toString();
+                paciente = pa.obtenerPaciente(codigoPaciente);
+                s2.setAttribute("entrada", null);
+%>
 <center>
     <div id="perfil">
-        <%
-            Conector cn = new Conector("encender");
-            PacienteDAO pa = new PacienteDAO(cn);
-            PacienteDTO paciente = pa.obtenerPaciente("118258");
-        %>
         <center>
             <h2>Tu perfil</h2>
             <form id="formularioPaciente" method="POST" action="../Perfil">
@@ -32,7 +43,7 @@
                         <div class="item">
                             <label for="sexo">SEXO: </label>
                             <select name="sexo" id="sexo" required disabled>
-                                <%if (paciente.getSexo().equalsIgnoreCase("hombre")){%>
+                                <%if (paciente.getSexo().equalsIgnoreCase("hombre")) {%>
                                 <option value="<%out.print(paciente.getSexo());%>" selected><%out.print(paciente.getSexo().toUpperCase());%></option>
                                 <option value="Mujer">MUJER</option>
                                 <%} else {%>
@@ -73,3 +84,15 @@
         <button onclick="editarPaciente(this)">EDITAR INFORMACION</button>
     </div>
 </center>
+<%
+            } else {
+                response.sendRedirect("Perfil.jsp");
+            }
+        } else {
+            response.sendRedirect("Perfil.jsp");
+        }
+    } else {
+        response.sendRedirect("/Servidor/index.jsp");
+    }
+%>
+

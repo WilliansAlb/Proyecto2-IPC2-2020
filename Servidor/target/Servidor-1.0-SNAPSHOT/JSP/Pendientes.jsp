@@ -28,11 +28,27 @@
     <body>
         <%@include file="Sidebar.jsp" %>
         <%
+            //Conexion con la base de datos
             Conector cn = new Conector("encender");
+            //Clases que devuelven los datos requeridos para llenar esta pagina
             CitaDAO cita = new CitaDAO(cn);
             ResultadoDAO resultado = new ResultadoDAO(cn);
-            ArrayList<CitaDTO> citas = cita.obtenerCitasDePacientePendientes("118258");
-            ArrayList<ResultadoDTO> examenes = resultado.obtenerResultadosDePacientePendientes("118258");
+            //Contenedores de los datos
+            ArrayList<CitaDTO> citas = new ArrayList<>();
+            ArrayList<ResultadoDTO> examenes = new ArrayList<>();
+            //Variable HttpSession que nos dice si el usuario es un Paciente o no
+            HttpSession s = request.getSession();
+            if (s.getAttribute("usuario")!=null && s.getAttribute("tipo")!=null){
+                if (s.getAttribute("tipo").toString().equalsIgnoreCase("PACIENTE")){
+                    String paciente = s.getAttribute("usuario").toString();
+                    citas = cita.obtenerCitasDePacientePendientes(paciente);
+                    examenes = resultado.obtenerResultadosDePacientePendientes(paciente);
+                } else {
+                    response.sendRedirect("Perfil.jsp");
+                }
+            } else {
+                response.sendRedirect("/Servidor/index.jsp");
+            }
         %>
     <center>
 

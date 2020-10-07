@@ -35,16 +35,44 @@
         <script type="text/javascript" src="../RESOURCES/js/Informe.js"></script>
     </head>
     <body>
-        <%SimpleDateFormat objSDF = new SimpleDateFormat("yyyy-MM-dd");
+        <%
+            //Metodos para obtener en el formato correcto la fecha actual
+            SimpleDateFormat objSDF = new SimpleDateFormat("yyyy-MM-dd");
+            String fecha = objSDF.format(new java.util.Date());
+            String mensajeFecha = "Cola de citas fecha actual";
+            String medico = "";
+            //Invocación de la clase para la base de datos, con un atributo de string para encender de una vez la base
             Conector cn = new Conector("encender");
+            //Clases para obtener los datos que esta pagina requiere
             CitaDAO cita = new CitaDAO(cn);
             ExamenDAO examen = new ExamenDAO(cn);
             DoctorDAO doctor = new DoctorDAO(cn);
-            DoctorDTO datosDoctor = doctor.obtenerMedico("MED-123");
             LaboratoristaDAO pa = new LaboratoristaDAO(cn);
+            //Variables de HttpSession que podrá utilizar el usuario para ingresar a esta pagina
+            HttpSession s = request.getSession();
+            s.setAttribute("tipo", "DOCTOR");
+            s.setAttribute("usuario", "MED-123");
+            if (s.getAttribute("usuario") != null && s.getAttribute("tipo") != null) {
+                if (s.getAttribute("tipo").toString().equalsIgnoreCase("DOCTOR")) {
+                    medico = s.getAttribute("usuario").toString();
+                    if (s.getAttribute("filtroColaCitas") != null) {
+                        fecha = s.getAttribute("filtroColaCitas").toString();
+                        mensajeFecha = "Cola de citas fecha " + fecha;
+                        s.removeAttribute("filtroColaCitas");
+                    } else {
+                        fecha = objSDF.format(new java.util.Date());
+                    }
+                } else {
+                    response.sendRedirect("Perfil.jsp");
+                }
+            } else {
+                response.sendRedirect("/Servidor/index.jsp");
+            }
+            //Clases y objetos para contener los datos que serán presentados
+            DoctorDTO datosDoctor = doctor.obtenerMedico(medico);
             ArrayList<ExamenDTO> examenes = examen.obtenerExamenes();
             ArrayList<LaboratoristaDTO> laboratoristas = pa.obtenerTodosLaboratoristas();
-            ArrayList<CitaDTO> citas = cita.obtenerCitas("MED-123", "2020-09-12");
+            ArrayList<CitaDTO> citas = cita.obtenerCitas(medico, fecha);
             String[] dias = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
         %>
         <%@include file="Sidebar.jsp"%>
@@ -53,9 +81,8 @@
             <%if (citas.size() > 0) {%>
             <center>
                 <div id="tablaCitas">
-                    <h3>Cola de citas</h3>
-                    <label for="fechaHoy">Fecha actual</label>
-                    <input type="date" id="fechaHoy" value="<%=objSDF.format(new java.util.Date())%>" onchange="cambiandoFecha()">
+                    <h3><%out.print(mensajeFecha);%></h3>
+                    <input type="date" id="fechaHoy" value="<%out.print(fecha);%>" onchange="cambiandoFecha()">
                     <button id="verCitas" onclick="mostrarHora()">VER CITAS</button>
                     <table id="colaCitas">
                         <thead>
@@ -88,12 +115,12 @@
             <%} else {%>
             <h3>Cola de citas</h3>
             <p>No tienes citas para este dia, ingresa otra fecha</p>
-            <label for="fechaHoy">Fecha </label>
-            <input type="date" id="fechaHoy" value="<%=objSDF.format(new java.util.Date())%>" onchange="cambiandoFecha()">
+            <input type="date" id="fechaHoy" value="<%out.print(fecha);%>" onchange="cambiandoFecha()">
             <button id="verCitas" onclick="mostrarHora()">VER CITAS</button>
             <%}%>
         </div>
     </center>
+    <%if (citas.size() > 0) {%>
     <center>
         <div id="agregarInforme" style="display:none;" class="center">
             <center>
@@ -372,6 +399,7 @@
             </div>
         </center>
     </div>
+    <%}%>
 </body>
 </html>
 

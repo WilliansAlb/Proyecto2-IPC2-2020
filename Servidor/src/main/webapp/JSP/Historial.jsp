@@ -31,11 +31,27 @@
         <%@include file="Sidebar.jsp" %>
         <%
             Conector cn = new Conector("encender");
+            //Cases de obtención de datos
             CitaDAO cita = new CitaDAO(cn);
             ReporteDAO reporte = new ReporteDAO(cn);
-            ArrayList<ReporteDTO> reportes = reporte.obtenerReportePaciente("118258");
             ResultadoDAO resultado = new ResultadoDAO(cn);
-            ArrayList<ResultadoDTO> examenes = resultado.obtenerResultadosDePacienteRealizado("118258");
+            //Variable del paciente que está buscando el historial
+            String pacienteActual = "";
+            //Verificar que exista un HttpSession
+            HttpSession s = request.getSession();
+            if (s.getAttribute("usuario")!=null && s.getAttribute("tipo")!=null) {
+                if (s.getAttribute("tipo").toString().equalsIgnoreCase("PACIENTE")){
+                    pacienteActual = s.getAttribute("usuario").toString();
+                } else {
+                    response.sendRedirect("Perfil.jsp");
+                }
+            } else {
+                //response.sendRedirect("/Servidor/index.jsp");
+                pacienteActual = "118258";
+            }
+            //Contenedores de datos para mostrar en la pagina
+            ArrayList<ReporteDTO> reportes = reporte.obtenerReportePaciente(pacienteActual);
+            ArrayList<ResultadoDTO> examenes = resultado.obtenerResultadosDePacienteRealizado(pacienteActual);
         %>
     <center>
         <div id="historial">

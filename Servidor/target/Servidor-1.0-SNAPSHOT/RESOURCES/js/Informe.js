@@ -375,10 +375,39 @@ function verificarDatosCorrectos() {
 }
 
 function mostrarHora() {
-    var hora = document.getElementById("fechaHoy").value;
+    var fecha = document.getElementById("fechaHoy").value;
+    var btnEnviar = $("#verCitas");
+    console.log(fecha);
+    $.ajax({
+        type: 'GET',
+        url: '../Informe',
+        data: {tipo: "CAMBIAR FECHA", fecha: fecha},
+        beforeSend: function () {
+            btnEnviar.attr("disabled", "disabled");
+        },
+        complete: function (data) {
+            btnEnviar.removeAttr("disabled");
+        },
+        success: function (data) {
+            if (data === 'CORRECTO') {
+                console.log(data);
+                window.location = "Informe.jsp";
+            } else {
+                alert("Ocurrio un problema, intentanlo mas tarde");
+            }
+        },
+        error: function (data) {
+            alert("Problemas al tratar de enviar el formulario");
+        }
+    });
 }
 function cambiandoFecha() {
-    var hora = document.getElementById("fechaHoy").value;
+    var fecha = document.getElementById("fechaHoy").value;
+    if (fecha===''){
+        $("#verCitas").attr("disabled","disabled");
+    } else {
+        $("#verCitas").removeAttr("disabled");
+    }
 }
 
 function mostrarInforme() {

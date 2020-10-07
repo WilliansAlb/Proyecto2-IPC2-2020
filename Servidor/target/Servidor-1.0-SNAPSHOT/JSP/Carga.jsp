@@ -28,9 +28,7 @@
                 <label for="archivo" tabindex="0" class="input-file-trigger">Selecciona carpeta con datos a cargar...</label>
                 <p id="ruta" class="file-return"></p>
                 <input type="file" id="archivo" onchange="verificar()" webkitdirectory directory multiple>
-                <button id="ver" onclick="loadDoc()"
-                        value=""
-                        disabled="true" style="display: none;">VER</button>
+                <button id="ver" onclick="loadDoc()" value="" disabled="true" style="display: none;">VER</button>
                 <div class="buttons" style="display: none;" id="btn1">
                     <div class="container">
                         <a onclick="loadDoc()" class="effect01" target="_blank"><span>VER</span></a>
