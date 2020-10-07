@@ -245,8 +245,9 @@ public class Carga extends HttpServlet {
                     String nacimiento = gsonObj.get("nacimiento").getAsString();
                     String correo = gsonObj.get("correo").getAsString();
                     String peso = gsonObj.get("peso").getAsString();
+                    Double nuevoPeso = Double.parseDouble(peso);
                     String sangre = gsonObj.get("sangre").getAsString();
-                    boolean ingreso = ex.ingresarPaciente(codigo, nombre, sexo, nacimiento, dpi, telefono, peso, sangre, correo);
+                    boolean ingreso = ex.ingresarPaciente(codigo, nombre, sexo, nacimiento, dpi, telefono, nuevoPeso, sangre, correo);
                     if (ingreso) {
                         if(us.ingresarUsuario(codigo, codigo, password, "PACIENTE")){
                             ingresados += "1,";

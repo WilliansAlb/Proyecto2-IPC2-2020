@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Login Hospital</title>
         <link rel="shortcut icon" type="image/x-icon" href="RESOURCES/imagenes/saludico.ico"/>
 
         <link rel="stylesheet" href='RESOURCES/css/general.css' type="text/css">
@@ -51,6 +51,8 @@
                     </div>
                   </div>
                 </div>
+                <hr style="width: 50%">
+                <a href="JSP/CrearPaciente.jsp" id="linkCrear">¿no tienes una cuenta? crea una</a>
             </center>
         </div>
     </body>

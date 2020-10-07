@@ -139,11 +139,12 @@ window.onload = function () {
         var fecha = $("#fecha").val();
         var email = $("#email").val();
         var examen = $("#examen").val();
+        var password = $("#password").val();
         $.ajax({
             type: $(this).attr("method"),
             url: $(this).attr("action"),
             data: {tipo: "INGRESO LABORATORISTA", codigo: codigo, nombre: nombre, registro:registro, dpi: dpi, telefono: telefono, dias: coleccion,
-            fecha:fecha,email:email,examen:examen, nuevo:nuevo},
+            fecha:fecha,email:email,examen:examen, nuevo:nuevo, password:password},
             beforeSend: function () {
                 /*
                  * Esta función se ejecuta durante el envió de la petición al
@@ -172,7 +173,7 @@ window.onload = function () {
                     alert("No fue posible concretar la acción, intenta de nuevo");
                 } else {
                     alert(data);
-                    window.location = "AdminConsultas.jsp";
+                    window.location = "AdminLaboratoristas.jsp";
                 }
             },
             error: function (data) {
@@ -201,6 +202,7 @@ window.onload = function () {
         var selects = div.querySelectorAll("select");
         var nuevos = "";
         var cambios = "";
+        var password = $("#password").val();
         for (let i = 0; i < selects.length; i++){
             if (selects[i].name==='0'){
                 nuevos += selects[i].value+"/";
@@ -218,7 +220,7 @@ window.onload = function () {
             type: $(this).attr("method"),
             url: $(this).attr("action"),
             data: {tipo: "INGRESO MEDICO", codigo: codigo, nombre: nombre, colegiado:colegiado, dpi: dpi, telefono: telefono, correo: correo,
-            fecha:fecha,inicio:inicio,final:final, nuevos:nuevos,cambios:cambios,nuevo:nuevo},
+            fecha:fecha,inicio:inicio,final:final, nuevos:nuevos,cambios:cambios,nuevo:nuevo,password:password},
             beforeSend: function () {
                 /*
                  * Esta función se ejecuta durante el envió de la petición al
@@ -247,7 +249,7 @@ window.onload = function () {
                     alert("No fue posible concretar la acción, intenta de nuevo");
                 } else {
                     alert(data);
-                    window.location = "AdminConsultas.jsp";
+                    window.location = "AdminMedicos.jsp";
                 }
             },
             error: function (data) {
@@ -327,6 +329,9 @@ function mostrarNuevoLab(boton) {
     }
     $("#fecha").val("");
     $("#email").val("");
+    $("#contra").show();
+    $("#password").val("");
+    $("#password").attr("required","required");
     document.getElementById("codigo").disabled = false;
     mostrarOculto(boton, $("#nuevoLaboratorista"), $("#contenidoLaboratorista"));
 }
@@ -423,6 +428,9 @@ function editarActualLab(boton) {
         $("#" + dias[valor - 1]).attr("checked", true);
         $("#" + dias[valor - 1]).val("1");
     }
+    $("#contra").hide();
+    $("#password").val("");
+    $("#password").removeAttr("required");
     $("#fecha").val(columnas[8].textContent);
     $("#email").val(columnas[6].textContent);
     mostrarOculto(boton, $("#nuevoLaboratorista"), $("#contenidoLaboratorista"));
@@ -455,6 +463,9 @@ function editarActualMedico(boton) {
     $("#inicio").val(horas[0]);
     $("#final").val(horas[1]);
     $("#correo").val(columnas[6].textContent);
+    $("#contra").hide();
+    $("#password").val("");
+    $("#password").removeAttr("required");
     mostrarOculto(boton, $("#nuevoMedico"), $("#contenidoMedico"));
 }
 

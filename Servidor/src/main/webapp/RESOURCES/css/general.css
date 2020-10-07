@@ -19,9 +19,9 @@ body{
     background-color: #FFFFFF9F;
     color: #4A7C59;
     border-radius: 10px 10px 10px 10px;
--moz-border-radius: 10px 10px 10px 10px;
--webkit-border-radius: 10px 10px 10px 10px;
-border: 0px solid #000000;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border: 0px solid #000000;
     animation-duration: 2300ms;
     animation-name: aparecer;
     opacity: 0.9;
@@ -56,105 +56,118 @@ h4{
     text-align: center;
 }
 #logo{
-      vertical-align: middle;
-  }
-  
-  #adentro{
-      display:block;
-  }
-  
-  * { box-sizing:border-box; }
-  .group 			  { 
-  position:relative; 
-  margin-bottom:1em; 
-  width: 50%;
-  margin-top: 2em;
+    vertical-align: middle;
+}
+
+#adentro{
+    display:block;
+}
+
+* { box-sizing:border-box; }
+.group 			  { 
+    position:relative; 
+    margin-bottom:1em; 
+    width: 50%;
+    margin-top: 2em;
 }
 input 				{
-  font-size:18px;
-  padding:10px 10px 10px 5px;
-  display:block;
-  width:100%;
-  border:none;
-  border-bottom:1px solid #757575;
-  background-color: #00000000;
+    font-size:18px;
+    padding:10px 10px 10px 5px;
+    display:block;
+    width:100%;
+    border:none;
+    border-bottom:1px solid #757575;
+    background-color: #00000000;
 }
 input:focus 		{ outline:none; }
 
 /* LABEL ======================================= */
 .group label 				 {
-  color:#999; 
-  font-size:18px;
-  font-weight:normal;
-  position:absolute;
-  pointer-events:none;
-  left:5px;
-  top:10px;
-  transition:0.2s ease all; 
-  -moz-transition:0.2s ease all; 
-  -webkit-transition:0.2s ease all;
+    color:#999; 
+    font-size:18px;
+    font-weight:normal;
+    position:absolute;
+    pointer-events:none;
+    left:5px;
+    top:10px;
+    transition:0.2s ease all; 
+    -moz-transition:0.2s ease all; 
+    -webkit-transition:0.2s ease all;
 }
 
 /* active state */
 input:focus ~ label, input:valid ~ label 		{
-  top:-20px;
-  font-size:1em;
-  color:#5264AE;
+    top:-20px;
+    font-size:1em;
+    color:#5264AE;
 }
 
 /* BOTTOM BARS ================================= */
 .bar 	{ position:relative; display:block; width:100%; }
 .bar:before, .bar:after 	{
-  content:'';
-  height:2px; 
-  width:0;
-  bottom:1px; 
-  position:absolute;
-  background:#5264AE; 
-  transition:0.2s ease all; 
-  -moz-transition:0.2s ease all; 
-  -webkit-transition:0.2s ease all;
+    content:'';
+    height:2px; 
+    width:0;
+    bottom:1px; 
+    position:absolute;
+    background:#5264AE; 
+    transition:0.2s ease all; 
+    -moz-transition:0.2s ease all; 
+    -webkit-transition:0.2s ease all;
 }
 .bar:before {
-  left:50%;
+    left:50%;
 }
 .bar:after {
-  right:50%; 
+    right:50%; 
 }
 
 /* active state */
 input:focus ~ .bar:before, input:focus ~ .bar:after {
-  width:50%;
+    width:50%;
 }
 
 /* HIGHLIGHTER ================================== */
 .highlight {
-  position:absolute;
-  height:60%; 
-  width:100%; 
-  top:25%; 
-  left:0;
-  pointer-events:none;
-  opacity:0.5;
+    position:absolute;
+    height:60%; 
+    width:100%; 
+    top:25%; 
+    left:0;
+    pointer-events:none;
+    opacity:0.5;
 }
 
 /* active state */
 input:focus ~ .highlight {
-  -webkit-animation:inputHighlighter 0.3s ease;
-  -moz-animation:inputHighlighter 0.3s ease;
-  animation:inputHighlighter 0.3s ease;
+    -webkit-animation:inputHighlighter 0.3s ease;
+    -moz-animation:inputHighlighter 0.3s ease;
+    animation:inputHighlighter 0.3s ease;
 }
 
 /* ANIMATIONS ================ */
 @-webkit-keyframes inputHighlighter {
-	from { background:#5264AE; }
-  to 	{ width:0; background:transparent; }
+    from { background:#5264AE; }
+    to 	{ width:0; background:transparent; }
 }
 @-moz-keyframes inputHighlighter {
-	from { background:#5264AE; }
-  to 	{ width:0; background:transparent; }
+    from { background:#5264AE; }
+    to 	{ width:0; background:transparent; }
 }
 @keyframes inputHighlighter {
-	from { background:#5264AE; }
-  to 	{ width:0; background:transparent; }
+    from { background:#5264AE; }
+    to 	{ width:0; background:transparent; }
+}
+
+#linkCrear{
+    text-decoration: none;
+    font-size: 0.8em;
+}
+#linkCrear:hover{
+    border-radius: 43px 43px 43px 43px;
+-moz-border-radius: 43px 43px 43px 43px;
+-webkit-border-radius: 43px 43px 43px 43px;
+border: 0px solid #000000;
+background-color: #0064ff80;
+color:black;
 }

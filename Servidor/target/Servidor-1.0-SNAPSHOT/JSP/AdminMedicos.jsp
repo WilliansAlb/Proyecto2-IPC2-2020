@@ -15,7 +15,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>LABORATORISTAS</title>
+        <title>Medicos</title>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:ital,wght@0,300;0,700;1,300&display=swap" rel="stylesheet"> 
@@ -28,7 +28,7 @@
         <%@include file='Sidebar.jsp'%>
     <center>
         <div id="tablaLab">
-            <h4>LABORATORISTAS</h4>
+            <h4>MEDICOS</h4>
             <%
                 Conector cn = new Conector("encender");
                 DoctorDAO doctor = new DoctorDAO(cn);
@@ -37,7 +37,7 @@
                 ArrayList<ConsultaDTO> todasLasConsultas = doctor.obtenerConsultas();
 
             %>
-            <button id="agregarNuevoLab" onclick="mostrarNuevoMedico(this)">AGREGAR NUEVO LABORATORISTA</button>
+            <button id="agregarNuevoLab" onclick="mostrarNuevoMedico(this)">AGREGAR NUEVO MEDICO</button>
             <table id="tablaLabora">
                 <thead>
                     <tr>
@@ -86,7 +86,7 @@
                             <center>
                                 <div class="item">
                                     <label for="codigo">CODIGO: </label>
-                                    <input type="text" id="codigo" required>
+                                    <input type="text" id="codigo" pattern="^[M][E][D][-]+[0-9]*$" required>
                                 </div>
                                 <div class="item">
                                     <label for="nombre">NOMBRE: </label>
@@ -117,7 +117,7 @@
                                 </div>
                                 <div class="item">
                                     <label for="correo">CORREO: </label>
-                                    <input type="text" id="correo" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+                                    <input type="email" id="correo" required>
                                 </div>
                                 <div class="item">
                                     <label for="correo">HORARIO(formato 24hrs): </label>
@@ -127,6 +127,10 @@
                                 <div class="item">
                                     <label for="fechaInicio">FECHA INICIO: </label>
                                     <input type="date" id="fechaInicio" required>
+                                </div>
+                                <div class="item" id="contra">
+                                    <label for="password">PASSWORD: <label>
+                                    <input type="password" id="password" required>
                                 </div>
                             </center>
                         </div>

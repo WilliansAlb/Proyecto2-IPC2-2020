@@ -10,6 +10,7 @@ import Base.ConsultaDAO;
 import Base.DoctorDAO;
 import Base.ExamenDAO;
 import Base.LaboratoristaDAO;
+import Base.UsuarioDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -134,6 +135,7 @@ public class Admin extends HttpServlet {
             } else if (tipo.equalsIgnoreCase("INGRESO LABORATORISTA")) {
                 if (cn.conectar()) {
                     LaboratoristaDAO lab = new LaboratoristaDAO(cn);
+                    UsuarioDAO usuarios = new UsuarioDAO(cn);
                     String codigo = request.getParameter("codigo");
                     String nombre = request.getParameter("nombre");
                     String registro = request.getParameter("registro");
@@ -144,6 +146,7 @@ public class Admin extends HttpServlet {
                     String email = request.getParameter("email");
                     String examen = request.getParameter("examen");
                     String nuevo = request.getParameter("nuevo");
+                    String password = request.getParameter("password");
                     if (nuevo.equalsIgnoreCase("true")) {
                         if (lab.actualizarLaboratorista(codigo, nombre, dpi, examen, email, registro, fecha, telefono)) {
                             boolean isActualizado = lab.actualizarTrabajo(codigo, dias);
@@ -160,7 +163,11 @@ public class Admin extends HttpServlet {
                             if (lab.ingresarLaboratorista(codigo, examen, nombre, dpi, registro, email, fecha, telefono)) {
                                 boolean isActualizado = lab.actualizarTrabajo(codigo, dias);
                                 if (isActualizado) {
-                                    response.getWriter().write("ACTUALIZADO LABORATORISTA " + codigo);
+                                    if (usuarios.ingresarUsuario(codigo, codigo, password, "LABORATORISTA")) {
+                                        response.getWriter().write("INGRESADO CORRECTAMENTE, TU ID ES EL CODIGO " + codigo);
+                                    } else {
+                                        response.getWriter().write("INGRESADO CORRECTAMENTE, PERO SIN USUARIO");
+                                    }
                                 } else {
                                     response.getWriter().write("SIN INGRESAR ESPECIALIDADES");
                                 }
@@ -177,6 +184,7 @@ public class Admin extends HttpServlet {
             } else if (tipo.equalsIgnoreCase("INGRESO MEDICO")) {
                 if (cn.conectar()) {
                     DoctorDAO doctor = new DoctorDAO(cn);
+                    UsuarioDAO usuarios = new UsuarioDAO(cn);
                     String codigo = request.getParameter("codigo");
                     String nombre = request.getParameter("nombre");
                     String dpi = request.getParameter("dpi");
@@ -190,6 +198,7 @@ public class Admin extends HttpServlet {
                     String correo = request.getParameter("correo");
                     String nuevos = request.getParameter("nuevos");
                     String cambios = request.getParameter("cambios");
+                    String password = request.getParameter("password");
                     boolean nuevo = request.getParameter("nuevo").equalsIgnoreCase("true");
                     if (nuevo) {
                         if (doctor.actualizarDoctor(codigo, nombre, dpi, colegiado, fecha, inicio1 + "-" + final2, telefono, correo)) {
@@ -208,7 +217,13 @@ public class Admin extends HttpServlet {
                             if (doctor.ingresarDoctor(codigo, nombre, dpi, colegiado, inicio1 + "-" + final2, correo, fecha, telefono)) {
                                 if (!nuevos.isEmpty()) {
                                     boolean isNuevo = doctor.descomponerEIngresar(codigo, nuevos);
-                                    response.getWriter().write("INGRESADO CORRECTAMENTE");
+                                    if (isNuevo) {
+                                        if (usuarios.ingresarUsuario(codigo, codigo, password, "DOCTOR")) {
+                                            response.getWriter().write("INGRESADO CORRECTAMENTE, TU ID ES EL CODIGO " + codigo);
+                                        } else {
+                                            response.getWriter().write("INGRESADO CORRECTAMENTE, PERO SIN USUARIO");
+                                        }
+                                    }
                                 } else {
                                     response.getWriter().write("INGRESADO PERO SIN ESPECIALIDADES");
                                 }

@@ -19,7 +19,8 @@
                 if (s.getAttribute("usuario") == null) {%>
         <%@include file='JSP/Login.jsp' %>
         <%} else {%>
-        <%@include file='JSP/Carga.jsp' %>
+        <% response.sendRedirect("JSP/Perfil.jsp");
+         %>
         <%}
         } else {%>
         <%@include file='JSP/Carga.jsp' %>

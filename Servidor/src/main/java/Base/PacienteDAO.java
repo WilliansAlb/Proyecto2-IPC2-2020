@@ -23,7 +23,7 @@ public class PacienteDAO {
     }
 
     public boolean ingresarPaciente(String codigo, String nombre, String sexo, String nacimiento, String dpi, String telefono, 
-            String peso, String sangre, String correo) {
+            Double peso, String sangre, String correo) {
         String sql = "INSERT INTO Paciente(codigo,nombre,sexo,peso,dpi,sangre,"
                 + "fecha_nacimiento,email,telefono) SELECT ?,?,?,?,?,?,?,?,? "
                 + "FROM dual WHERE NOT EXISTS (SELECT * FROM Paciente WHERE "
@@ -33,7 +33,7 @@ public class PacienteDAO {
             ps.setString(1, codigo);
             ps.setString(2, nombre);
             ps.setString(3, sexo);
-            ps.setString(4, peso);
+            ps.setDouble(4, peso);
             ps.setString(5, dpi);
             ps.setString(6, sangre);
             ps.setString(7, nacimiento);
@@ -118,4 +118,21 @@ public class PacienteDAO {
         }
         return actualizado;    
     }
+    
+    public String obtenerUltimo(){
+        String codigo = "";
+        String sql = "SELECT codigo FROM Paciente ORDER BY codigo DESC LIMIT 1;";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() ){
+                codigo = rs.getString("codigo");
+            }
+        } catch ( SQLException sqle ){
+            System.out.println(sqle);
+        }
+        return codigo;
+    }
+    
 }

@@ -85,7 +85,7 @@
                         <div class="contenedor">
                         <div class="item">
                             <label for="codigo">CODIGO: </label>
-                            <input type="text" id="codigo" required>
+                            <input type="text" id="codigo" pattern="^[L][A][B][-]+[0-9]*$" required>
                         </div>
                         <div class="item">
                             <label for="nombre">NOMBRE: </label>
@@ -129,6 +129,10 @@
                         <div class="item">
                             <label for="email">EMAIL: </label>
                             <input type="text"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" name="email" id="email" required>
+                        </div>
+                            <div class="item" style="display:none;" id="contra">
+                            <label for="password">PASSWORD: </label>
+                            <input type="password"  name="password" id="password" required>
                         </div>
                         </div>
                         <button id="ingresar">INGRESAR</button>

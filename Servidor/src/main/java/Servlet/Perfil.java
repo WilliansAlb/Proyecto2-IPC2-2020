@@ -10,6 +10,7 @@ import Base.Conector;
 import Base.DoctorDAO;
 import Base.PacienteDAO;
 import Base.LaboratoristaDAO;
+import Base.UsuarioDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -178,6 +179,37 @@ public class Perfil extends HttpServlet {
                         }
                     } else {
                         response.getWriter().write("no");
+                    }
+                } else {
+                    response.getWriter().write("ERROR: base de datos");
+                }
+            } else if (tipo.equalsIgnoreCase("PACIENTE NUEVO")) {
+                if (cn.conectar()) {
+                    response.setContentType("text/plain;charset=UTF-8");
+                    PacienteDAO paciente = new PacienteDAO(cn);
+                    UsuarioDAO usuario = new UsuarioDAO(cn);
+                    String codigo = paciente.obtenerUltimo();
+                    int nuevoCodigo = Integer.parseInt(codigo) + 1;
+                    String nombre = request.getParameter("nombre");
+                    String dpi = request.getParameter("dpi");
+                    String sexo = request.getParameter("sexo");
+                    Double peso = Double.parseDouble(request.getParameter("peso"));
+                    String sangre = request.getParameter("sangre");
+                    String telefono = request.getParameter("telefono");
+                    String fecha_nacimiento = request.getParameter("fecha");
+                    String email = request.getParameter("email");
+                    String password = request.getParameter("password");
+                    if (paciente.ingresarPaciente(nuevoCodigo + "", nombre, sexo, fecha_nacimiento, dpi, telefono, peso, sangre, email)) {
+                        if (usuario.ingresarUsuario(nuevoCodigo + "", nuevoCodigo + "", password, "PACIENTE")) {
+                            HttpSession s = request.getSession();
+                            s.setAttribute("usuario", nuevoCodigo+"");
+                            s.setAttribute("tipo", "PACIENTE");
+                            response.getWriter().write(nuevoCodigo+"");
+                        } else {
+                            response.getWriter().write("ERRORBASE");
+                        }
+                    } else {
+                        response.getWriter().write("ERRORBASE");
                     }
                 } else {
                     response.getWriter().write("ERROR: base de datos");

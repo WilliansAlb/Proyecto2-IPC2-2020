@@ -1,0 +1,96 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 7/10/2020, 01:38:21 AM
+    Author     : yelbetto
+*/
+.oculto{
+position: fixed;
+z-index: 100;
+width: 100%;
+height: 100%;
+background-color: #2E44506B;
+margin: 0;
+padding: 0;
+top: 0;
+left: 0;
+}
+.mensaje2{
+    padding: 0;
+    background-color: #2E4450;
+    overflow-y: hidden;
+    width: 50%;
+    height: auto;
+    -webkit-box-shadow: 7px 6px 78px 7px rgba(84,0,84,1);
+-moz-box-shadow: 7px 6px 78px 7px rgba(84,0,84,1);
+box-shadow: 7px 6px 78px 7px rgba(84,0,84,1);
+margin-top: 14em;
+}
+.contenedor{
+    display: grid;
+    grid-template-columns: auto;
+    width: 50%;
+}
+.item{
+    background-color: #ffffff2a;
+    padding: 5px;
+    margin: 1px;
+    font-size: 1em;
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+    display: inline-grid;
+    width: 80%;
+}
+h1,h2,h4,h5{
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: 700;
+    margin: 0.1em;
+}
+#perfil{
+    background-color: #002d442a;
+    width:60%;
+    display: block;
+}
+input,select,option{
+    text-align: center;
+}
+
+.dias{
+    display: inline-block;
+    width: 5em;
+}
+*{
+    font-family: 'Open Sans Condensed', sans-serif;
+    color: black;
+    font-weight: bold;
+}
+#primeraVentana{
+    width:50%;
+    background-color: #002d448c;
+    border-radius: 43px 43px 43px 43px;
+-moz-border-radius: 43px 43px 43px 43px;
+-webkit-border-radius: 43px 43px 43px 43px;
+border: 0px solid #000000;
+}
+.page-bg {
+    background-image: url('../imagenes/hospital.jpg');
+    background-size: 100%;
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+img{
+    vertical-align: middle;
+}
