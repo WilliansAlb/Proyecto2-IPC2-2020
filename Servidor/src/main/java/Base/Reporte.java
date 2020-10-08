@@ -224,5 +224,72 @@ public class Reporte {
         }
         return medicos;
     }
+    
+    public ArrayList<String[]> obtenerCitasAgendadasIntervaloTiempo(String codigo, String fecha1, String fecha2) {
+        ArrayList<String[]> medicos = new ArrayList<>();
+        String sql = "SELECT i.codigo, c.nombre, p.nombre, i.fecha, i.hora FROM Cita i, Consulta c, Medico m, Paciente p WHERE i.paciente = p.codigo AND i.medico = ? AND i.consulta = c.codigo AND i.medico = m.codigo AND i.fecha BETWEEN ? AND ? AND i.realizada = ? ORDER BY fecha DESC, hora DESC";
+        try (PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setString(1, codigo);
+            ps.setString(2, fecha1);
+            ps.setString(3, fecha2);
+            ps.setBoolean(4, false);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String[] datos = new String[5];
+                datos[0] = rs.getString(1);
+                datos[1] = rs.getString(2);
+                datos[2] = rs.getString(3);
+                datos[3] = rs.getString(4);
+                datos[4] = (rs.getInt(5)/100)+"";
+                medicos.add(datos);
+            }
+        } catch (SQLException sqle) {
+            System.out.println(sqle);
+        }
+        return medicos;
+    }
+    
+    public ArrayList<String[]> obtenerCitasAgendadasHoy(String codigo, String fecha1) {
+        ArrayList<String[]> medicos = new ArrayList<>();
+        String sql = "SELECT i.codigo, c.nombre, p.nombre, i.fecha, i.hora FROM Cita i, Consulta c, Medico m, Paciente p WHERE i.paciente = p.codigo AND i.medico = ? AND i.consulta = c.codigo AND i.medico = m.codigo AND i.fecha = ? AND i.realizada = ? ORDER BY fecha DESC, hora DESC";
+        try (PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setString(1, codigo);
+            ps.setString(2, fecha1);
+            ps.setBoolean(3, false);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String[] datos = new String[5];
+                datos[0] = rs.getString(1);
+                datos[1] = rs.getString(2);
+                datos[2] = rs.getString(3);
+                datos[3] = rs.getString(4);
+                datos[4] = (rs.getInt(5)/100)+"";
+                medicos.add(datos);
+            }
+        } catch (SQLException sqle) {
+            System.out.println(sqle);
+        }
+        return medicos;
+    }
+    
+    public ArrayList<String[]> obtenerMayorCantidadDeInformes(String fecha1, String fecha2) {
+        ArrayList<String[]> medicos = new ArrayList<>();
+        String sql = "SELECT  COUNT(r.paciente) AS total, r.paciente, p.nombre FROM Reporte r, Paciente p WHERE r.paciente = p.codigo AND r.fecha BETWEEN ? AND ? GROUP BY paciente ORDER BY total DESC";
+        try (PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setString(1, fecha1);
+            ps.setString(2, fecha2);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String[] datos = new String[3];
+                datos[0] = rs.getInt(1)+"";
+                datos[1] = rs.getString(2);
+                datos[2] = rs.getString(3);
+                medicos.add(datos);
+            }
+        } catch (SQLException sqle) {
+            System.out.println(sqle);
+        }
+        return medicos;
+    }
 
 }

@@ -37,8 +37,6 @@
             String labora = "";
             String fechaImprimir1 = "";
             String fechaImprimir2 = "";
-            sReporte.setAttribute("usuario", "LAB-948");
-            sReporte.setAttribute("tipo", "LABORATORISTA");
             String[] columnas = {"VALOR POR DEFECTO", "VALOR POR DEFECTO"};
             if (sReporte.getAttribute("usuario") != null && sReporte.getAttribute("tipo") != null) {
                 if (sReporte.getAttribute("tipo").toString().equalsIgnoreCase("LABORATORISTA")) {

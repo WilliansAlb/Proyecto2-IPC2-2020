@@ -48,8 +48,6 @@
             ArrayList<ResultadoDTO> examenes2 = new ArrayList<>();
             HttpSession sReporte = request.getSession();
             String filtroTipo = "";
-            sReporte.setAttribute("usuario", "118258");
-            sReporte.setAttribute("tipo", "PACIENTE");
             if (sReporte.getAttribute("usuario") != null && sReporte.getAttribute("tipo") != null) {
                 if (sReporte.getAttribute("tipo").toString().equalsIgnoreCase("PACIENTE")) {
                     if (sReporte.getAttribute("tipoFiltroPaciente") != null) {
@@ -80,7 +78,11 @@
                             sReporte.removeAttribute("tipoFiltroPaciente");
                         }
                     }
-                }
+                } else {
+                    response.sendRedirect("Perfil.jsp");
+                } 
+            } else {
+                response.sendRedirect("/Servidor/index.jsp");
             }
         %>
         <%if (sReporte.getAttribute("usuario") != null && sReporte.getAttribute("tipo") != null){%>

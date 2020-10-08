@@ -26,12 +26,23 @@ window.onload = function () {
     });
     $("#formReporteLaboratorista").bind("submit", function () {
         var valor = $("#tipoReporte").val();
-        var mensaje = $("#mensajeExistencia").text();
         var fecha1 = $("#fecha1").val();
         var fecha2 = $("#fecha2").val();
         if (valor !== "5") {
             if (valor === "3") {
                 window.location = "/Servidor/Reportes?laboratorista=true&tipo=" + valor + "&fecha1=" + fecha1 + "&fecha2=" + fecha2;
+            }
+        }
+        return false;
+    });
+    
+    $("#formReporteMedico").bind("submit", function () {
+        var valor = $("#tipoReporte").val();
+        var fecha1 = $("#fecha1").val();
+        var fecha2 = $("#fecha2").val();
+        if (valor !== "4") {
+            if (valor === "1" || valor === "3") {
+                window.location = "/Servidor/Reportes?medico=true&tipo=" + valor + "&fecha1=" + fecha1 + "&fecha2=" + fecha2;
             }
         }
         return false;
@@ -101,4 +112,17 @@ function existeMedico(input) {
             }
         });
     }, 800);
+}
+
+function mostrarFechasMedico(option){
+    var valor = option.value;
+    if (valor === "1" || valor === "3") {
+        $("#fechas").fadeIn(1000);
+    } else {
+        if (valor !== "4") {
+            window.location = "/Servidor/Reportes?medico=true&tipo="+valor;
+        } else {
+            $("#fechas").fadeOut(1000);
+        }
+    }
 }
