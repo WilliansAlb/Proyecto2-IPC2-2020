@@ -32,7 +32,6 @@
         <%
             Conector cn = new Conector("encender");
             //Cases de obtención de datos
-            CitaDAO cita = new CitaDAO(cn);
             ReporteDAO reporte = new ReporteDAO(cn);
             ResultadoDAO resultado = new ResultadoDAO(cn);
             //Variable del paciente que está buscando el historial
@@ -46,8 +45,7 @@
                     response.sendRedirect("Perfil.jsp");
                 }
             } else {
-                //response.sendRedirect("/Servidor/index.jsp");
-                pacienteActual = "118258";
+                response.sendRedirect("/Servidor/index.jsp");
             }
             //Contenedores de datos para mostrar en la pagina
             ArrayList<ReporteDTO> reportes = reporte.obtenerReportePaciente(pacienteActual);
@@ -57,7 +55,7 @@
         <div id="historial">
             <h5>TU HISTORIAL MEDICO</h5>
             <%if (reportes.size() != 0) {%>
-            <p>Se muestran todas las citas y examenes que tienes pendientes</p>
+            <p>Se muestran todos los informes y resultados que te han realizado</p>
             <div id="citas"  class="ventana">
                 <h5>CITAS</h5>
                 <div>

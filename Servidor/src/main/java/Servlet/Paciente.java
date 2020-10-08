@@ -130,7 +130,7 @@ public class Paciente extends HttpServlet {
                     ResultadoDAO re = new ResultadoDAO(cn);
                     String paciente = "";
                     if (s.getAttribute("usuario") != null && s.getAttribute("tipo").toString().equalsIgnoreCase("PACIENTE")) {
-                        paciente = s.getAttribute("codigo").toString();
+                        paciente = s.getAttribute("usuario").toString();
                     } else {
                         paciente = "118258";
                     }

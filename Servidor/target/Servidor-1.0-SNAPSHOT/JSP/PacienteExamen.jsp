@@ -28,8 +28,6 @@
         <link rel="shortcut icon" type="image/x-icon" href="../RESOURCES/imagenes/saludico.ico"/>
     </head>
     <body>
-        <%@include file='Sidebar.jsp' %>
-
         <%
             //Conexion con la base de datos con metodo que la "enciende" directamente
             Conector cn = new Conector("encender");
@@ -52,6 +50,9 @@
                 response.sendRedirect("/Servidor/index.jsp");
             }
         %>
+        <%if (s.getAttribute("usuario") != null && s.getAttribute("tipo") != null){%>
+        <%@include file="Sidebar.jsp"%>
+        <%}%>
     <center>
         <div id="examenes" class="ventana">
             <h3>AGENDAR EXAMEN</h3>

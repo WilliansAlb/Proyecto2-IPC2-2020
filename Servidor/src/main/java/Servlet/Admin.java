@@ -5,6 +5,7 @@
  */
 package Servlet;
 
+import Base.AdministradorDAO;
 import Base.Conector;
 import Base.ConsultaDAO;
 import Base.DoctorDAO;
@@ -236,6 +237,37 @@ public class Admin extends HttpServlet {
                     }
                 } else {
                     response.getWriter().write("ERROR: base de datos");
+                }
+            } else if (tipo.equalsIgnoreCase("INGRESO ADMIN")) {
+                if (cn.conectar()) {
+                    AdministradorDAO nuevoAdmin = new AdministradorDAO(cn);
+                    UsuarioDAO nuevoUsuario = new UsuarioDAO(cn);
+
+                    String codigo = request.getParameter("codigo");
+                    String nombre = request.getParameter("nombre");
+                    String password = request.getParameter("password");
+                    String nuevo = request.getParameter("nuevo");
+                    String dpi = request.getParameter("dpi");
+                    if (nuevo.equalsIgnoreCase("false")) {
+                        String codigoAdmin = nuevoAdmin.ingresarAdmin(codigo, nombre, dpi);
+                        if (codigoAdmin.equalsIgnoreCase("ingresado")) {
+                            if (nuevoUsuario.ingresarUsuario(codigo, codigo, password, "ADMIN")) {
+                                response.getWriter().write("INGRESADO CORRECTAMENTE, EL ID DEL ADMIN ES " + codigo);
+                            } else {
+                                response.getWriter().write("ERRORBASE");
+                            }
+                        } else {
+                            response.getWriter().write("ERRORBASE");
+                        }
+                    } else {
+                        if (nuevoAdmin.actualizarAdmin(codigo, nombre, dpi)){
+                            response.getWriter().write("ACTUALIZADO CORRECTAMENTE");
+                        } else {
+                            response.getWriter().write("ERRORBASE");
+                        }
+                    }
+                } else {
+                    response.getWriter().write("ERRORBASE");
                 }
             }
         } else {

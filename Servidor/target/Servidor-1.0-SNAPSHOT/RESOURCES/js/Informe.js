@@ -523,3 +523,12 @@ function rellenarDatosCita(div, div2) {
     $("#horaTabla2").text(horarioElegido);
     siguiente(div, div2);
 }
+
+function verInforme(){
+    var codigoCita = $("#codigoCita").val();
+    document.getElementById("frame").src = "/Servidor/Historial?tipo="+codigoCita+"&codigo=2";
+    $("#contenedorFrame").show();
+}
+function cerrandoFrame(){
+    $("#contenedorFrame").hide();
+}

@@ -25,3 +25,25 @@ table{
 .ventana{
     margin-top: 0;
 }
+.oculto{
+position: fixed;
+z-index: 100;
+width: 100%;
+height: 100%;
+top:0;
+left:0;
+}
+.mensaje2{
+    padding: 0;
+    background-color: #2E4450;
+    overflow-y: scroll;
+    width: 90%;
+    height: 100%;
+    -webkit-box-shadow: 7px 6px 78px 7px rgba(84,0,84,1);
+-moz-box-shadow: 7px 6px 78px 7px rgba(84,0,84,1);
+box-shadow: 7px 6px 78px 7px rgba(84,0,84,1);
+}
+#frame{
+    width: 100%;
+    height: 100%;
+}

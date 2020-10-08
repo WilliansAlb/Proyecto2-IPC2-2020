@@ -21,6 +21,7 @@
     <a href="Perfil.jsp" class="w3-bar-item">Ver perfil</a>
     <%} else if (sInicio.getAttribute("tipo").toString().equalsIgnoreCase("DOCTOR")) {%>
     <a href="Informe.jsp" class="w3-bar-item">Ingresar informe</a>
+    <a href="HistorialMedico.jsp" class="w3-bar-item">Ver historial de paciente</a>
     <a href="Perfil.jsp" class="w3-bar-item">Ver perfil</a>
     <%} else if (sInicio.getAttribute("tipo").toString().equalsIgnoreCase("ADMIN")) {%>
     <a href="AdminConsultas.jsp" class="w3-bar-item">Editar/crear tipos consultas</a>

@@ -34,8 +34,6 @@
             ArrayList<ConsultaDTO> todasLasConsultas = new ArrayList<>();
             todasLasConsultas = doctor.obtenerConsultas();
             String filtro = "5";
-            s.setAttribute("usuario", "177840");
-            s.setAttribute("tipo", "PACIENTE");
             if (s.getAttribute("usuario") != null && s.getAttribute("tipo") != null) {
                 if (s.getAttribute("tipo").toString().equalsIgnoreCase("PACIENTE")) {
                     if (s.getAttribute("tipoConsulta") == null) {
@@ -63,7 +61,9 @@
                 response.sendRedirect("/Servidor/index.jsp");
             }
         %>
-        <%@include file='Sidebar.jsp' %>
+        <%if (s.getAttribute("usuario") != null && s.getAttribute("tipo") != null){%>
+        <%@include file="Sidebar.jsp"%>
+        <%}%>
     <center>
         <div id="inicio" style="display: none;" class="ventana">
             <h3>SELECCIONA UN TIPO DE CITA</h3>

@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -79,5 +80,26 @@ public class AdministradorDAO {
             
         }
         return actualizado;    
+    }
+    
+    public ArrayList<AdministradorDTO> obtenerAdministradores(){
+        ArrayList<AdministradorDTO> administradores = new ArrayList<>();
+        String sql = "SELECT * FROM Administrador";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() ){
+                AdministradorDTO admin = new AdministradorDTO();
+                admin.setCodigo(rs.getString("codigo"));
+                admin.setDpi(rs.getString("dpi"));
+                admin.setNombre(rs.getString("nombre"));
+                administradores.add(admin);
+            }
+        } catch ( SQLException sqle )
+        {
+            
+        }
+        return administradores;    
     }
 }

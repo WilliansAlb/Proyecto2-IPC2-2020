@@ -19,6 +19,10 @@
         <script type="text/javascript" src="RESOURCES/js/login.js"></script>
     </head>
     <body>
+        <%
+            HttpSession s2 = request.getSession();
+            if (s2.getAttribute("usuario")==null && s2.getAttribute("tipo")==null){
+        %>
         <div id='login'>
             <center>
                 <div>
@@ -55,5 +59,8 @@
                 <a href="JSP/CrearPaciente.jsp" id="linkCrear">¿no tienes una cuenta? crea una</a>
             </center>
         </div>
+        <%} else    {
+            response.sendRedirect("Perfil.jsp");
+        }%>
     </body>
 </html>

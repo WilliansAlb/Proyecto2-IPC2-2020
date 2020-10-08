@@ -24,7 +24,6 @@
         <link rel="stylesheet" href="../RESOURCES/css/Lab.css">
     </head>
     <body>
-        <%@include file="Sidebar.jsp" %>
         <%
             //Clase que conecta con la base de datos
             Conector cn = new Conector("encender");
@@ -35,8 +34,6 @@
             String prueba = "1";
             String fecha1 = "";
             String fecha2 = "";
-            s.setAttribute("usuario", "LAB-948");
-            s.setAttribute("tipo", "LABORATORISTA");
             if (s.getAttribute("usuario") != null && s.getAttribute("tipo") != null) {
                 if (s.getAttribute("tipo").toString().equalsIgnoreCase("LABORATORISTA")) {
                     String laboratorista = s.getAttribute("usuario").toString();
@@ -67,6 +64,9 @@
                 response.sendRedirect("/Servidor/index.jsp");
             }
         %>
+        <%if (s.getAttribute("usuario") != null && s.getAttribute("tipo") != null){%>
+        <%@include file="Sidebar.jsp"%>
+        <%}%>
     <center>
         <div id="examenesPendientes" class="ventana">
             <h4>TUS EXAMENES</h4>

@@ -50,8 +50,6 @@
             LaboratoristaDAO pa = new LaboratoristaDAO(cn);
             //Variables de HttpSession que podrá utilizar el usuario para ingresar a esta pagina
             HttpSession s = request.getSession();
-            s.setAttribute("tipo", "DOCTOR");
-            s.setAttribute("usuario", "MED-123");
             if (s.getAttribute("usuario") != null && s.getAttribute("tipo") != null) {
                 if (s.getAttribute("tipo").toString().equalsIgnoreCase("DOCTOR")) {
                     medico = s.getAttribute("usuario").toString();
@@ -75,7 +73,9 @@
             ArrayList<CitaDTO> citas = cita.obtenerCitas(medico, fecha);
             String[] dias = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
         %>
+        <%if (s.getAttribute("usuario") != null && s.getAttribute("tipo") != null){%>
         <%@include file="Sidebar.jsp"%>
+        <%}%>
     <center>
         <div id="ingresoInforme">
             <%if (citas.size() > 0) {%>
@@ -122,6 +122,14 @@
     </center>
     <%if (citas.size() > 0) {%>
     <center>
+        <div id="contenedorFrame" class="oculto" style="display:none;">
+            <div id="contenedorInterior" class="mensaje2">
+                <button onclick="cerrandoFrame()">Cerrar</button>
+                <iframe src="" id="frame"></iframe>
+            </div>
+        </div> 
+    </center>
+    <center>
         <div id="agregarInforme" style="display:none;" class="center">
             <center>
                 <h3>REPORTE</h3>
@@ -146,6 +154,9 @@
                         <label for="horaInforme">HORA: </label>
                         <input type="text" id="horaInforme" value="" disabled>
                     </div>
+                    <div class="item">
+                        <button onclick="verInforme()">VER HISTORIAL</button>
+                    </div>
                 </div>
                 <br>
                 <label for="informe">INFORME: </label>
@@ -156,7 +167,6 @@
                 <button id="generarReporte" onclick="ingresarYExamen(this, 1)">INGRESAR REPORTE Y GENERAR EXAMEN</button>
             </center>
         </div>
-
         <div id="examenes" class="ventana" style="display:none;">
             <p>El codigo del reporte ingresado es <span id="spanCodigo1" style="color:green;font-size: 2em;"></span></p>
             <h3>AGENDAR EXAMEN</h3>

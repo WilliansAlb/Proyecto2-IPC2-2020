@@ -214,4 +214,20 @@ public class CitaDAO {
         }
         return citas;
     }
+    public String obtenerPacienteCita(String codigo){
+        String paciente = "";
+        String sql = "SELECT paciente FROM Cita WHERE codigo = ?";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) ){
+            ps.setString(1, codigo);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                paciente = rs.getString("paciente");
+            }
+        }
+        catch (SQLException sqle){
+            System.out.println(sqle);
+        }
+        return paciente;
+    }
 }

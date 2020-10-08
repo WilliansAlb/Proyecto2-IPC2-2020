@@ -18,7 +18,9 @@
         <link rel="stylesheet" href="../RESOURCES/css/Perfil.css">
     </head>
     <body>
-        <%@include file='Sidebar.jsp'%>
+        <%if (request.getSession().getAttribute("usuario") != null && request.getSession().getAttribute("tipo") != null){%>
+        <%@include file="Sidebar.jsp"%>
+        <%}%>
         <%
             HttpSession s = request.getSession();
             if (s.getAttribute("usuario") != null && s.getAttribute("tipo") != null) {

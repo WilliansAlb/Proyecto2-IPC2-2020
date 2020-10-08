@@ -4,6 +4,7 @@ Servlet/Laboratorista.class
 Servlet/Login.class
 Base/ReporteDAO.class
 Base/Conector.class
+POJO/ReporteDTO.class
 Servlet/ControladorIMG.class
 Servlet/ControladorPDF.class
 com/mycompany/servidor/MyServletContextListener.class
@@ -26,6 +27,7 @@ POJO/ResultadoDTO.class
 POJO/EspecialidadDTO.class
 Base/ResultadoDAO.class
 Base/LaboratoristaDAO.class
+Servlet/Informe.class
 Base/CitaDAO.class
 POJO/PacienteDTO.class
 Base/ConsultaDAO.class

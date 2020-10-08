@@ -44,6 +44,10 @@
         <servlet-name>Informe</servlet-name>
         <servlet-class>Servlet.Informe</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Historial</servlet-name>
+        <servlet-class>Servlet.Historial</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -90,6 +94,10 @@
     <servlet-mapping>
         <servlet-name>Informe</servlet-name>
         <url-pattern>/Informe</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Historial</servlet-name>
+        <url-pattern>/Historial</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -29,8 +29,7 @@
     <center>
         <div id="tablaLab">
             <h4>MEDICOS</h4>
-            <%
-                Conector cn = new Conector("encender");
+            <%                Conector cn = new Conector("encender");
                 DoctorDAO doctor = new DoctorDAO(cn);
                 String[] dias = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
                 ArrayList<DoctorDTO> doctores = doctor.obtenerMedicos();
@@ -66,10 +65,10 @@
                             ConsultaDTO[] consultas = especialidad.getConsulta();
                             for (int o = 0; o < consultas.length; o++) {
                                 %>
-                                <option value="<%out.print(consultas[o].getCodigo()+"/"+consultas[o].getCodigoEspecialidad());%>"><%out.print(consultas[o].getNombre());%></option>
+                                <option value="<%out.print(consultas[o].getCodigo() + "/" + consultas[o].getCodigoEspecialidad());%>"><%out.print(consultas[o].getNombre());%></option>
                                 <%}%></select></td>
                         <td><%out.print(doctores.get(i).getEmail());%></td>
-                        <td><%out.print(doctores.get(i).getHorario()[0]+"-"+doctores.get(i).getHorario()[1]);%></td>
+                        <td><%out.print(doctores.get(i).getHorario()[0] + "-" + doctores.get(i).getHorario()[1]);%></td>
                         <td><%out.print(doctores.get(i).getFecha_inicio());%></td>
                         <td><button onclick="editarActualMedico(this)">EDITAR</button></td>
                     </tr>
@@ -129,7 +128,7 @@
                                     <input type="date" id="fechaInicio" required>
                                 </div>
                                 <div class="item" id="contra">
-                                    <label for="password">PASSWORD: <label>
+                                    <label for="password">PASSWORD: </label>
                                     <input type="password" id="password" required>
                                 </div>
                             </center>

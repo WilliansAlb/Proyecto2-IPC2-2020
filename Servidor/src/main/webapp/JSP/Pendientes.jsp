@@ -26,7 +26,6 @@
         <link rel="stylesheet" href="../RESOURCES/css/Lab.css">
     </head>
     <body>
-        <%@include file="Sidebar.jsp" %>
         <%
             //Conexion con la base de datos
             Conector cn = new Conector("encender");
@@ -38,8 +37,8 @@
             ArrayList<ResultadoDTO> examenes = new ArrayList<>();
             //Variable HttpSession que nos dice si el usuario es un Paciente o no
             HttpSession s = request.getSession();
-            if (s.getAttribute("usuario")!=null && s.getAttribute("tipo")!=null){
-                if (s.getAttribute("tipo").toString().equalsIgnoreCase("PACIENTE")){
+            if (s.getAttribute("usuario") != null && s.getAttribute("tipo") != null) {
+                if (s.getAttribute("tipo").toString().equalsIgnoreCase("PACIENTE")) {
                     String paciente = s.getAttribute("usuario").toString();
                     citas = cita.obtenerCitasDePacientePendientes(paciente);
                     examenes = resultado.obtenerResultadosDePacientePendientes(paciente);
@@ -51,7 +50,9 @@
             }
         %>
     <center>
-
+        <%if (s.getAttribute("usuario") != null && s.getAttribute("tipo") != null) {%>
+        <%@include file="Sidebar.jsp"%>
+        <%}%>
         <div id="historial">
             <h5>CITAS Y EXAMENES PENDIENTES</h5>
             <%if (citas.size() != 0) {%>

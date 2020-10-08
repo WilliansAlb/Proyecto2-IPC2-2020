@@ -1,5 +1,6 @@
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Base/ReporteDAO.java
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Servlet/IngresoInforme.java
+/home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Servlet/Informe.java
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/POJO/ConsultaDTO.java
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Base/ExamenDAO.java
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Base/UsuarioDAO.java
@@ -27,6 +28,7 @@
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Servlet/Laboratorista.java
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Base/DoctorDAO.java
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Base/PacienteDAO.java
+/home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/POJO/ReporteDTO.java
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Base/Conector.java
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/Base/LaboratoristaDAO.java
 /home/yelbetto/Escritorio/[trs]/Proyectos 2020/Proyecto 2/Servidor/src/main/java/POJO/ResultadoDTO.java

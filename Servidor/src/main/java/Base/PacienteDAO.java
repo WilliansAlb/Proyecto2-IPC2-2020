@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
@@ -134,5 +135,28 @@ public class PacienteDAO {
         }
         return codigo;
     }
-    
+    public ArrayList<PacienteDTO> obtenerPacientes(){
+        ArrayList<PacienteDTO> pacientes = new ArrayList<>();
+        String sql = "SELECT * FROM Paciente";
+        try ( PreparedStatement ps = cn.prepareStatement(sql) )
+        {
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() ){
+                PacienteDTO paciente = new PacienteDTO();
+                paciente.setCodigo(rs.getString("codigo"));
+                paciente.setDpi(rs.getString("dpi"));
+                paciente.setEmail(rs.getString("email"));
+                paciente.setFecha_nacimiento(rs.getString("fecha_nacimiento"));
+                paciente.setNombre(rs.getString("nombre"));
+                paciente.setPeso(rs.getDouble("peso"));
+                paciente.setSangre(rs.getString("sangre"));
+                paciente.setSexo(rs.getString("sexo"));
+                paciente.setTelefono(rs.getString("telefono"));
+                pacientes.add(paciente);
+            }
+        } catch ( SQLException sqle ){
+            System.out.println(sqle);
+        }
+        return pacientes;
+    }
 }
