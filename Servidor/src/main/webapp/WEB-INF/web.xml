@@ -48,6 +48,10 @@
         <servlet-name>Historial</servlet-name>
         <servlet-class>Servlet.Historial</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Reportes</servlet-name>
+        <servlet-class>Servlet.Reportes</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -98,6 +102,10 @@
     <servlet-mapping>
         <servlet-name>Historial</servlet-name>
         <url-pattern>/Historial</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Reportes</servlet-name>
+        <url-pattern>/Reportes</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

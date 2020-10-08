@@ -159,4 +159,21 @@ public class PacienteDAO {
         }
         return pacientes;
     }
+    
+    public boolean isExistente(String codigo) {
+        boolean existente = false;
+        String sql = "SELECT COUNT(*) AS total FROM Paciente WHERE codigo = ?";
+        try (PreparedStatement ps1 = cn.prepareStatement(sql);) {
+            ps1.setString(1, codigo);
+            ResultSet rs = ps1.executeQuery();
+            while ( rs.next() )
+            {
+                existente = rs.getInt("total") > 0;
+            }
+        } catch (SQLException sqle) {
+            System.err.print("ERROR: " + sqle);
+            System.out.println("ERROR: "+sqle);
+        }
+        return existente;
+    }
 }

@@ -8,6 +8,7 @@ package Servlet;
 import Base.Conector;
 import Base.DoctorDAO;
 import Base.LaboratoristaDAO;
+import Base.PacienteDAO;
 import Base.ResultadoDAO;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -98,6 +99,20 @@ public class Paciente extends HttpServlet {
                     DoctorDAO doctor = new DoctorDAO(cn);
                     String codigo = request.getParameter("codigo");
                     if (doctor.isExistente(codigo)) {
+                        response.getWriter().write("true");
+                    } else {
+                        response.getWriter().write("false");
+                    }
+                } else {
+                    response.getWriter().write("FALLO");
+                }
+            } else if (tipo.equalsIgnoreCase("4")) {
+                response.setContentType("text/plain;charset=UTF-8");
+                if (cn.conectar()) {
+                    DoctorDAO doctor = new DoctorDAO(cn);
+                    PacienteDAO paciente = new PacienteDAO(cn);
+                    String codigo = request.getParameter("codigo");
+                    if (doctor.isExistente(codigo) || paciente.isExistente(codigo)) {
                         response.getWriter().write("true");
                     } else {
                         response.getWriter().write("false");

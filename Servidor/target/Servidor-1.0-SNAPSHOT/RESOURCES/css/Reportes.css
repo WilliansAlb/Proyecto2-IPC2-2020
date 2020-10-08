@@ -1,0 +1,36 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 7/10/2020, 10:35:13 PM
+    Author     : yelbetto
+*/
+/* The actual popup */
+.popuptext {
+  display: none;
+width: auto;
+background-color: #555;
+color: #fff;
+text-align: center;
+border-radius: 6px;
+padding: 8px 0;
+position: absolute;
+z-index: 5;
+left: 53%;
+top: 12%;
+}
+
+/* Popup arrow */
+.popuptext::after {
+  content: "";
+position: absolute;
+top: 100%;
+left: 50%;
+margin-left: -5px;
+border-width: 5px;
+border-style: solid;
+border-color: #555 transparent transparent transparent;
+}
+

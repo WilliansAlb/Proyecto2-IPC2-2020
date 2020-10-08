@@ -108,4 +108,55 @@ public class ReporteDAO {
         return codigo;
     }
     
+    public ArrayList<ReporteDTO> obtenerConsultasRealizadas(String paciente, String doctor, String fecha1, String fecha2){
+        ArrayList<ReporteDTO> reportes = new ArrayList<>();
+        String sql = "SELECT * FROM Reporte WHERE paciente = ? AND medico = ? AND fecha BETWEEN ? AND ? ORDER BY fecha ASC";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) ){
+            ps.setString(1, paciente);
+            ps.setString(2, doctor);
+            ps.setString(3, fecha1);
+            ps.setString(4, fecha2);
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                ReporteDTO reporte = new ReporteDTO();
+                reporte.setCodigo(rs.getString("codigo"));
+                reporte.setFecha(rs.getString("fecha"));
+                reporte.setHora(rs.getInt("hora")/100);
+                reporte.setInforme(rs.getString("informe"));
+                reporte.setMedico(rs.getString("medico"));
+                reporte.setPaciente(rs.getString("paciente"));
+                reportes.add(reporte);
+            }
+        } catch (SQLException sqle){
+            System.out.println(sqle);
+        }
+        return reportes;
+    }
+    
+    public ArrayList<ReporteDTO> obtenerUltimasRealizadas(String paciente){
+        ArrayList<ReporteDTO> reportes = new ArrayList<>();
+        String sql = "SELECT * FROM Reporte WHERE paciente = ? ORDER BY fecha DESC, hora DESC LIMIT 5";
+        
+        try ( PreparedStatement ps = cn.prepareStatement(sql) ){
+            ps.setString(1, paciente);
+            ResultSet rs = ps.executeQuery();
+            while ( rs.next() )
+            {
+                ReporteDTO reporte = new ReporteDTO();
+                reporte.setCodigo(rs.getString("codigo"));
+                reporte.setFecha(rs.getString("fecha"));
+                reporte.setHora(rs.getInt("hora")/100);
+                reporte.setInforme(rs.getString("informe"));
+                reporte.setMedico(rs.getString("medico"));
+                reporte.setPaciente(rs.getString("paciente"));
+                reportes.add(reporte);
+            }
+        } catch (SQLException sqle){
+            System.out.println(sqle);
+        }
+        return reportes;
+    }
+    
 }
