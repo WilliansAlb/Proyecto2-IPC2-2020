@@ -24,6 +24,18 @@ window.onload = function () {
         }
         return false;
     });
+    $("#formReporteLaboratorista").bind("submit", function () {
+        var valor = $("#tipoReporte").val();
+        var mensaje = $("#mensajeExistencia").text();
+        var fecha1 = $("#fecha1").val();
+        var fecha2 = $("#fecha2").val();
+        if (valor !== "5") {
+            if (valor === "3") {
+                window.location = "/Servidor/Reportes?laboratorista=true&tipo=" + valor + "&fecha1=" + fecha1 + "&fecha2=" + fecha2;
+            }
+        }
+        return false;
+    });
 };
 
 function mostrarFechasAdmin(option) {
@@ -42,6 +54,19 @@ function mostrarFechasAdmin(option) {
             $("#selectAdmin").show();
             $("#doctorEscrito").attr("required", "required");
             $("#fechas").fadeIn(1000);
+        } else {
+            $("#fechas").fadeOut(1000);
+        }
+    }
+}
+
+function mostrarFechasLaboratorista(option) {
+    var valor = option.value;
+    if (valor === "3") {
+        $("#fechas").fadeIn(1000);
+    } else {
+        if (valor !== "5") {
+            window.location = "/Servidor/Reportes?laboratorista=true&tipo="+valor;
         } else {
             $("#fechas").fadeOut(1000);
         }

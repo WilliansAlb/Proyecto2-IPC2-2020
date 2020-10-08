@@ -82,6 +82,18 @@ public class Reportes extends HttpServlet {
                     response.sendRedirect("JSP/ReporteAdmin.jsp");
                 }
             }
+        } else if (request.getParameter("laboratorista") != null) {
+            if (request.getParameter("tipo") != null) {
+                String tipo = request.getParameter("tipo");
+                if (tipo.equalsIgnoreCase("3")) {
+                    String fecha1 = request.getParameter("fecha1");
+                    String fecha2 = request.getParameter("fecha2");
+                    s.setAttribute("filtroLaboratoristaFecha1", fecha1);
+                    s.setAttribute("filtroLaboratoristaFecha2", fecha2);
+                }
+                s.setAttribute("tipoFiltroLaboratorista", tipo);
+                response.sendRedirect("JSP/ReporteLaboratorista.jsp");
+            }
         } else {
             if (request.getParameter("tipo") != null) {
                 String tipo = request.getParameter("tipo");

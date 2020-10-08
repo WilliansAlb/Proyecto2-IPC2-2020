@@ -162,5 +162,67 @@ public class Reporte {
         }
         return medicos;
     }
+    
+    public ArrayList<String[]> obtenerExamenesARealizarseEnElDia(String codigo, String fecha, boolean realizado) {
+        ArrayList<String[]> medicos = new ArrayList<>();
+        String sql = "SELECT r.codigo, p.nombre, e.nombre, r.hora, m.nombre FROM Resultado r, Paciente p, Medico m, Examen e WHERE r.paciente = p.codigo AND r.examen = e.codigo AND r.medico = m.codigo AND  r.fecha = ? AND r.laboratorista = ? AND r.realizado = ? ORDER BY r.fecha ASC, r.hora ASC";
+        try (PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setString(1, fecha);
+            ps.setString(2, codigo);
+            ps.setBoolean(3, realizado);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String[] datos = new String[5];
+                datos[0] = rs.getString(1);
+                datos[1] = rs.getString(2);
+                datos[2] = rs.getString(3);
+                datos[3] = (rs.getInt(4)/100)+"";
+                datos[4] = rs.getString(5);
+                medicos.add(datos);
+            }
+        } catch (SQLException sqle) {
+            System.out.println(sqle);
+        }
+        return medicos;
+    }
+    
+    public ArrayList<String[]> obtenerPorcentajeDeUtilizacionHoras(String codigo, String fecha1, String fecha2) {
+        ArrayList<String[]> medicos = new ArrayList<>();
+        String sql = "SELECT ROUND((COUNT(fecha)/24)*100,2) AS porcentaje, fecha FROM Resultado WHERE laboratorista = ? AND fecha BETWEEN ? AND ? GROUP BY fecha ORDER BY fecha DESC";
+        try (PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setString(1, codigo);
+            ps.setString(2, fecha1);
+            ps.setString(3, fecha2);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String[] datos = new String[2];
+                datos[0] = rs.getDouble(1)+"%";
+                datos[1] = rs.getString(2);
+                medicos.add(datos);
+            }
+        } catch (SQLException sqle) {
+            System.out.println(sqle);
+        }
+        return medicos;
+    }
+    
+    public ArrayList<String[]> obtener10FechasConMasTrabajoRealizado(String codigo) {
+        ArrayList<String[]> medicos = new ArrayList<>();
+        String sql = "SELECT COUNT(fecha) AS total, fecha FROM Resultado WHERE laboratorista = ? AND realizado = ? GROUP BY fecha ORDER BY total DESC LIMIT 10;";
+        try (PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setString(1, codigo);
+            ps.setBoolean(2, true);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String[] datos = new String[2];
+                datos[0] = rs.getInt(1)+"";
+                datos[1] = rs.getString(2);
+                medicos.add(datos);
+            }
+        } catch (SQLException sqle) {
+            System.out.println(sqle);
+        }
+        return medicos;
+    }
 
 }

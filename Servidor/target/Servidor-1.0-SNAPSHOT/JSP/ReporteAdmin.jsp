@@ -34,8 +34,6 @@
             String fechaImprimir1 = "";
             String fechaImprimir2 = "";
             String[] columnas = {"VALOR POR DEFECTO", "VALOR POR DEFECTO"};
-            sReporte.setAttribute("usuario", "yelb");
-            sReporte.setAttribute("tipo", "admin");
             if (sReporte.getAttribute("usuario") != null && sReporte.getAttribute("tipo") != null) {
                 if (sReporte.getAttribute("tipo").toString().equalsIgnoreCase("ADMIN")) {
                     if (sReporte.getAttribute("tipoFiltroAdmin") != null) {
@@ -80,7 +78,11 @@
                         }
                         sReporte.removeAttribute("tipoFiltroAdmin");
                     }
+                } else {
+                    response.sendRedirect("Perfil.jsp");
                 }
+            } else {
+                response.sendRedirect("/Servidor/index.jsp");
             }
 
         %>
@@ -89,6 +91,7 @@
         <%}%>
     <center>
         <div id="filtroReporte">
+            <h2>Reportes administrador</h2>
             <%if (!filtroTipo.isEmpty()) {%>
             <%if (filtroTipo.equalsIgnoreCase("1")) {%>
             <h4>Mostrando reporte 10 médicos que más informes han realizado entre las fechas <%out.print(fechaImprimir1);%> y <%out.print(fechaImprimir2);%></h4>

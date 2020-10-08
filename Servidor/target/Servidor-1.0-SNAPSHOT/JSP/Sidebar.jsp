@@ -18,6 +18,7 @@
     <a href="Historial.jsp" class="w3-bar-item">Historial médico</a>
     <a href="PacienteAgendar.jsp" class="w3-bar-item">Agendar cita</a>
     <a href="PacienteExamen.jsp" class="w3-bar-item">Agendar examen</a>
+    <a href="ReportePaciente.jsp" class="w3-bar-item">Reportes</a>
     <a href="Perfil.jsp" class="w3-bar-item">Ver perfil</a>
     <%} else if (sInicio.getAttribute("tipo").toString().equalsIgnoreCase("DOCTOR")) {%>
     <a href="Informe.jsp" class="w3-bar-item">Ingresar informe</a>
@@ -28,9 +29,11 @@
     <a href="AdminExamenes.jsp" class="w3-bar-item">Editar/crear tipos examen</a>
     <a href="AdminMedicos.jsp" class="w3-bar-item">Editar/crear medico</a>
     <a href="AdminLaboratoristas.jsp" class="w3-bar-item">Editar/crear laboratorista</a>
+    <a href="ReporteAdmin.jsp" class="w3-bar-item">Reportes</a>
     <a href="Perfil.jsp" class="w3-bar-item">Ver perfil</a>
     <%} else if (sInicio.getAttribute("tipo").toString().equalsIgnoreCase("LABORATORISTA")) {%>
     <a href="Laboratorista.jsp" class="w3-bar-item">Ingresar resultado</a>
+    <a href="ReporteLaboratorista.jsp" class="w3-bar-item">Reportes</a>
     <a href="Perfil.jsp" class="w3-bar-item">Ver perfil</a>
     <%}%>
     <a href="/Servidor/Perfil?tipo=123" class="w3-bar-item">Cerrar sesión</a>
