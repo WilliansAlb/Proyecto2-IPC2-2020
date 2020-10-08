@@ -130,7 +130,6 @@
                         if (data === 'ERRORBASE') {
                             alert("No fue posible actualizar los datos");
                         } else {
-                            alert(data);
                             $("#tuId").text(data);
                             $("#primeraVentana").hide();
                             $("#creadoCorrectamente").show();

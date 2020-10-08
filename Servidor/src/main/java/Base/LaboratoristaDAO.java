@@ -74,11 +74,13 @@ public class LaboratoristaDAO {
         try (PreparedStatement ps = cn.prepareStatement(sql)) {
             ps.setString(1, codigo);
             ps.setInt(2, dia);
+            ps.setString(3, codigo);
+            ps.setInt(4, dia);
             ps.executeUpdate();
             ingreso = true;
             System.out.println("Ingresado dia " + dia);
         } catch (SQLException sqle) {
-            System.out.println(sqle);
+            System.out.println(sqle+" ERROR: en metodo ingresarDiasTrabajo en clase LaboratoristaDAO");
         }
         return ingreso;
     }

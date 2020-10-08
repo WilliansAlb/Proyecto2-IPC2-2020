@@ -448,8 +448,10 @@ function seleccionandoFecha() {
             } else if (data === 'ERRORBASE') {
                 alert("No fue posible concretar la acción, intenta de nuevo");
             } else if (data === 'LIBRE') {
+                console.log(data);
                 rellenarTabla();
             } else {
+                console.log(data);
                 rellenarTablaHorarios(data);
             }
         },

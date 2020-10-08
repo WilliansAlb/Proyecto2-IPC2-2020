@@ -309,7 +309,7 @@ public class Carga extends HttpServlet {
                     String horaConPuntos = gsonObj.get("hora").getAsString().replaceFirst(":", "");
                     int hora = Integer.parseInt(horaConPuntos);
                     String medico = gsonObj.get("medico").getAsString();
-                    if(medico.equalsIgnoreCase("")){
+                    if(medico.equalsIgnoreCase("null") || medico.equalsIgnoreCase("")){
                         medico = null;
                     }
                     InputStream archivoOrden = null;

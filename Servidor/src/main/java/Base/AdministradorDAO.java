@@ -36,7 +36,7 @@ public class AdministradorDAO {
             ps1.executeUpdate();
             ingresado = "ingresado";
         } catch (SQLException sqle) {
-            System.err.print("ERROR: " + sqle);
+            System.err.print("ERROR en metodo ingresarAdmin en clase AdministradorDAO: " + sqle);
             ingresado = sqle.toString();
         }
         return ingresado;

@@ -49,6 +49,7 @@ public class ResultadoDAO {
             ingreso = true;
         } catch ( SQLException ex ){
             ingreso = false;
+            System.out.println(ex +" ERROR en metodo ingresarResultado en clase ResultadoDAO");
         }
         return ingreso;
     }

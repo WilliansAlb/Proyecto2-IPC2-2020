@@ -112,7 +112,7 @@
       <DIA>Jueves</DIA>
       <DIA>Sabado</DIA>
     </TRABAJO>
-    <TRABAJO>2010-9-2</TRABAJO>
+    <TRABAJOF>2010-9-2</TRABAJOF>
     <PASSWORD>7"UAYz~z</PASSWORD>
   </laboratorista>
   <laboratorista>
@@ -128,7 +128,7 @@
       <DIA>Jueves</DIA>
       <DIA>Sabado</DIA>
     </TRABAJO>
-    <TRABAJO>2015-1-1</TRABAJO>
+    <TRABAJOF>2015-1-1</TRABAJOF>
     <PASSWORD>Sh*8sA\X</PASSWORD>
   </laboratorista>
   <laboratorista>
@@ -145,7 +145,7 @@
       <DIA>Jueves</DIA>
       <DIA>Sabado</DIA>
     </TRABAJO>
-    <TRABAJO>2018-12-18</TRABAJO>
+    <TRABAJOF>2018-12-18</TRABAJOF>
     <PASSWORD>C9^r:F/j</PASSWORD>
   </laboratorista>
   <laboratorista>
@@ -161,7 +161,7 @@
       <DIA>Jueves</DIA>
       <DIA>Sabado</DIA>
     </TRABAJO>
-    <TRABAJO>2001-11-25</TRABAJO>
+    <TRABAJOF>2001-11-25</TRABAJOF>
     <PASSWORD>QwC_;%5$</PASSWORD>
   </laboratorista>
   <laboratorista>
@@ -178,7 +178,7 @@
       <DIA>Jueves</DIA>
       <DIA>Sabado</DIA>
     </TRABAJO>
-    <TRABAJO>2011-01-26</TRABAJO>
+    <TRABAJOF>2011-01-26</TRABAJOF>
     <PASSWORD>T7gh>!Ag</PASSWORD>
   </laboratorista>
   <laboratorista>
@@ -194,7 +194,7 @@
       <DIA>Jueves</DIA>
       <DIA>Sabado</DIA>
     </TRABAJO>
-    <TRABAJO>2019-01-07</TRABAJO>
+    <TRABAJOF>2019-01-07</TRABAJOF>
     <PASSWORD>3rJeSD.></PASSWORD>
   </laboratorista>
   <paciente>
@@ -360,6 +360,7 @@
   <resultado>
     <CODIGO>5748348</CODIGO>
     <PACIENTE>977693</PACIENTE>
+    <MEDICO>MED-123</MEDICO>
     <EXAMEN>123</EXAMEN>
     <LABORATORISTA>LAB-123</LABORATORISTA>
     <ORDEN></ORDEN>
@@ -370,6 +371,7 @@
   <resultado>
     <CODIGO>1890905</CODIGO>
     <PACIENTE>565436</PACIENTE>
+    <MEDICO>MED-123</MEDICO>
     <EXAMEN>234</EXAMEN>
     <LABORATORISTA>LAB-948</LABORATORISTA>
     <ORDEN>/archivo123.pdf</ORDEN>
@@ -380,6 +382,7 @@
   <resultado>
     <CODIGO>4168055</CODIGO>
     <PACIENTE>977693</PACIENTE>
+    <MEDICO>MED-123</MEDICO>
     <EXAMEN>555</EXAMEN>
     <LABORATORISTA>LAB-948</LABORATORISTA>
     <ORDEN></ORDEN>
@@ -391,6 +394,7 @@
     <CODIGO>3446802</CODIGO>
     <PACIENTE>177840</PACIENTE>
     <EXAMEN>123</EXAMEN>
+    <MEDICO>MED-123</MEDICO>
     <LABORATORISTA>LAB-357</LABORATORISTA>
     <ORDEN></ORDEN>
     <INFORME>/archivoJ.png</INFORME>
@@ -400,6 +404,7 @@
   <resultado>
     <CODIGO>4257063</CODIGO>
     <PACIENTE>977693</PACIENTE>
+    <MEDICO>MED-123</MEDICO>
     <EXAMEN>234</EXAMEN>
     <LABORATORISTA>LAB-247</LABORATORISTA>
     <ORDEN>/ordenB.pdf</ORDEN>
@@ -410,6 +415,7 @@
   <resultado>
     <CODIGO>5027487</CODIGO>
     <PACIENTE>118258</PACIENTE>
+    <MEDICO>MED-123</MEDICO>
     <EXAMEN>555</EXAMEN>
     <LABORATORISTA>LAB-249</LABORATORISTA>
     <ORDEN></ORDEN>
@@ -421,7 +427,7 @@
     <CODIGO>604518</CODIGO>
     <PACIENTE>177840</PACIENTE>
     <MEDICO>MED-159</MEDICO>
-    <CONSULTA>General</CONSULTA>
+    <ESPECIALIDAD>General</ESPECIALIDAD>
     <FECHA>2020-09-10</FECHA>
     <HORA>7:00</HORA>
   </cita>
@@ -429,7 +435,7 @@
     <CODIGO>222144</CODIGO>
     <PACIENTE>118258</PACIENTE>
     <MEDICO>MED-123</MEDICO>
-    <CONSULTA>Pediatria</CONSULTA>
+    <ESPECIALIDAD>Pediatria</ESPECIALIDAD>
     <FECHA>2020-09-12</FECHA>
     <HORA>11:00</HORA>
   </cita>
@@ -437,7 +443,7 @@
     <CODIGO>216326</CODIGO>
     <PACIENTE>977693</PACIENTE>
     <MEDICO>MED-684</MEDICO>
-    <CONSULTA>Gastroenterologo</CONSULTA>    
+    <ESPECIALIDAD>Gastroenterologo</ESPECIALIDAD>    
     <FECHA>2020-09-12</FECHA>
     <HORA>9:00</HORA>
   </cita>
@@ -445,7 +451,7 @@
     <CODIGO>897802</CODIGO>
     <PACIENTE>565436</PACIENTE>
     <MEDICO>MED-123</MEDICO>
-    <CONSULTA>Ginecologia</CONSULTA>    
+    <ESPECIALIDAD>Ginecologia</ESPECIALIDAD>    
     <FECHA>2020-09-12</FECHA>
     <HORA>10:00</HORA>
   </cita>
@@ -453,7 +459,7 @@
     <CODIGO>450347</CODIGO>
     <PACIENTE>177840</PACIENTE>
     <MEDICO>MED-127</MEDICO>
-    <CONSULTA>Obstetra</CONSULTA>
+    <ESPECIALIDAD>Obstetra</ESPECIALIDAD>
     <FECHA>2020-09-10</FECHA>
     <HORA>13:00</HORA>
   </cita>
@@ -461,7 +467,7 @@
     <CODIGO>136000</CODIGO>
     <PACIENTE>118258</PACIENTE>
     <MEDICO>MED-127</MEDICO>
-    <CONSULTA>Obstetra</CONSULTA>    
+    <ESPECIALIDAD>Obstetra</ESPECIALIDAD>    
     <FECHA>2020-09-14</FECHA>
     <HORA>16:00</HORA>
   </cita>

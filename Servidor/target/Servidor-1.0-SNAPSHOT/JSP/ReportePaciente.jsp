@@ -52,11 +52,12 @@
                 if (sReporte.getAttribute("tipo").toString().equalsIgnoreCase("PACIENTE")) {
                     if (sReporte.getAttribute("tipoFiltroPaciente") != null) {
                         filtroTipo = sReporte.getAttribute("tipoFiltroPaciente").toString();
+                        String codigo = sReporte.getAttribute("usuario").toString();
                         if (filtroTipo.equalsIgnoreCase("1")) {
                             String examenTipo = sReporte.getAttribute("filtroPacienteExamen").toString();
                             String fecha1 = sReporte.getAttribute("filtroPacienteFecha1").toString();
                             String fecha2 = sReporte.getAttribute("filtroPacienteFecha2").toString();
-                            examenes2 = resultado.obtenerResultadosDePacienteEspecificosRealizados("118258", examenTipo, fecha1, fecha2);
+                            examenes2 = resultado.obtenerResultadosDePacienteEspecificosRealizados(codigo, examenTipo, fecha1, fecha2);
                             sReporte.removeAttribute("filtroPacienteExamen");
                             sReporte.removeAttribute("filtroPacienteFecha1");
                             sReporte.removeAttribute("filtroPacienteFecha2");
@@ -65,16 +66,16 @@
                             String doctor = sReporte.getAttribute("filtroPacienteDoctor").toString();
                             String fecha1 = sReporte.getAttribute("filtroPacienteFecha1").toString();
                             String fecha2 = sReporte.getAttribute("filtroPacienteFecha2").toString();
-                            reportes = reporte.obtenerConsultasRealizadas("118258", doctor, fecha1, fecha2);
+                            reportes = reporte.obtenerConsultasRealizadas(codigo, doctor, fecha1, fecha2);
                             sReporte.removeAttribute("filtroPacienteDoctor");
                             sReporte.removeAttribute("filtroPacienteFecha1");
                             sReporte.removeAttribute("filtroPacienteFecha2");
                             sReporte.removeAttribute("tipoFiltroPaciente");
                         } else if (filtroTipo.equalsIgnoreCase("3")) {
-                            examenes2 = resultado.obtenerUltimosResultadosDePacienteRealizado("118258");
+                            examenes2 = resultado.obtenerUltimosResultadosDePacienteRealizado(codigo);
                             sReporte.removeAttribute("tipoFiltroPaciente");
                         } else if (filtroTipo.equalsIgnoreCase("4")) {
-                            reportes = reporte.obtenerUltimasRealizadas("118258");
+                            reportes = reporte.obtenerUltimasRealizadas(codigo);
                             sReporte.removeAttribute("tipoFiltroPaciente");
                         }
                     }

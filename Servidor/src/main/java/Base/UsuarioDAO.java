@@ -36,7 +36,7 @@ public class UsuarioDAO {
             ingreso = true;
             System.out.println("Ingresado usuario de "+tipo+" id: "+id);
         } catch (SQLException sqle){
-            System.out.println(sqle);
+            System.out.println(sqle+" ERROR: en metodo ingresarUsuario clase UsuarioDAO");
         }
         return ingreso;
     }

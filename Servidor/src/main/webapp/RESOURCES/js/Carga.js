@@ -217,7 +217,7 @@ function showDocInTable(xml) {
         const TELEFONO = tagToData(paciente.querySelector('TELEFONO'));
         const PESO = tagToData(paciente.querySelector('PESO'));
         const SANGRE = tagToData(paciente.querySelector('SANGRE'));
-        const CORREO = tagToData(paciente.querySelector('CORREO'))
+        const CORREO = tagToData(paciente.querySelector('CORREO'));
         const DPI = tagToData(paciente.querySelector('DPI'));
         const PASSWORD = tagToData(paciente.querySelector('PASSWORD'));
         const ESTADO = estado();
@@ -399,7 +399,7 @@ function tagToData(tag) {
     if (tag != null) {
         td.textContent = tag.textContent;
     } else {
-        td.textContent = 'null';
+        td.textContent = '';
     }
     return td;
 }

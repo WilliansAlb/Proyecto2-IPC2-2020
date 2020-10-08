@@ -15,7 +15,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Historial</title>
+        <title>Citas y examenes pendientes</title>
         <link rel="shortcut icon" type="image/x-icon" href="../RESOURCES/imagenes/saludico.ico"/>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -49,10 +49,10 @@
                 response.sendRedirect("/Servidor/index.jsp");
             }
         %>
-    <center>
         <%if (s.getAttribute("usuario") != null && s.getAttribute("tipo") != null) {%>
         <%@include file="Sidebar.jsp"%>
         <%}%>
+    <center>
         <div id="historial">
             <h5>CITAS Y EXAMENES PENDIENTES</h5>
             <%if (citas.size() != 0) {%>

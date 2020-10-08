@@ -44,7 +44,7 @@ public class PacienteDAO {
             ps.executeUpdate();
             ingresado = true;
         }catch(SQLException sqle){
-            System.err.print("ERROR: "+sqle);
+            System.err.print("ERROR en metodo ingresarPaciente de clase PacienteDAO: "+sqle);
             ingresado = false;
         }
         return ingresado;

@@ -50,7 +50,7 @@
                 response.sendRedirect("/Servidor/index.jsp");
             }
         %>
-        <%if (s.getAttribute("usuario") != null && s.getAttribute("tipo") != null){%>
+        <%if (s.getAttribute("usuario") != null && s.getAttribute("tipo") != null) {%>
         <%@include file="Sidebar.jsp"%>
         <%}%>
     <center>
@@ -93,6 +93,7 @@
             <button id="siguiente" onclick="mostrarLaboratoristas(document.getElementById('examenes'), document.getElementById('ordenP'))" disabled>SIGUIENTE&rarr;</button>
         </div>
     </center>
+    <center>
         <div id="ordenP" style="display:none;" class="ventana">
             <h3>INGRESAR ORDEN PARA EXAMEN</h3>
             <p>Para este tipo de examen es requerido una orden en formato pdf, ingresala, luego presiona siguiente</p>
@@ -160,7 +161,7 @@
                 </table>
                 <p id="mensajeSinDisponibles"></p>
             </div>
-            <button id="atrasLab" onclick="siguienteOrden(document.getElementById('laboratoristasP'),document.getElementById('ordenP'))">&larr;ATRAS</button>
+            <button id="atrasLab" onclick="siguienteOrden(document.getElementById('laboratoristasP'), document.getElementById('ordenP'))">&larr;ATRAS</button>
             <button id="siguiente2" onclick="mostrarDisponibilidad(document.getElementById('laboratoristasP'), document.getElementById('disponibilidadExa'))" disabled>SIGUIENTE&rarr;</button>
         </div>
         <div id="disponibilidadExa" class="ventana" style="display: none;">

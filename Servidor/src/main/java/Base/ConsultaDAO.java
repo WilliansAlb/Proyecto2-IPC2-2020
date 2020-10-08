@@ -37,6 +37,7 @@ public class ConsultaDAO {
             ingreso = true;
         }catch (SQLException sqle){
             ingreso = true;
+            System.out.println(sqle+ "ERROR: en metodo ingresarConsulta en clase ConsultaDAO");
         }
         return ingreso;
     }

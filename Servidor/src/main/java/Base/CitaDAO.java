@@ -45,7 +45,7 @@ public class CitaDAO {
             ingreso = true;
         } catch (SQLException sqle){
             ingreso = false;
-            System.out.println(sqle);
+            System.out.println(sqle + " ERROR en metodo ingresarCita de CitaDAO");
         }
         
         return ingreso;
@@ -54,13 +54,12 @@ public class CitaDAO {
     public ArrayList<String> obtenerCitasHora(String codigo, String fecha){
         ArrayList<String> citas = new ArrayList<>();
         String sql = "SELECT c.hora AS hora FROM Cita c, "
-                + "Consulta con, Paciente p WHERE c.medico = ? AND c.fecha = ? AND c.realizada = ? AND con.codigo = c.consulta AND "
+                + "Consulta con, Paciente p WHERE c.medico = ? AND c.fecha = ? AND con.codigo = c.consulta AND "
                 + "p.codigo = c.paciente ORDER BY (c.hora) ASC, (c.fecha) ASC";
         
         try (PreparedStatement ps = cn.prepareStatement(sql)){
             ps.setString(1, codigo);
             ps.setString(2, fecha);
-            ps.setBoolean(3, false);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 Double hora = (double)rs.getInt("hora")/100;

@@ -100,7 +100,7 @@ public class Perfil extends HttpServlet {
                     String dpi = request.getParameter("dpi");
                     boolean actualizado = admin.actualizarAdmin(codigo, nombre, dpi);
                     if (actualizado) {
-                        response.getWriter().write("Actualizado datos de Administrador " + codigo);
+                        response.getWriter().write("Tus datos fueron actualizados exitosamente");
                     } else {
                         response.getWriter().write("no");
                     }
@@ -121,7 +121,7 @@ public class Perfil extends HttpServlet {
                     String email = request.getParameter("email");
                     boolean actualizado = paciente.actualizarPaciente(codigo, nombre, sexo, peso, dpi, sangre, fecha_nacimiento, email, telefono);
                     if (actualizado) {
-                        response.getWriter().write("Actualizado datos de Administrador " + codigo);
+                        response.getWriter().write("Tus datos fueron actualizados exitosamente");
                     } else {
                         response.getWriter().write("no");
                     }
@@ -147,7 +147,7 @@ public class Perfil extends HttpServlet {
                     if (actualizado) {
                         boolean isActualizado = doctor.actualizarEspecialidad(codigo, especialidades);
                         if (isActualizado) {
-                            response.getWriter().write("ACTUALIZADO DOCTOR " + codigo);
+                            response.getWriter().write("Tus datos fueron actualizados exitosamente");
                         } else {
                             response.getWriter().write("SIN INGRESAR ESPECIALIDADES");
                         }
@@ -173,7 +173,7 @@ public class Perfil extends HttpServlet {
                     if (actualizado) {
                         boolean isActualizado = lab.actualizarTrabajo(codigo, dias);
                         if (isActualizado) {
-                            response.getWriter().write("ACTUALIZADO LABORATORISTA " + codigo);
+                            response.getWriter().write("Tus datos fueron actualizados correctamente");
                         } else {
                             response.getWriter().write("SIN INGRESAR ESPECIALIDADES");
                         }
